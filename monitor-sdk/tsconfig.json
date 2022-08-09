@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "es2015", //用来指定ts被编译为js的版本
+    "module": "es2015", //指定要使用模块化的规范
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "strict": true, //检查严格模式总开关
+    "strictNullChecks": false, //严格检查空值
+    "noImplicitAny": true, //不允许隐式的any类型
+    "noImplicitThis": false, //不允许明确类型的this
+    "alwaysStrict": false, //编译后是否使用严格模式
+    "allowJs": false,  //是否对js文件进行编译 默认是false
+    "checkJs": false, //检查js代码是否符合语法规范 默认是false
+    "declaration": true,
+    "removeComments": false, //编译成js后是否移除注释
+    "noImplicitReturns": true,
+    "noEmit": false, //不生成编译后的文件
+    "noEmitOnError": false, //有错误时不生成编译文件
+    "importHelpers": true,
+    "lib": ["es6", "dom"], //指定项目中所用到的库
+    "typeRoots": ["node_modules/@types"],
+    "outDir": "./js", //用来指定编译后文件所在路径
+    "rootDir": "./src",
+    // "outFile": "./js/main.js" //将代码合并成一个文件,模块化规范需要为amd或者system
+  },
+  "include": ["./src/**/*"], //被编译的文件目录
+  "exclude": ["node_modules", "dist", "**/*.test.ts"]  //不希望被编译的文件
+}
