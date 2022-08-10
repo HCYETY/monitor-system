@@ -9,8 +9,6 @@
     <title>monitor-sdk</title>
 </head>
 
-
-
 <body>
     <div class='whole'>
         <div class="left">
@@ -64,7 +62,7 @@
     </div>
     <script>
         // ========================制造bug=============================
-        import { getUserAgent } from "common/pageTrack";
+        // import { getUserAgent } from "@/common";
         console.log(1);
 
         const bugJs = () => {
@@ -72,8 +70,8 @@
         }
         const bugPromise = () => {
             new Promise(function (resolve, reject) {
-                // window.someVar.error = 'error';
-            }).catch()
+                window.someVar.error = 'error';
+            })
         }
         const bugAsset = function () {
 
@@ -123,10 +121,10 @@
         const bugHttp = function () {
 
         }
-        const getUserAgentInform = function () {
-            const userAgentObj = getUserAgent();
-            console.log('userAgentObj', userAgentObj)
-        }
+        // const getUserAgentInform = function () {
+        //     const userAgentObj = getUserAgent();
+        //     console.log('userAgentObj', userAgentObj)
+        // }
     </script>
 </body>
 

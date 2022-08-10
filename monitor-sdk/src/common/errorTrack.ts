@@ -111,7 +111,7 @@ export function errorCatch() {
 
     // 监控 promise 错误
     window.addEventListener('unhandledrejection', (event) => {
-        console.log(event);
+        // console.log('unhandledrejection', event);
         handlePromise(event);
     }, true)
 

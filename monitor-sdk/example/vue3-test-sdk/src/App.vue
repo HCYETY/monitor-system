@@ -3,11 +3,11 @@
     <strong>异常数据</strong>
 
     <h2>前端异常</h2>
-    <button class="hello" @click="bugJs()">JS 代码执行异常</button>
-    <button class="world" @click="bugPromise()">Promise 异常</button>
+    <button class="hello" @click="bugJs">JS 代码执行异常</button>
+    <button class="world" @click="bugPromise">Promise 异常</button>
   </div>
-  <button class="hi" @click="bugAsset()">静态资源加载异常</button>
-  <button class="foursheep" @click="bugConsole()">console.error 异常</button>
+  <button class="hi" @click="bugAsset">静态资源加载异常</button>
+  <button class="foursheep" @click="bugConsole">console.error 异常</button>
   <!-- <button class="good" @click="bugCors()">跨域异常</button> -->
   <img src="http://localhost:8888/nottrue.jpg" />
 
@@ -56,9 +56,9 @@ const bugJs = () => {
   window.someVar.error = "error";
 };
 const bugPromise = () => {
-  return new Promise(() => {
-    console.log("promise");
-  }).catch();
+  new Promise(function (resolve, reject) {
+    window.someVar.error = "error";
+  });
 };
 // ========================制造bug=============================
 // import { getUserAgent } from "common/pageTrack";

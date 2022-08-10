@@ -21,8 +21,11 @@
     "importHelpers": true,
     "lib": ["es6", "dom"], //指定项目中所用到的库
     "typeRoots": ["node_modules/@types"],
-    "outDir": "./js", //用来指定编译后文件所在路径
+    // "outDir": "./js", //用来指定编译后文件所在路径
     "rootDir": "./src",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
     // "outFile": "./js/main.js" //将代码合并成一个文件,模块化规范需要为amd或者system
   },
   "include": ["./src/**/*"], //被编译的文件目录
