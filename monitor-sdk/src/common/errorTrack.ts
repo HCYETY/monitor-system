@@ -2,6 +2,18 @@ import { mechanismType } from "../type";
 import { getErrorKey, getLastEvent, getSelector } from "../util";
 
 export function errorCatch() {
+    console.log('%c%s', 'font-size: 24px; color: red', '开始监控网页报错');
+
+    // 监控 js 错误
+    window.addEventListener('error', (event) => {
+        handleJs(event);
+    }, true)
+
+    // 监控 promise 错误
+    window.addEventListener('unhandledrejection', (event) => {
+        handlePromise(event);
+    }, true)
+
     // --------  js error / resource error ---------
     const handleJs = function (event: any) {
         event.preventDefault();
@@ -12,15 +24,18 @@ export function errorCatch() {
         const lastEvent = getLastEvent();
         let log = null;
 
+        const target = event.target;
+        let isElementTarget = target instanceof HTMLScriptElement || target instanceof HTMLLinkElement || target instanceof HTMLImageElement;
+        if (isElementTarget) {
         // 有 e.target.src(href) 的认定为资源加载错误
-        if (event.target && (event.target.src || event.target.href)) {
+        // if (event.target && (event.target.src || event.target.href)) {
             log = {
                 type: event.type,
-                url: event.target.src,
-                message: `GET ${event.target.src} net::ERR_CONNECTION_REFUSED`, // TODO
-                html: event.target.outerHTML,
+                url: target.src,
+                message: `GET ${target.src} net::ERR_CONNECTION_REFUSED`, // TODO
+                html: target.outerHTML,
                 errorType: 'resourceError',
-                tagName: event.target.tagName,
+                tagName: target.tagName,
                 selector: getSelector(event.path),
             }
         } else {
@@ -96,7 +111,7 @@ export function errorCatch() {
                 message,
                 stack // 错误堆栈信息
             }
-            // console.log('error捕获', opt);
+            console.log('error捕获', opt);
             // }, 0);
         }
         // console.log(arguments);
@@ -104,16 +119,7 @@ export function errorCatch() {
         return consoleError.apply(console, arguments as any);
     };
 
-    // 监控 js 错误
-    window.addEventListener('error', (event) => {
-        handleJs(event);
-    }, true)
 
-    // 监控 promise 错误
-    window.addEventListener('unhandledrejection', (event) => {
-        // console.log('unhandledrejection', event);
-        handlePromise(event);
-    }, true)
 
     // // 捕获接口异常
     // const orignalEvents = [

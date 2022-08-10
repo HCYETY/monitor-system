@@ -16,6 +16,7 @@
     "autoprefixer": "^10.4.8",
     "babel-loader": "^8.2.5",
     "babel-plugin-import": "^1.13.5",
+    "bowser": "^2.11.0",
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.7.1",
     "cssnano": "^5.1.12",
@@ -39,6 +40,7 @@
   "dependencies": {
     "@babel/preset-env": "^7.18.10",
     "@types/ua-parser-js": "^0.7.36",
+    "axios": "^0.27.2",
     "ua-parser-js": "^1.0.2"
   }
 }
