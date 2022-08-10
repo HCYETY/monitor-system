@@ -90,11 +90,11 @@ const commonConfig = {
         extensions: ['.tsx', '.ts', '.js'],
         mainFiles: ['index.tsx', 'index.ts', 'index'],
         alias: {
-            'src': path.resolve(__dirname, './src'),
-            'api': path.resolve(__dirname, './src/api'),
-            'common': path.resolve(__dirname, './src/common'),
-            'pages': path.resolve(__dirname, './src/pages'),
-            'type': path.resolve(__dirname, './src/type'),
+            '@': path.resolve(__dirname, './src'),
+            // 'api': path.resolve(__dirname, './src/api'),
+            // 'common': path.resolve(__dirname, './src/common'),
+            // 'pages': path.resolve(__dirname, './src/pages'),
+            // 'type': path.resolve(__dirname, './src/type'),
         },
     },
 };
