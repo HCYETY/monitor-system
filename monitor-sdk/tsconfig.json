@@ -8,7 +8,7 @@
     "sourceMap": true,
     "strict": true, //检查严格模式总开关
     "strictNullChecks": false, //严格检查空值
-    "noImplicitAny": true, //不允许隐式的any类型
+    "noImplicitAny": false, //不允许隐式的any类型
     "noImplicitThis": false, //不允许明确类型的this
     "alwaysStrict": false, //编译后是否使用严格模式
     "allowJs": false,  //是否对js文件进行编译 默认是false

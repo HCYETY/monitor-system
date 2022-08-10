@@ -1,7 +1,7 @@
-import {mechanismType} from "../type";
-import {getErrorKey, getLastEvent, getSelector} from "../util";
+import { mechanismType } from "../type";
+import { getErrorKey, getLastEvent, getSelector } from "../util";
 
-export function errorCatch () {
+export function errorCatch() {
     // --------  js error / resource error ---------
     const handleJs = function (event: any) {
         event.preventDefault();
@@ -31,7 +31,7 @@ export function errorCatch () {
                 fileName: event.filename,
                 position: `${event.lineno}:${event.colno}`,
                 // stack: getLines(event.error.stack), //错误堆栈
-                selector: lastEvent ? getSelector(lastEvent.path) : '',
+                selector: lastEvent ? getSelector((lastEvent as any).path) : '',
             }
         }
         console.log('injectJsError log数据', log)
@@ -64,7 +64,7 @@ export function errorCatch () {
             errorType: 'promiseError',
             fileName: filename,
             position: `${line}:${column}`,
-            selector: lastEvent ? getSelector(lastEvent.path) : '',
+            selector: lastEvent ? getSelector((lastEvent as any).path) : '',
         }
         console.log('promise log数据', log)
     }
@@ -96,10 +96,12 @@ export function errorCatch () {
                 message,
                 stack // 错误堆栈信息
             }
-            console.log('error捕获', opt);
+            // console.log('error捕获', opt);
             // }, 0);
         }
-        return consoleError.apply(console, arguments);
+        // console.log(arguments);
+
+        return consoleError.apply(console, arguments as any);
     };
 
     // 监控 js 错误
@@ -109,6 +111,7 @@ export function errorCatch () {
 
     // 监控 promise 错误
     window.addEventListener('unhandledrejection', (event) => {
+        console.log(event);
         handlePromise(event);
     }, true)
 
@@ -123,18 +126,21 @@ export function errorCatch () {
     // const method = 'open'
     // const originalXhrProto = window.XMLHttpRequest.prototype
     // const original = originalXhrProto[method]
-    // originalXhrProto[method] = function (...args) {
+    // originalXhrProto.open = function (...args) {
+    //     console.log(args);
+
     //     // 获取xhr实例  绑定事件
     //     const xhr = this
     //     orignalEvents.forEach((eType) => {
-    //         xhr.addEventListener(eType, function (e) {
+    //         xhr.addEventListener(eType, function (e: any) {
     //             // ...
+    //             interfaceError(e)
     //         })
     //     })
-    //     original.apply(this, args)
+    //     original.apply(this, args as any)
     // }
-    //  function interfaceError (error: any) {
-    //     console.log('接口异常', error)
+    // function interfaceError(error: any) {
+    //     // console.log('接口异常', error)
     //     let { url, method, params, data } = error.config;
     //     const { language, userAgent } = navigator;
     //     let err_data = {
@@ -153,6 +159,6 @@ export function errorCatch () {
     //         error: error.data?.message || error.statusText,
     //         // error: error.data?.message || JSON.stringify(error.data),
     //     }
-    //     console.log('接口异常 log数据', err_data)
+    //     // console.log('接口异常 log数据', err_data)
     // }
 }

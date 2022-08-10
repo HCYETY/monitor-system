@@ -1,12 +1,16 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>monitor-sdk</title>
 </head>
+
+
+
 <body>
     <div class='whole'>
         <div class="left">
@@ -18,9 +22,9 @@
             <button class='hi' onclick="bugAsset()">静态资源加载异常</button>
             <button class='foursheep' onclick="bugConsole()">console.error 异常</button>
             <button class='good' onclick="bugCors()">跨域异常</button>
-            <img src="http://localhost:8888/nottrue.jpg"/>
+            <img src="http://localhost:8888/nottrue.jpg" />
 
-            <br/>
+            <br />
 
             <h2>接口异常</h2>
             <button onclick="bugNoRespond()">未响应/超时响应异常</button>
@@ -56,18 +60,20 @@
         <!--      <button onclick="">接口请求耗时</button>-->
         <!--      <button onclick="">收集长时间运行任务（longtasks）</button>-->
         <!--    </div>-->
+
     </div>
     <script>
         // ========================制造bug=============================
-        import {getUserAgent} from "common/pageTrack";
+        import { getUserAgent } from "common/pageTrack";
+        console.log(1);
 
         const bugJs = () => {
             window.someVar.error = 'error'
         }
-        const bugPromise = function () {
+        const bugPromise = () => {
             new Promise(function (resolve, reject) {
-                window.someVar.error = 'error';
-            })
+                // window.someVar.error = 'error';
+            }).catch()
         }
         const bugAsset = function () {
 
@@ -99,11 +105,11 @@
 
         }
         const bugInterface4 = function () {
-            // request({
-            //     url: "/test",
-            //     method: "post",
-            //     data: '你好foursheep',
-            // });
+            request({
+                url: "/test",
+                method: "post",
+                data: '你好foursheep',
+            });
         }
         const bugInterface5 = function () {
 
@@ -123,4 +129,6 @@
         }
     </script>
 </body>
+
+
 </html>
