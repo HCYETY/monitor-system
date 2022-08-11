@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -22,7 +21,7 @@
             <button class='good' onclick="bugCors()">跨域异常</button>
             <img src="http://localhost:8888/nottrue.jpg" />
 
-            <br />
+            <br/>
 
             <h2>接口异常</h2>
             <button onclick="bugNoRespond()">未响应/超时响应异常</button>
@@ -58,13 +57,15 @@
         <!--      <button onclick="">接口请求耗时</button>-->
         <!--      <button onclick="">收集长时间运行任务（longtasks）</button>-->
         <!--    </div>-->
-
     </div>
     <script>
         // ========================制造bug=============================
         // import { getUserAgent } from "@/common";
         console.log(1);
 
+        // const getPerform = function () {
+        //     getPerformanceTiming();
+        // }
         const bugJs = () => {
             window.someVar.error = 'error'
         }
@@ -103,11 +104,11 @@
 
         }
         const bugInterface4 = function () {
-            request({
-                url: "/test",
-                method: "post",
-                data: '你好foursheep',
-            });
+            // request({
+            //     url: "/test",
+            //     method: "post",
+            //     data: '你好foursheep',
+            // });
         }
         const bugInterface5 = function () {
 
@@ -127,6 +128,4 @@
         // }
     </script>
 </body>
-
-
 </html>
