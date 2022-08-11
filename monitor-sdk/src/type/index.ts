@@ -98,7 +98,7 @@ export enum metricsName {
     HT = 'http-record',
 }
 
-export interface HttpMetrics {
+export interface httpMetrics {
     method: string;
     url: string | URL;
     body: Document | XMLHttpRequestBodyInit | null | undefined | ReadableStream;
@@ -107,5 +107,8 @@ export interface HttpMetrics {
     status: number;
     statusText: string;
     response?: any;
+    type?: string,
+    timeStamp?: string,
+    message?: string
 }
 

@@ -37,6 +37,5 @@ function init(options: initOptions) {
     // });
 }
 
-
 // export { init, tracker, errorCatch };
 export { init, errorCatch, getPerformance, historyPageTrack, hashPageTrack };

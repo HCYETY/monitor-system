@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -21,7 +22,7 @@
             <button class='good' onclick="bugCors()">跨域异常</button>
             <img src="http://localhost:8888/nottrue.jpg" />
 
-            <br/>
+            <br />
 
             <h2>接口异常</h2>
             <button onclick="bugNoRespond()">未响应/超时响应异常</button>
@@ -104,6 +105,10 @@
 
         }
         const bugInterface4 = function () {
+            fetch('/test', {
+                method: 'post',
+                body: '你好foursheep',
+            })
             // request({
             //     url: "/test",
             //     method: "post",
@@ -122,6 +127,8 @@
         const bugHttp = function () {
 
         }
+
     </script>
 </body>
+
 </html>
