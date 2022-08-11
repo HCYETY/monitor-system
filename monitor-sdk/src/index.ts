@@ -16,13 +16,6 @@ function init(options: initOptions) {
     // 2.注入监控代码
     loadConfig(options);
 
-    // 监控页面性能
-    getPerformance();
-
-    // 监控路由跳转
-    historyPageTrack();
-    hashPageTrack();
-
     // // -------- uv统计 -----------
     // lazyReport('user', '加载应用');
     //
@@ -37,5 +30,4 @@ function init(options: initOptions) {
     // });
 }
 
-// export { init, tracker, errorCatch };
-export { init, errorCatch, getPerformance, historyPageTrack, hashPageTrack };
+export { init, errorCatch, };

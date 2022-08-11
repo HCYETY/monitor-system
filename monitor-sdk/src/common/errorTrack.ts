@@ -16,17 +16,17 @@ export function errorCatch() {
     }, true)
 
     // --------  js error / resource error ---------
-    const handleJs = function (event: any) {
+    const handleJs = function (event: any): void {
         event.preventDefault();
         // 如果不是跨域脚本异常,就结束
         if (getErrorKey(event) === mechanismType.CS) return;
 
         // 用户最后一个交互事件
-        const lastEvent = getLastEvent();
+        const lastEvent: Event = getLastEvent();
         let log = null;
 
         const target = event.target;
-        let isElementTarget = target instanceof HTMLScriptElement || target instanceof HTMLLinkElement || target instanceof HTMLImageElement;
+        let isElementTarget: boolean = target instanceof HTMLScriptElement || target instanceof HTMLLinkElement || target instanceof HTMLImageElement;
         if (isElementTarget) {
         // 有 e.target.src(href) 的认定为资源加载错误
         // if (event.target && (event.target.src || event.target.href)) {
@@ -54,14 +54,14 @@ export function errorCatch() {
     }
 
     // ------  promise error  --------
-    const handlePromise = function (event: any) {
+    const handlePromise = function (event: any): void {
         // 用户最后一个交互事件
-        const lastEvent = getLastEvent();
-        let message;
-        let filename;
-        let line = 0;
-        let column = 0;
-        let stack = '';
+        const lastEvent: Event = getLastEvent();
+        let message: string = '';
+        let filename: string = '';
+        let line: number = 0;
+        let column: number = 0;
+        let stack: string = '';
         let reason = event.reason;
         if (typeof reason === 'string') {
             message = reason;
@@ -89,10 +89,10 @@ export function errorCatch() {
     let consoleError = window.console.error;
     window.console.error = function (error) {
         if (error != '参数有缺失') {
-            const message = error.message;
+            const message: string = error.message;
             const stack = error.stack;
-            const url = window.location.href;
-            let row = 0, column = 0;
+            const url: string = window.location.href;
+            let row: number = 0, column: number = 0;
             if (stack) {
                 let mres = stack.match(/\(.*?\)/g) || [];
                 let firstLine = (mres[0] || "").replace("(", "").replace(")", ""); // 获取到堆栈信息的第一条

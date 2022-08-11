@@ -72,3 +72,12 @@ export function nowTime(data: { hms?: boolean, time?: number }): number | string
     }
     return new Date().getTime();
 }
+
+// 判断白屏的时机
+export function isLoad (callback) {
+    if (document.readyState === 'complete') {
+        callback();
+    } else {
+        window.addEventListener('load', callback);
+    }
+}

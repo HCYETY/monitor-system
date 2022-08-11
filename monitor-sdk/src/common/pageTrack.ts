@@ -28,7 +28,7 @@ const createHistoryEvent = function (name) {
 /**
  * history路由监听
  */
-export function historyPageTrack () {
+export function historyPageTrack (): void {
     console.log('%c%s', 'font-size: 24px; color: skyblue', '开始监控 history 路由跳转');
 
     let beforeTime = Date.now(); // 进入页面的时间
@@ -47,7 +47,7 @@ export function historyPageTrack () {
 
     // 记录当前页面信息，并更新上一个页面的 endTime
     const recordBehaviors = () => {
-        console.log('history路由跳转beforeUrl', beforeUrl)
+        console.log('%c%s%s', 'color: skyblue', 'history路由跳转beforeUrl', beforeUrl);
         // let routeList: routeType[] = [];
         const currentUrl = window.location.href;
         let time = Date.now();
@@ -77,7 +77,6 @@ export function historyPageTrack () {
             endTime: getDuration().curTime,
         }
         beforeUrl = currentUrl;
-        console.log('history路由跳转currentUrl', beforeUrl)
         // if (behaviors) {
         //     routeList = JSON.parse(behaviors);
         //     const len = routeList.length;
@@ -87,7 +86,7 @@ export function historyPageTrack () {
         //     }
         // }
         // routeList.push(routeTemplate);
-        console.log('routeTemplate', routeTemplate)
+        console.log('%c%s%o', 'color: skyblue', 'routeTemplate', routeTemplate);
         // localStorage.setItem('current_behavior', JSON.stringify(routeList));
     }
 
@@ -116,27 +115,26 @@ export function historyPageTrack () {
 /**
  * hash路由监听
  */
-export function hashPageTrack () {
+export function hashPageTrack (): void {
     console.log('%c%s', 'font-size: 24px; color: skyblue', '开始监控 hash 路由跳转');
 
-    let beforeTime = Date.now(); // 进入页面的时间
+    let beforeTime: number = Date.now(); // 进入页面的时间
     let beforeUrl: string = ''; // 上一个页面
 
     // 获取在某个页面的停留时间
     function getDuration(): { curTime: number, duration: number } {
-        let curTime = Date.now();
-        let duration = curTime - beforeTime;
+        let curTime: number = Date.now();
+        let duration: number = curTime - beforeTime;
         beforeTime = curTime;
         return { curTime, duration };
     }
 
     // 记录当前页面信息，并更新上一个页面的 endTime
-    const recordBehaviors = function () {
-        console.log('hash路由跳转beforeUrl', beforeUrl)
-        const currentUrl = window.location.href;
-        let time = Date.now();
-        const typeNum = window.performance?.navigation.type;
-        let type = '';
+    const recordBehaviors = function (): void {
+        const currentUrl: string = window.location.href;
+        let time: number = Date.now();
+        const typeNum: number = window.performance?.navigation.type;
+        let type: string = '';
         switch (typeNum) {
             case 0:
                 type = '点击链接、地址栏输入、表单提交、脚本操作等';
@@ -160,8 +158,7 @@ export function hashPageTrack () {
             endTime: getDuration().curTime,
         }
         beforeUrl = currentUrl;
-        console.log('hash路由跳转currentUrl', beforeUrl)
-        console.log('routeTemplate', routeTemplate)
+        console.log('%c%s%o', 'color: skyblue', 'routeTemplate', routeTemplate);
     }
 
     window.history.pushState = createHistoryEvent('pushState');
