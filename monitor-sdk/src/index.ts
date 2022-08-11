@@ -1,8 +1,8 @@
 import { loadConfig } from './common/loadConfig';
 import { pageTrack } from './common/pageTrack';
 import { errorCatch } from './common/errorTrack';
-import {getPerformance} from "./common/performanceTrack";
-import {initOptions} from "./type";
+import { getPerformance } from "./common/performanceTrack";
+import { initOptions } from "./type";
 // import { lazyReport, report } from './common/report';
 // import { getCache } from './common/cache';
 
@@ -35,7 +35,6 @@ function init(options: initOptions) {
     //     // }
     // });
 }
-
 
 // export { init, tracker, errorCatch };
 export { init, errorCatch, getPerformance, pageTrack };

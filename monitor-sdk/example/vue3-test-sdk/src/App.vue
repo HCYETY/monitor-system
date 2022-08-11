@@ -8,7 +8,7 @@
     <button class="hi" @click="bugAsset">静态资源加载异常</button>
     <button class="foursheep" @click="bugConsole">console.error 异常</button>
     <button class="good" @click="bugCors">跨域异常</button>
-<!--    <img src="http://localhost:8888/nottrue.jpg" />-->
+    <!--    <img src="http://localhost:8888/nottrue.jpg" />-->
 
     <br />
 
@@ -34,9 +34,9 @@
     <button @click="bugHttp">HTTP 请求监控</button>
   </div>
 
-<!--  <br />-->
-<!--  <hr />-->
-<!--  <br />-->
+  <!--  <br />-->
+  <!--  <hr />-->
+  <!--  <br />-->
 
   <!--    <div>-->
   <!--      <strong><h1>性能监控</h1></strong>-->
@@ -83,7 +83,7 @@ const bugCors = function () {
   //     // })
   // }
 };
-const bugNoRespond = function () {};
+const bugNoRespond = function () { };
 const bugInterface4 = function () {
   // request({
   //   url: "/test",
@@ -91,10 +91,11 @@ const bugInterface4 = function () {
   //   data: "你好foursheep",
   // });
 };
-const bugInterface5 = function () {};
-const bugPowerless = function () {};
-const bugWhiteScreen = function () {};
-const bugHttp = function () {};
+const bugInterface5 = function () { };
+const bugPowerless = function () { };
+const bugWhiteScreen = function () { };
+const bugHttp = function () { };
 </script>
 
-<style></style>
+<style>
+</style>
