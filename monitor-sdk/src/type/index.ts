@@ -46,6 +46,38 @@ export interface PageInformation {
     docScreen: string;
 }
 
+// 页面性能数据
+export interface performanceType {
+    redirect: number,
+    appCache: number,
+    DNS: number,
+    TCP: number,
+    SSL: number,
+    request: number,
+    response: number,
+    Trans: number,
+    DOM: number,
+    FirstByte: number,
+    processing: number,
+    Load: number,
+    Res: number,
+    DomReady: number,
+    domParse: number,
+    TTFB: number,
+    FP: number,
+    TTI: number,
+}
+
+// 上报的路由信息
+export interface routeType {
+    beforeUrl: string, // 用户来路地址
+    currentUrl: string, // 路由跳转地址
+    type: string, // 用户来路方式
+    startTime: number,
+    duration: number,
+    endTime: number,
+}
+
 // 错误类型
 export enum mechanismType {
     JS = 'js',

@@ -1,18 +1,16 @@
-import { metricsName, PageInformation, userAgent } from "../type";
-// @ts-ignore
+import {metricsName, PageInformation, performanceType, userAgent} from "../type";
 import parser from 'ua-parser-js';
 import bowser from 'bowser';
 
-export function getPerformance () {
+export function getPerformance (): void {
     console.log('%c%s', 'font-size: 24px; color: green', '开始监控网页性能');
 
-    window.addEventListener(
-        'click',
-        (e) => {
-            getClickInform(e);
-        },
-        true,
-    );
+    window.addEventListener('click',(e) => {
+        getClickInform(e);
+    },true,);
+    window.addEventListener('load', () => {
+        getPv();
+    }, true);
 
     // 获取 userAgent 信息，如：用户设备类型，浏览器版本，webview引擎类型
     const getUserAgent = function (): userAgent {
@@ -31,7 +29,7 @@ export function getPerformance () {
         const cpuArchitecture = parserData.cpu.architecture;
         const ua = parserData.ua;
 
-        const userAgentObj = {
+        const userAgentObj: userAgent = {
             browserName,
             browserVersion,
             osName,
@@ -66,7 +64,8 @@ export function getPerformance () {
         const docHeight = document.documentElement.clientHeight || document.body.clientHeight;
         const { language } = navigator;
         const userAgent = getUserAgent();
-        return {
+
+        const pageInfoObj: PageInformation = {
             host,
             hostname,
             href,
@@ -81,12 +80,13 @@ export function getPerformance () {
             language: language.substring(0, 2),
             winScreen: `${width} x ${height}`,
             docScreen: `${docWidth} x ${docHeight}`,
-        };
+        }
+        return pageInfoObj;
     };
 
     // 初始化 CBR 点击事件的获取和返回
     const clickMountList = ['button'].map((x) => x.toLowerCase());
-    const getClickInform = function (e: MouseEvent | any) {
+    const getClickInform = function (e: MouseEvent | any): void {
         // 这里是根据 tagName 进行是否需要捕获事件的依据，可以根据自己的需要，额外判断id\class等
         // 先判断浏览器支持 e.path ，从 path 里先取
         let target = e.path?.find((x: Element) => clickMountList.includes(x.tagName?.toLowerCase()));
@@ -122,12 +122,12 @@ export function getPerformance () {
         localStorage.setItem('click_behavior', JSON.stringify(newBehavior));
         // this.breadcrumbs.push(behavior);
 
-        console.log('点击事件 log数据', behavior)
+        console.log('%c%s%o', 'color: green', '点击事件 log数据', behavior)
     };
     console.log('%c%s', 'color: green', '页面点击事件已监控');
 
     // 获取页面性能数据
-    (function getPerformanceTiming () {
+    function getPerformanceTiming (): performanceType {
         const {
             redirectStart, redirectEnd,
             domainLookupStart, domainLookupEnd,
@@ -168,7 +168,7 @@ export function getPerformance () {
         // const ready = domContentLoaded - fetchStart; // HTML 加载完成时间
         // const resourceLoad = domComplete - domContentLoaded;
 
-        const performanceLog = {
+        const performanceLog: performanceType = {
             redirect,
             appCache,
             DNS,
@@ -188,10 +188,12 @@ export function getPerformance () {
             FP,
             TTI,
         }
-        console.log('%c%s%o', 'color: green', '获取页面性能指标', performanceLog)
-    })();
+        return performanceLog;
+    }
+    console.log('%c%s%o', 'color: green', '获取页面性能指标', getPerformanceTiming())
 
-    (function getPv () {
+
+    function getPv () {
         const pvLog = {
             kind: "business",
             type: "pv",
@@ -201,5 +203,5 @@ export function getPerformance () {
             uuid: 0,
         }
         console.log('%c%s%o', 'color: green', '获取 pv', pvLog)
-    })();
+    }
 }

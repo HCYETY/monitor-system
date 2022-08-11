@@ -1,8 +1,8 @@
 import { loadConfig } from './common/loadConfig';
-import { pageTrack } from './common/pageTrack';
+import { historyPageTrack, hashPageTrack } from './common/pageTrack';
 import { errorCatch } from './common/errorTrack';
-import {getPerformance} from "./common/performanceTrack";
-import {initOptions} from "./type";
+import { getPerformance } from "./common/performanceTrack";
+import { initOptions } from "./type";
 // import { lazyReport, report } from './common/report';
 // import { getCache } from './common/cache';
 
@@ -20,7 +20,8 @@ function init(options: initOptions) {
     getPerformance();
 
     // 监控路由跳转
-    pageTrack();
+    historyPageTrack();
+    hashPageTrack();
 
     // // -------- uv统计 -----------
     // lazyReport('user', '加载应用');
@@ -38,4 +39,4 @@ function init(options: initOptions) {
 
 
 // export { init, tracker, errorCatch };
-export { init, errorCatch, getPerformance, pageTrack };
+export { init, errorCatch, getPerformance, historyPageTrack, hashPageTrack };

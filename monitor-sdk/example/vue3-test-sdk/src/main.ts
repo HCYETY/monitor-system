@@ -1,6 +1,6 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import { errorCatch, getPerformance, pageTrack } from "monitor-sdk";
+import { errorCatch, getPerformance, historyPageTrack, hashPageTrack } from "monitor-sdk";
 import router from "./router";
 
 // import "./assets/main.css";
@@ -9,8 +9,8 @@ const app = createApp(App);
 
 errorCatch();
 getPerformance();
-pageTrack();
+historyPageTrack();
 
-// app.use(router);
+app.use(router);
 
 app.mount("#app");

@@ -56,3 +56,19 @@ export function getSelector(pathsOrTarget: any) {
         return handleSelector(pathArr);
     }
 }
+
+// 获取当前时间戳：hh:mm:ss 格式 或者 毫秒格式
+// 参数为 data.hms === true 是 hh:mm:ss 格式，否则为毫秒格式
+// 可以参数 data.time 创建 Date 对象
+export function nowTime(data: { hms?: boolean, time?: number }): number | string {
+    const { hms, time } = data;
+    if (hms === true) {
+        const newTime = time ? new Date(time) : new Date();
+        const hour = newTime.getHours();
+        const minute = newTime.getMinutes();
+        const second = newTime.getSeconds();
+        const timer = hour + ':' + minute + ':' + second + ' ';
+        return timer;
+    }
+    return new Date().getTime();
+}
