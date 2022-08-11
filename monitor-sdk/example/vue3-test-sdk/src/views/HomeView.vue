@@ -1,4 +1,4 @@
-<script setup  name="page3">
+<script setup name="page3" lang="ts">
 
 </script>
 
