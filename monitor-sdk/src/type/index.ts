@@ -66,14 +66,14 @@ export enum metricsName {
     HT = 'http-record',
 }
 
-export interface HttpMetrics {
-    method: string;
-    url: string | URL;
-    body: Document | XMLHttpRequestBodyInit | null | undefined | ReadableStream;
-    requestTime: number;
-    responseTime: number;
-    status: number;
-    statusText: string;
-    response?: any;
+export interface httpMetrics {
+  method: string;
+  url: string | URL;
+  body: Document | XMLHttpRequestBodyInit | null | undefined | ReadableStream;
+  requestTime: number;
+  responseTime: number;
+  status: number;
+  statusText: string;
+  response?: any;
 }
 
