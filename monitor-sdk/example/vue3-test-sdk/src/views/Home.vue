@@ -31,7 +31,6 @@
       <RouterLink to="/">路由跳转</RouterLink>
     </button>
     <button @click="getPv">PV、UV</button>
-    <button @click="bugHttp">HTTP 请求监控</button>
   </div>
 
   <!--  <br />-->
@@ -51,6 +50,7 @@
 <script setup lang="ts">
 import { axiosIntance } from "@/utils/axios";
 import axios from "axios";
+import {login} from "@/api/modules/user";
 const bugJs = () => {
   window.someVar.error = "error";
 };
@@ -66,13 +66,11 @@ const bugConsole = function () {
   console.error(new Error("错误捕获222"));
 };
 const bugCors = function () {
-  // try {
-  //     request({
-  //         url: "/test",
-  //         method: "post",
-  //         data: '你好foursheep',
-  //     });
-  // } catch (e) {
+  login({
+    url: "/test",
+    method: "post",
+    data: '你好foursheep',
+  })
   //     console.error(e);
   //     // if (ErrorEvent) {
   //     //   window.dispatchEvent(new ErrorEvent('error', { e, message: e.message })) // 这里也会触发window.onerror
@@ -83,7 +81,6 @@ const bugCors = function () {
   //     // window.addEventListener('error', (e) => {
   //     //   console.log('捕获到跨域报错', e);
   //     // })
-  // }
 };
 const bugNoRespond = function () {
   // timeout
@@ -143,9 +140,6 @@ const bugPowerless = function () {
 };
 const bugWhiteScreen = function () {
   console.log("页面 load 时已监控");
-};
-const bugHttp = function () {
-  console.log("http");
 };
 </script>
 

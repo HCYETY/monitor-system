@@ -19,6 +19,7 @@ export function errorCatch() {
     const handleJs = function (event: any): void {
         event.preventDefault();
         // 如果不是跨域脚本异常,就结束
+        console.log('ddd')
         if (getErrorKey(event) === mechanismType.CS) return;
 
         // 用户最后一个交互事件
@@ -119,7 +120,6 @@ export function errorCatch() {
 
         return consoleError.apply(console, arguments as any);
     };
-
 
     // ------  http  --------
     initHttpHandler()

@@ -1,1 +1,0 @@
-export const REQUESTIP = 'http://localhost';

@@ -4,6 +4,7 @@ import { mechanismType } from "../type";
 export function getErrorKey (event: ErrorEvent | Event) {
     const isJsError = event instanceof ErrorEvent;
     if (!isJsError) return mechanismType.RS;
+    console.log('isJsError', isJsError);
     return event.message === 'Script error.' ? mechanismType.CS : mechanismType.JS;
 };
 
