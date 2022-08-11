@@ -49,6 +49,7 @@
 </template>
 
 <script setup lang="ts">
+import axios from "axios";
 const bugJs = () => {
   window.someVar.error = "error";
 };
@@ -83,18 +84,37 @@ const bugCors = function () {
   //     // })
   // }
 };
-const bugNoRespond = function () {};
+const bugNoRespond = function () {
+  console.log("no respond");
+};
 const bugInterface4 = function () {
+  axios
+    .get("/")
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((e) => {
+      // console.log(e);
+    });
   // request({
   //   url: "/test",
   //   method: "post",
   //   data: "你好foursheep",
   // });
 };
-const bugInterface5 = function () {};
-const bugPowerless = function () {};
-const bugWhiteScreen = function () {};
-const bugHttp = function () {};
+const getPv = () => {
+  console.log("getPv");
+};
+const bugInterface5 = function () {
+  console.log("face5");
+};
+const bugPowerless = function () {
+  console.log("powerless");
+};
+const bugWhiteScreen = function () {
+  console.log("whiteScreen");
+};
+const bugHttp = function () {
+  console.log("http");
+};
 </script>
-
-<style></style>

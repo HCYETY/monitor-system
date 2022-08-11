@@ -1,3 +1,4 @@
+import { initHttpHandler } from "../util/baseHandler";
 import { mechanismType } from "../type";
 import { getErrorKey, getLastEvent, getSelector } from "../util";
 
@@ -120,6 +121,8 @@ export function errorCatch() {
     };
 
 
+    // ------  http  --------
+    initHttpHandler()
 
     // // 捕获接口异常
     // const orignalEvents = [
