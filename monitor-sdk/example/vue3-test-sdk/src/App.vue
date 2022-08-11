@@ -83,7 +83,7 @@ const bugCors = function () {
   //     // })
   // }
 };
-const bugNoRespond = function () { };
+const bugNoRespond = function () {};
 const bugInterface4 = function () {
   // request({
   //   url: "/test",
@@ -91,11 +91,10 @@ const bugInterface4 = function () {
   //   data: "你好foursheep",
   // });
 };
-const bugInterface5 = function () { };
-const bugPowerless = function () { };
-const bugWhiteScreen = function () { };
-const bugHttp = function () { };
+const bugInterface5 = function () {};
+const bugPowerless = function () {};
+const bugWhiteScreen = function () {};
+const bugHttp = function () {};
 </script>
 
-<style>
-</style>
+<style></style>
