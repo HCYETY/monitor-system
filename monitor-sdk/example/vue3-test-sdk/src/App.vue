@@ -8,7 +8,7 @@
     <button class="hi" @click="bugAsset">静态资源加载异常</button>
     <button class="foursheep" @click="bugConsole">console.error 异常</button>
     <button class="good" @click="bugCors">跨域异常</button>
-    <!--    <img src="http://localhost:8888/nottrue.jpg" />-->
+    <!-- <img src="http://localhost:8888/nottrue.jpg" /> -->
 
     <br />
 
@@ -50,11 +50,12 @@
 
 <script setup lang="ts">
 import { axiosIntance } from "@/utils/axios";
+import axios from "axios";
 const bugJs = () => {
   window.someVar.error = "error";
 };
 const bugPromise = () => {
-  new Promise(function (resolve, reject) {
+  new Promise(function (_, reject) {
     window.someVar.error = "error";
   });
 };
@@ -85,6 +86,7 @@ const bugCors = function () {
   // }
 };
 const bugNoRespond = function () {
+  // timeout
   axiosIntance
     .get("/api", {
       timeout: 10,
@@ -99,8 +101,34 @@ const bugNoRespond = function () {
     });
 };
 const bugInterface4 = function () {
-  axiosIntance
-    .get("/api/info")
+  // 404
+  axios
+    .get("/api")
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((e) => {
+      console.log("请求失败");
+      console.log(e);
+    });
+
+  // 200
+  // axiosIntance
+  //   .get("/api/info")
+  //   .then((res) => {
+  //     console.log("请求成功");
+  //     console.log(res);
+  //   })
+  //   .catch((e) => {
+  //     console.log("请求失败");
+  //     console.log(e);
+  // });
+};
+const getPv = () => {
+  console.log("getPv");
+};
+const bugInterface5 = function () {
+  fetch("/asdasdasdasd")
     .then((res) => {
       console.log("请求成功");
       console.log(res);
@@ -109,17 +137,6 @@ const bugInterface4 = function () {
       console.log("请求失败");
       console.log(e);
     });
-  // request({
-  //   url: "/test",
-  //   method: "post",
-  //   data: "你好foursheep",
-  // });
-};
-const getPv = () => {
-  console.log("getPv");
-};
-const bugInterface5 = function () {
-  console.log("face5");
 };
 const bugPowerless = function () {
   console.log("powerless");
