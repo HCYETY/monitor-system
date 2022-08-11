@@ -4,6 +4,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "jsx": "preserve",
+    "lib": ["es2015", "ES2020","dom"],
     "paths": {
       "@/*": ["./src/*"]
     },
