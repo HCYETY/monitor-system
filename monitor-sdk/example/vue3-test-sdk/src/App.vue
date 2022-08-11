@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import axios from "axios";
+import { axiosIntance } from "@/utils/axios";
 const bugJs = () => {
   window.someVar.error = "error";
 };
@@ -85,16 +85,29 @@ const bugCors = function () {
   // }
 };
 const bugNoRespond = function () {
-  console.log("no respond");
-};
-const bugInterface4 = function () {
-  axios
-    .get("/")
+  axiosIntance
+    .get("/api", {
+      timeout: 10,
+    })
     .then((res) => {
+      console.log("请求成功");
       console.log(res);
     })
     .catch((e) => {
-      // console.log(e);
+      console.log("请求失败");
+      console.log(e);
+    });
+};
+const bugInterface4 = function () {
+  axiosIntance
+    .get("/api/info")
+    .then((res) => {
+      console.log("请求成功");
+      console.log(res);
+    })
+    .catch((e) => {
+      console.log("请求失败");
+      console.log(e);
     });
   // request({
   //   url: "/test",
