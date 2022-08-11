@@ -1,6 +1,4 @@
-<script setup name="page3" lang="ts">
-
-</script>
+<script setup name="page3" lang="ts"></script>
 
 <template>
   <div>
