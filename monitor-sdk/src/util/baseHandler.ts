@@ -13,13 +13,13 @@ export const initHttpHandler = (): void => {
       delete metrics.body;
     }
     // 记录到 UserMetricsStore
-    (this as any).metrics.add(metricsName.HT, metrics);
+    // (this as any).metrics.add(metricsName.HT, metrics);
     // 记录到用户行为记录栈
-    (this as any).breadcrumbs.push({
-      category: metricsName.HT,
-      data: metrics,
-      ...(this as any).getExtends(),
-    });
+    // (this as any).breadcrumbs.push({
+    //   category: metricsName.HT,
+    //   data: metrics,
+    //   ...(this as any).getExtends(),
+    // });
   };
   proxyXmlHttp(null, loadHandler);
   proxyFetch(null, loadHandler);
