@@ -1,11 +1,23 @@
 import { mechanismType } from "../type";
+import {AxiosError} from "axios";
 
 // 判断是 JS异常、静态资源异常、还是跨域异常
 export function getErrorKey (event: ErrorEvent | Event) {
-    const isJsError = event instanceof ErrorEvent;
-    if (!isJsError) return mechanismType.RS;
-    console.log('isJsError', isJsError);
-    return event.message === 'Script error.' ? mechanismType.CS : mechanismType.JS;
+    // const isJsError = event instanceof ErrorEvent;
+    // if (!isJsError) return mechanismType.RS;
+
+    // 有 e.target.src(href) 的认定为资源加载错误
+    const target = event.target;
+    // const isElementTarget: boolean = target && (target.src || target.href);
+    const isElementTarget: boolean = target instanceof HTMLScriptElement || target instanceof HTMLLinkElement || target instanceof HTMLImageElement;
+    if (isElementTarget) {
+        return mechanismType.RS;
+    }
+    if (event instanceof AxiosError) {
+        return mechanismType.CS;
+    }
+    // return event.message === 'Script error.' ? mechanismType.CS : mechanismType.JS;
+    return mechanismType.JS;
 };
 
 // 获取用户最后一个交互事件

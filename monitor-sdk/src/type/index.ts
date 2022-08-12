@@ -81,12 +81,12 @@ export interface routeType {
 
 // 错误类型
 export enum mechanismType {
-    JS = 'js',
-    RS = 'resource',
-    UJ = 'unhandledrejection',
-    HP = 'http',
-    CS = 'cors',
-    VUE = 'vue',
+    JS = 'jsError',
+    RS = 'resourceError',
+    UJ = 'unhandledrejectionError',
+    HP = 'httpError',
+    CS = 'corsError',
+    VUE = 'vueError',
 }
 
 // 用户行为所做的参数

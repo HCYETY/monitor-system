@@ -1,6 +1,59 @@
 import { initHttpHandler } from "../util/baseHandler";
 import { mechanismType } from "../type";
 import { getErrorKey, getLastEvent, getSelector } from "../util";
+import {AxiosError} from "axios";
+
+// // --------  js error / resource error / script error ---------
+// export const handleJs = function (event: any): void {
+//     event.preventDefault();
+//
+//     // 用户最后一个交互事件
+//     const lastEvent: Event = getLastEvent();
+//     let log = null;
+//
+//     // 判断是否跨域
+//     const type = getErrorKey(event);
+//     console.log('是否跨域', type)
+//
+//     if (type === mechanismType.RS) {
+//         const target = event.target;
+//         log = {
+//             type: event.type,
+//             url: target.src,
+//             message: `GET ${target.src} net::ERR_CONNECTION_REFUSED`, // TODO
+//             html: target.outerHTML,
+//             errorType: mechanismType.RS,
+//             tagName: target.tagName,
+//             selector: getSelector(event.path),
+//         }
+//         console.log('resourceError log数据', log)
+//     } else if (type === mechanismType.JS) {
+//         log = {
+//             message: event.message,
+//             type: event.type,
+//             errorType: mechanismType.JS,
+//             fileName: event.filename,
+//             position: `${event.lineno}:${event.colno}`,
+//             // stack: getLines(event.error.stack), //错误堆栈
+//             selector: lastEvent ? getSelector((lastEvent as any).path) : '',
+//         }
+//         console.log('jsError log数据', log)
+//     } else if (type === mechanismType.CS) {
+//         let { url, method, params, data } = event.config;
+//         let corsErrorData = {
+//             errorType: mechanismType.CS,
+//             type: event.name,
+//             message: event.message,
+//             url,
+//             method,
+//             status: event.response.status,
+//             response: event.response ? JSON.stringify(event.response) : "",
+//             request: event.request ? JSON.stringify(event.request) : "",
+//             params: { query: params, body: data },
+//         }
+//         console.log('CORSError log数据', corsErrorData)
+//     }
+// }
 
 export function errorCatch() {
     console.log('%c%s', 'font-size: 24px; color: red', '开始监控网页报错');
@@ -15,75 +68,107 @@ export function errorCatch() {
         handlePromise(event);
     }, true)
 
-    // --------  js error / resource error ---------
+    // --------  js error / resource error / script error ---------
     const handleJs = function (event: any): void {
         event.preventDefault();
-        // 如果不是跨域脚本异常,就结束
-        console.log('ddd')
-        if (getErrorKey(event) === mechanismType.CS) return;
 
         // 用户最后一个交互事件
         const lastEvent: Event = getLastEvent();
         let log = null;
 
-        const target = event.target;
-        let isElementTarget: boolean = target instanceof HTMLScriptElement || target instanceof HTMLLinkElement || target instanceof HTMLImageElement;
-        if (isElementTarget) {
-        // 有 e.target.src(href) 的认定为资源加载错误
-        // if (event.target && (event.target.src || event.target.href)) {
+        // 判断是否跨域
+        const type = getErrorKey(event);
+        console.log('是否跨域', type)
+
+        if (type === mechanismType.RS) {
+            const target = event.target;
             log = {
                 type: event.type,
                 url: target.src,
                 message: `GET ${target.src} net::ERR_CONNECTION_REFUSED`, // TODO
                 html: target.outerHTML,
-                errorType: 'resourceError',
+                errorType: mechanismType.RS,
                 tagName: target.tagName,
                 selector: getSelector(event.path),
             }
-        } else {
+            console.log('resourceError log数据', log)
+        } else if (type === mechanismType.JS) {
             log = {
-                message: event.message, // 报错信息
+                message: event.message,
                 type: event.type,
-                errorType: 'jsError',
+                errorType: mechanismType.JS,
                 fileName: event.filename,
                 position: `${event.lineno}:${event.colno}`,
                 // stack: getLines(event.error.stack), //错误堆栈
                 selector: lastEvent ? getSelector((lastEvent as any).path) : '',
             }
+            console.log('jsError log数据', log)
+        } else if (type === mechanismType.CS) {
+            let { url, method, params, data } = event.config;
+            let corsErrorData = {
+                errorType: mechanismType.CS,
+                type: event.name,
+                message: event.message,
+                url,
+                method,
+                status: event.response.status,
+                response: event.response ? JSON.stringify(event.response) : "",
+                request: event.request ? JSON.stringify(event.request) : "",
+                params: { query: params, body: data },
+            }
+            console.log('CORSError log数据', corsErrorData)
         }
-        console.log('injectJsError log数据', log)
     }
 
     // ------  promise error  --------
     const handlePromise = function (event: any): void {
-        // 用户最后一个交互事件
-        const lastEvent: Event = getLastEvent();
-        let message: string = '';
-        let filename: string = '';
-        let line: number = 0;
-        let column: number = 0;
-        let stack: string = '';
-        let reason = event.reason;
-        if (typeof reason === 'string') {
-            message = reason;
-        } else if (typeof reason === 'object') {
-            if (reason.stack) {
-                let matchResult = reason.stack.match(/at\s+(.+):(\d+):(\d+)/);
-                filename = matchResult[1];
-                line = matchResult[2];
-                column = matchResult[3];
+        const isCors = event.reason instanceof AxiosError;
+        if (!isCors) {
+            // 用户最后一个交互事件
+            const lastEvent: Event = getLastEvent();
+            let message: string = '';
+            let filename: string = '';
+            let line: number = 0;
+            let column: number = 0;
+            let stack: string = '';
+            let reason = event.reason;
+            if (typeof reason === 'string') {
+                message = reason;
+            } else if (typeof reason === 'object') {
+                if (reason.stack) {
+                    let matchResult = reason.stack.match(/at\s+(.+):(\d+):(\d+)/);
+                    filename = matchResult[1];
+                    line = matchResult[2];
+                    column = matchResult[3];
+                }
+                message = reason.message;
             }
-            message = reason.message;
+            const log = {
+                message, // 报错信息
+                type: event.type,
+                errorType: mechanismType.UJ,
+                fileName: filename,
+                position: `${line}:${column}`,
+                selector: lastEvent ? getSelector((lastEvent as any).path) : '',
+            }
+            console.log('promise log数据', log)
+        } else {
+            const error = event.reason;
+            console.log(error)
+            let { url, method, params, data } = error.config;
+            let corsErrorData = {
+                errorType: mechanismType.CS,
+                type: error.name,
+                message: error.message,
+                url,
+                method,
+                status: error.response.status,
+                response: error.response || "",
+                request: error.request || "",
+                params: { query: params, body: data },
+            }
+            console.log('CORSError log数据', corsErrorData)
         }
-        const log = {
-            message, // 报错信息
-            type: event.type,
-            errorType: 'promiseError',
-            fileName: filename,
-            position: `${line}:${column}`,
-            selector: lastEvent ? getSelector((lastEvent as any).path) : '',
-        }
-        console.log('promise log数据', log)
     }
 
     // ------  console.error  --------
@@ -123,51 +208,4 @@ export function errorCatch() {
 
     // ------  http  --------
     initHttpHandler()
-
-    // // 捕获接口异常
-    // const orignalEvents = [
-    //     'abort',
-    //     'error',
-    //     'load',
-    //     'timeout',
-    //     'onreadystatechange',
-    // ]
-    // const method = 'open'
-    // const originalXhrProto = window.XMLHttpRequest.prototype
-    // const original = originalXhrProto[method]
-    // originalXhrProto.open = function (...args) {
-    //     console.log(args);
-
-    //     // 获取xhr实例  绑定事件
-    //     const xhr = this
-    //     orignalEvents.forEach((eType) => {
-    //         xhr.addEventListener(eType, function (e: any) {
-    //             // ...
-    //             interfaceError(e)
-    //         })
-    //     })
-    //     original.apply(this, args as any)
-    // }
-    // function interfaceError(error: any) {
-    //     // console.log('接口异常', error)
-    //     let { url, method, params, data } = error.config;
-    //     const { language, userAgent } = navigator;
-    //     let err_data = {
-    //         url: error.request.responseURL,
-    //         // timestamp,
-    //         language,
-    //         userAgent, //浏览器版本
-    //         method,
-    //         type: 'xhr',
-    //         eventType: "load", //事件类型 TODO
-    //         // pathname: url, //路径
-    //         status: error.status,
-    //         // duration:
-    //         response: error.response ? JSON.stringify(error.response) : "",
-    //         params: { query: params, body: data },
-    //         error: error.data?.message || error.statusText,
-    //         // error: error.data?.message || JSON.stringify(error.data),
-    //     }
-    //     // console.log('接口异常 log数据', err_data)
-    // }
 }

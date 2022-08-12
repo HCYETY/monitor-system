@@ -78,9 +78,6 @@ const bugCors = function () {
   //     //   window.onerror && window.onerror(null, null, null, null, e)
   //     // }
   //
-  //     // window.addEventListener('error', (e) => {
-  //     //   console.log('捕获到跨域报错', e);
-  //     // })
 };
 const bugNoRespond = function () {
   // timeout
@@ -125,15 +122,10 @@ const getPv = () => {
   console.log("getPv");
 };
 const bugInterface5 = function () {
-  fetch("/asdasdasdasd")
-      .then((res) => {
-        console.log("请求成功");
-        console.log(res);
-      })
-      .catch((e) => {
-        console.log("请求失败");
-        console.log(e);
-      });
+  fetch("/asdasdasdasd", {
+    method: "post",
+    body: "kongming",
+  });
 };
 const bugPowerless = function () {
   console.log("powerless");

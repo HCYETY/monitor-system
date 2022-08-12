@@ -1,4 +1,5 @@
 import { httpMetrics } from "@/type";
+import {handleJs} from "../common/errorTrack";
 
 // 调用 proxyXmlHttp 即可完成全局监听 XMLHttpRequest
 export const proxyXmlHttp = (sendHandler: Function | null | undefined, loadHandler: Function) => {
@@ -28,8 +29,16 @@ export const proxyXmlHttp = (sendHandler: Function | null | undefined, loadHandl
         send.call(xhr, body);
       };
       // 是否超时
-      let isTimeout = false
+      let isTimeout = false;
 
+        // // 捕获接口异常
+        // const orignalEvents = [
+        //     'abort',
+        //     'error',
+        //     'load',
+        //     'timeout',
+        //     'onreadystatechange',
+        // ]
       xhr.addEventListener('timeout', (event) => {
         isTimeout = true
       })
@@ -75,6 +84,12 @@ export const proxyXmlHttp = (sendHandler: Function | null | undefined, loadHandl
         console.log('xhr', metrics);
       });
 
+      // xhr.addEventListener('error', (event) => {
+      //   setTimeout(() => {
+      //       console.log('捕获到异常：', event);
+      //     handleJs(event);
+      //   }, 1000);
+      // }, true);
 
       return xhr;
     };
