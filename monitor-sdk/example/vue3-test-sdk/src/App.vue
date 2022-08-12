@@ -55,7 +55,7 @@ const bugJs = () => {
   window.someVar.error = "error";
 };
 const bugPromise = () => {
-  new Promise(function (_, reject) {
+  new Promise(function () {
     window.someVar.error = "error";
   });
 };
@@ -128,15 +128,10 @@ const getPv = () => {
   console.log("getPv");
 };
 const bugInterface5 = function () {
-  fetch("/asdasdasdasd")
-    .then((res) => {
-      console.log("请求成功");
-      console.log(res);
-    })
-    .catch((e) => {
-      console.log("请求失败");
-      console.log(e);
-    });
+  fetch("/asdasdasdasd", {
+    method: "post",
+    body: "kongming",
+  });
 };
 const bugPowerless = function () {
   console.log("powerless");
