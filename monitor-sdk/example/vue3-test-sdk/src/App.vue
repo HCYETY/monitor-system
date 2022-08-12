@@ -16,7 +16,6 @@
     <button @click="bugNoRespond">未响应/超时响应异常</button>
     <button @click="bugInterface4">4xx 请求异常</button>
     <button @click="bugInterface5">5xx 服务器异常</button>
-    <button @click="bugPowerless">权限不足</button>
 
     <h1>白屏异常</h1>
     <button @click="bugWhiteScreen">白屏异常</button>
@@ -132,9 +131,6 @@ const bugInterface5 = function () {
     method: "post",
     body: "kongming",
   });
-};
-const bugPowerless = function () {
-  console.log("powerless");
 };
 const bugWhiteScreen = function () {
   console.log("whiteScreen");

@@ -13,11 +13,6 @@ export const proxyFetch = (sendHandler: Function | null | undefined, loadHandler
       if (typeof sendHandler === 'function') sendHandler(init);
       let metrics = {} as httpMetrics;
 
-      // metrics.method = init?.method.toUpperCase() || '';
-      // metrics.url = (input && typeof input !== 'string' ? input?.url : input) || ''; // 请求的url
-      // metrics.body = init?.body || '';
-      // metrics.requestTime = new Date().getTime();
-
 
       metrics = {
         method: init?.method.toUpperCase() || '',
