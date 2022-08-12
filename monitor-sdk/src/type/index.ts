@@ -71,12 +71,13 @@ export interface httpMetrics {
     url: string | URL;
     body: Document | XMLHttpRequestBodyInit | null | undefined | ReadableStream;
     requestTime: number;
-    responseTime: number;
-    status: number;
-    statusText: string;
+    responseTime?: number;
+    status?: number;
+    statusText?: string;
     response?: any;
     type?: string,
     timeStamp?: string,
-    message?: string
+    message?: string,
+    duration?: number
 }
 
