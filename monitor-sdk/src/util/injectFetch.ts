@@ -13,16 +13,25 @@ export const proxyFetch = (sendHandler: Function | null | undefined, loadHandler
       if (typeof sendHandler === 'function') sendHandler(init);
       let metrics = {} as httpMetrics;
 
-      metrics.method = init?.method || '';
-      metrics.url = (input && typeof input !== 'string' ? input?.url : input) || ''; // 请求的url
-      metrics.body = init?.body || '';
-      metrics.requestTime = new Date().getTime();
+      // metrics.method = init?.method.toUpperCase() || '';
+      // metrics.url = (input && typeof input !== 'string' ? input?.url : input) || ''; // 请求的url
+      // metrics.body = init?.body || '';
+      // metrics.requestTime = new Date().getTime();
+
+
+      metrics = {
+        method: init?.method.toUpperCase() || '',
+        url: (input && typeof input !== 'string' ? input?.url : input) || '', // 请求的url
+        body: init?.body || '',
+        requestTime: new Date().getTime()
+      }
 
       return _Fetch.call(window, input, init).then(async (response) => {
         // clone 出一个新的 response,再用其做.text(),避免 body stream already read 问题
         const { status, statusText, url } = response;
         let message: string
-        if (status >= 200 && status < 400) {
+
+        if (status >= 200 && status < 300) {
           // 正常情况
           message = 'success'
         } else if (status === 404) {
@@ -43,11 +52,30 @@ export const proxyFetch = (sendHandler: Function | null | undefined, loadHandler
           responseTime: new Date().getTime(),
           url
         };
+
+
+        metrics.duration = metrics.responseTime - metrics.requestTime;
+
         if (typeof loadHandler === 'function') loadHandler(metrics);
 
-        console.log(response);
+        console.log('fetch then', metrics);
+
 
         return metrics;
+      }).catch(async e => {
+        const { message } = e
+        metrics = {
+          ...metrics,
+          message,
+          status: 0,
+          statusText: "error",
+          responseTime: new Date().getTime()
+        };
+        metrics.duration = metrics.responseTime - metrics.requestTime;
+
+        console.log('fetch error', metrics);
+
+        return metrics
       });
     };
   }
