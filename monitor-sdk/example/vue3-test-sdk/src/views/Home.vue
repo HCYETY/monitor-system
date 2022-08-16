@@ -50,7 +50,7 @@
 <script setup lang="ts">
 import { axiosIntance } from "@/utils/axios";
 import axios from "axios";
-import {login} from "@/api/modules/user";
+import { login } from "@/api/modules/user";
 const bugJs = () => {
   window.someVar.error = "error";
 };
@@ -69,8 +69,8 @@ const bugCors = function () {
   login({
     url: "/test",
     method: "post",
-    data: '你好foursheep',
-  })
+    data: "你好foursheep",
+  });
   //     console.error(e);
   //     // if (ErrorEvent) {
   //     //   window.dispatchEvent(new ErrorEvent('error', { e, message: e.message })) // 这里也会触发window.onerror
@@ -82,29 +82,29 @@ const bugCors = function () {
 const bugNoRespond = function () {
   // timeout
   axiosIntance
-      .get("/api", {
-        timeout: 10,
-      })
-      .then((res) => {
-        console.log("请求成功");
-        console.log(res);
-      })
-      .catch((e) => {
-        console.log("请求失败");
-        console.log(e);
-      });
+    .get("/api", {
+      timeout: 10,
+    })
+    .then((res) => {
+      console.log("请求成功");
+      console.log(res);
+    })
+    .catch((e) => {
+      console.log("请求失败");
+      console.log(e);
+    });
 };
 const bugInterface4 = function () {
   // 404
   axios
-      .get("/api")
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((e) => {
-        console.log("请求失败");
-        console.log(e);
-      });
+    .get("/api")
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((e) => {
+      console.log("请求失败");
+      console.log(e);
+    });
 
   // 200
   // axiosIntance
