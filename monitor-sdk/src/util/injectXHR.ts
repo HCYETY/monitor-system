@@ -46,34 +46,15 @@ export const proxyXmlHttp = (sendHandler: Function | null | undefined, loadHandl
         const { status, statusText, response } = xhr;
 
         if (isTimeout) {
-          metrics = {
-            ...metrics,
-            status: 406,
-            statusText: 'timeout!',
-            message: 'Not Acceptable',
-            responseTime: new Date().getTime(),
-          };
+          setMetrics(406, 'timeout', 'Request timeout', new Date().getTime());
         } else {
           // 异常情况
           if (status >= 400) {
             // 网络异常
-            metrics = {
-              ...metrics,
-              status,
-              statusText: 'error',
-              message: 'Internet Error',
-              responseTime: new Date().getTime(),
-            };
+            setMetrics(status, statusText, 'Request failed with status code ' + status, new Date().getTime(), response);
           } else if (status >= 200 && status < 300) {
             // success
-            metrics = {
-              ...metrics,
-              status,
-              statusText,
-              response,
-              responseTime: new Date().getTime(),
-              message: 'success',
-            }
+            setMetrics(status, statusText, 'Request success', new Date().getTime(), response);
           }
         }
 
@@ -81,6 +62,19 @@ export const proxyXmlHttp = (sendHandler: Function | null | undefined, loadHandl
         if (typeof loadHandler === 'function') loadHandler(metrics);
         // xhr.status 状态码
         console.log('xhr', metrics);
+
+        function setMetrics(status: number, statusText: string, message: string, responseTime: number, response?: Date) {
+          metrics = {
+            ...metrics,
+            status,
+            statusText,
+            message,
+            responseTime,
+          };
+          if (response) {
+            metrics.response = response;
+          }
+        }
       });
 
       // xhr.addEventListener('error', (event) => {
