@@ -1,8 +1,8 @@
 import { mechanismType } from "../type";
-import {AxiosError} from "axios";
+import { AxiosError } from "axios";
 
 // 判断是 JS异常、静态资源异常、还是跨域异常
-export function getErrorKey (event: ErrorEvent | Event) {
+export function getErrorKey(event: ErrorEvent | Event) {
     // const isJsError = event instanceof ErrorEvent;
     // if (!isJsError) return mechanismType.RS;
 
@@ -30,7 +30,9 @@ export function getLastEvent() {
         'keydown',
         'touchstart',
     ].forEach(eventType => {
-        window.addEventListener(eventType, (event) => {
+        console.log(eventType);
+        window.addEventListener('click', (event) => {
+            console.log(event);
             lastEvent = event;
         }, {
             capture: true,
@@ -42,12 +44,15 @@ export function getLastEvent() {
 
 // 获取选择器
 export function getSelector(pathsOrTarget: any) {
+    console.log("params", pathsOrTarget);
+
+
     const handleSelector = function (pathArr: any) {
         return pathArr.reverse().filter((element: any) => {
             // 去除 document 和 window
             return element !== document && element !== window;
         }).map((element: any) => {
-            const {id, className, tagName} = element;
+            const { id, className, tagName } = element;
             if (id) {
                 return `${tagName.toLowerCase()}#${id}`;
             } else if (className && typeof className === 'string') {
@@ -87,7 +92,7 @@ export function nowTime(data: { hms?: boolean, time?: number }): number | string
 }
 
 // 判断白屏的时机
-export function isLoad (callback) {
+export function isLoad(callback) {
     if (document.readyState === 'complete') {
         callback();
     } else {

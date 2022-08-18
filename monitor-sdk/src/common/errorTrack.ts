@@ -1,7 +1,7 @@
 import { initHttpHandler } from "../util/baseHandler";
 import { mechanismType } from "../type";
 import { getErrorKey, getLastEvent, getSelector } from "../util";
-import {AxiosError} from "axios";
+import { AxiosError } from "axios";
 
 // // --------  js error / resource error / script error ---------
 // export const handleJs = function (event: any): void {
@@ -74,6 +74,8 @@ export function errorCatch() {
 
         // 用户最后一个交互事件
         const lastEvent: Event = getLastEvent();
+        console.log(lastEvent);
+
         let log = null;
 
         // 判断是否跨域

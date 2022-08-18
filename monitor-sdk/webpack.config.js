@@ -22,7 +22,7 @@ const postCssLoaderConfig = {
 };
 
 const commonConfig = {
-    entry: './src/add.ts',
+    entry: './src/index.ts',
     mode: 'development',
     context: process.cwd(),
     output: {
@@ -83,12 +83,11 @@ const commonConfig = {
                     publicPath: '../../'
                 }
             }]
-        }
-        ]
+        }]
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
-        mainFiles: ['index.tsx', 'add.ts', 'index'],
+        mainFiles: ['index.tsx', 'index'],
         alias: {
             '@': path.resolve(__dirname, './src'),
             // 'api': path.resolve(__dirname, './src/api'),
@@ -96,7 +95,7 @@ const commonConfig = {
             // 'pages': path.resolve(__dirname, './src/pages'),
             // 'type': path.resolve(__dirname, './src/type'),
         },
-    },
+    }
 };
 
 module.exports = commonConfig;
