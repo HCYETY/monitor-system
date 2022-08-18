@@ -26,6 +26,7 @@
     "paths": {
       "@/*": ["./src/*"]
     }
+    // "types": ["vitest/global"]
     // "outFile": "./js/main.js" //将代码合并成一个文件,模块化规范需要为amd或者system
   },
   "include": ["./src/**/*"], //被编译的文件目录
