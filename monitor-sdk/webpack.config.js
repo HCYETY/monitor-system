@@ -22,7 +22,7 @@ const postCssLoaderConfig = {
 };
 
 const commonConfig = {
-    entry: './src/index.ts',
+    entry: './src/add.ts',
     mode: 'development',
     context: process.cwd(),
     output: {
@@ -88,7 +88,7 @@ const commonConfig = {
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
-        mainFiles: ['index.tsx', 'index.ts', 'index'],
+        mainFiles: ['index.tsx', 'add.ts', 'index'],
         alias: {
             '@': path.resolve(__dirname, './src'),
             // 'api': path.resolve(__dirname, './src/api'),
