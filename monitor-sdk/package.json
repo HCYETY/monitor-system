@@ -1,16 +1,24 @@
 {
-  "name": "monitor-sdk",
+  "name": "monitor-system-sdk",
   "version": "1.0.0",
-  "description": "",
+  "description": "前端监控 SDK",
+  "author": "foursheep",
   "main": "src/index.ts",
   "scripts": {
     "build": "webpack",
     "dev": "webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["前端监控系统", "原生 sdk"],
+  "private": false,
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:HCYETY/monitor-system.git"
+  },
   "devDependencies": {
     "@babel/core": "^7.18.10",
     "autoprefixer": "^10.4.8",
