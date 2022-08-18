@@ -361,19 +361,9 @@
  *         in: formData
  *         required: false
  *         type: string
- *       - name: captcha
- *         description: 验证码
- *         in: formData
- *         required: false
- *         type: integer
- *       - name: cookie
- *         description: 用户 cookie
- *         in: formData
- *         required: false
- *         type: string
  *     responses:
  *       '200':
- *          description: 发送验证码成功的响应
+ *          description: 成功发送验证码
  *          schema:
  *              type: object
  *              required:
@@ -387,7 +377,7 @@
  *                     example: 200
  *                 msg:
  *                    type: string
- *                    example: 登录成功
+ *                    example: 验证码已成功发送
  *                 data:
  *                    type: object
  *                    properties:
