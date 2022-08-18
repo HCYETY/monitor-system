@@ -1,16 +1,13 @@
 import { httpMetrics } from "@/type";
-import { handleJs } from "../common/errorTrack";
 
 // 调用 proxyXmlHttp 即可完成全局监听 XMLHttpRequest
 export const proxyXmlHttp = (sendHandler: Function | null | undefined, loadHandler: Function) => {
   if ('XMLHttpRequest' in window && typeof window.XMLHttpRequest === 'function') {
     const _XMLHttpRequest = window.XMLHttpRequest;
     if (!(window as any)._XMLHttpRequest) {
-      // _XMLHttpRequest 为原生的 XMLHttpRequest，可以用以 SDK 进行数据上报，区分业务
       (window as any)._XMLHttpRequest = _XMLHttpRequest;
     }
     (window as any).XMLHttpRequest = function () {
-      // 覆写 window.XMLHttpRequest
       const xhr = new _XMLHttpRequest();
       const { open, send } = xhr;
       let metrics = {} as httpMetrics;
@@ -22,23 +19,12 @@ export const proxyXmlHttp = (sendHandler: Function | null | undefined, loadHandl
       xhr.send = (body) => {
         metrics.body = body || '';
         metrics.requestTime = new Date().getTime();
-        // sendHandler 可以在发送 Ajax 请求之前，挂载一些信息，比如 header 请求头
-        // setRequestHeader 设置请求header，用来传输关键参数等
-        // xhr.setRequestHeader('xxx-id', 'VQVE-QEBQ');
         if (typeof sendHandler === 'function') sendHandler(xhr);
         send.call(xhr, body);
       };
       // 是否超时
       let isTimeout = false;
 
-      // // 捕获接口异常
-      // const orignalEvents = [
-      //     'abort',
-      //     'error',
-      //     'load',
-      //     'timeout',
-      //     'onreadystatechange',
-      // ]
       xhr.addEventListener('timeout', (event) => {
         isTimeout = true
       })
@@ -77,13 +63,6 @@ export const proxyXmlHttp = (sendHandler: Function | null | undefined, loadHandl
           }
         }
       });
-
-      // xhr.addEventListener('error', (event) => {
-      //   setTimeout(() => {
-      //       console.log('捕获到异常：', event);
-      //     handleJs(event);
-      //   }, 1000);
-      // }, true);
 
       return xhr;
     };
