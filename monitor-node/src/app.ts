@@ -79,19 +79,19 @@ createConnections ()
         }
         app.use(koaSwagger(swaggerOption))
 
-        router.post('/api/email', email);
-        router.post('/api/login', login);
-        router.post('/api/register', register);
+        router.get('/api/user/email', email);
+        router.post('/api/user/login', login);
+        router.post('/api/user/register', register);
         // router.post('/api/forget_password', forget);
         // router.post('/api/logout', logout);
 
         // promise 相关
-        router.post('/api/promise_report', addPromise);
-        router.post('/api/promise_find', findPromise);
+        router.post('/api/promise', addPromise);
+        router.get('/api/promise', findPromise);
 
         // console.error 相关
-        router.post('/api/console_error_report', addConsoleError);
-        router.post('/api/console_error_find', findConsoleError);
+        router.post('/api/console-error', addConsoleError);
+        router.get('/api/console-error', findConsoleError);
 
 
         // 组装匹配好的路由，返回一个合并好的中间件
