@@ -27,6 +27,10 @@
     "koa-cors": "^0.0.16",
     "koa-router": "^12.0.0",
     "koa2-cors": "^2.0.6",
+    "koa2-swagger-ui": "^5.6.0",
+    "mysql": "^2.18.1",
+    "nodemailer": "^6.7.8",
+    "swagger-jsdoc": "^6.2.5",
     "typeorm": "^0.3.7"
   },
   "devDependencies": {

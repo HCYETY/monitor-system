@@ -7,7 +7,7 @@ export default async(ctx: Context) => {
     const bucket = 'promiseError';
 
     try {
-        const { cookie, message, type, errorType, fileName, position, selector } = ctx.request.body.data;
+        const { cookie, message, type, errorType, fileName, position, selector, isSolve } = ctx.request.body.data;
         const writeApi = clientDB.getWriteApi(INFLUX_ORG, bucket);
         writeApi.useDefaultTags({host: 'host1'});
 
@@ -20,7 +20,7 @@ export default async(ctx: Context) => {
             .stringField('file_name', fileName)
             .stringField('position', position)
             .stringField('selector', selector)
-            .booleanField('is_solve', false);
+            .booleanField('is_solve', isSolve);
         writeApi.writePoint(point);
         await writeApi.close();
 

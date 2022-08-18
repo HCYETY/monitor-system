@@ -1,14 +1,25 @@
 {
   "compilerOptions": {
+//    "target": "ES2017",
     "target": "es5", /* 解析结果 */
     "module": "commonjs", /* 遵循的模块化规范 */
     "strict": true,
     "esModuleInterop": true, /* 支持以import xx from ‘xx’格式引入 */
     "skipLibCheck": true,/* 跳过声明文件的类型检查 */
-    "forceConsistentCasingInFileNames": true /* 禁止对同一个文件的不一致的引用 */
+    "forceConsistentCasingInFileNames": true, /* 禁止对同一个文件的不一致的引用 */
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "watch": true,
+    // "outDir": "../dist",
+    "emitDecoratorMetadata": true,
+    "declaration": true,
+    "noImplicitAny": false, // 防止对象隐式具有'任何'类型
+    "strictNullChecks": false,
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "./ormconfig.js",
+    "sendEmail.js",
   ],/* 指定需要编译的目录范围 */
   "exclude": ["node_modules"] /* 忽略类型检查的目录 */
 }
