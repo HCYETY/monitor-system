@@ -5,7 +5,7 @@ import { ApiResponse } from "../../utils/response";
 import { nowTime } from '../../utils/index';
 
 export default async (ctx: Context) => {
-  const { email, password, captcha, runtime_captcha } = ctx.request.body;
+  const { email, password, captcha } = ctx.request.body;
   const userRepository = getManager().getRepository(User);
   const saveUsers = await userRepository.findOne({where: { email }});
   const doneUser = await userRepository.findOne({where: { email, captcha: +captcha, password }});

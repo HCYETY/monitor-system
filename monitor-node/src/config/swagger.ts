@@ -9,7 +9,7 @@ const swaggerDefinition = {
     info: {
         title: 'monitor-system-node API 接口文档',
         version: '1.0.0',
-        description: '详细的接口文档'
+        description: '做一份详细的接口文档'
     }
 }
 const options = {

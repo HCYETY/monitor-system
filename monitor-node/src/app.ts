@@ -42,7 +42,7 @@ import { createConnections } from "typeorm";
 import {koaSwagger} from "koa2-swagger-ui";
 import swaggerRouter from './config/swagger';
 
-import email from './routes/user/email';
+import sendCaptcha from './routes/user/sendCaptcha';
 import login from './routes/user/login';
 import register from './routes/user/register';
 import forget from './routes/user/forget';
@@ -79,9 +79,9 @@ createConnections ()
         }
         app.use(koaSwagger(swaggerOption))
 
-        router.get('/api/user/email', email);
-        router.post('/api/user/login', login);
-        router.post('/api/user/register', register);
+        router.get('/api/send-captcha', sendCaptcha);
+        router.post('/api/login', login);
+        router.post('/api/register', register);
         // router.post('/api/forget_password', forget);
         // router.post('/api/logout', logout);
 
