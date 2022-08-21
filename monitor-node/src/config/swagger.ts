@@ -9,12 +9,13 @@ const swaggerDefinition = {
     info: {
         title: 'monitor-system-node API 接口文档',
         version: '1.0.0',
-        description: '做一份详细的接口文档'
-    }
+        description: '做一份详细的接口文档',
+    },
+    // openapi: '3.0.1',
 }
 const options = {
     swaggerDefinition,
-    apis: [path.join(__dirname, '../routes/doc/*.ts')] // 写有注解的router的存放地址, 最好     path.join()
+    apis: [path.join(__dirname, '../routes/doc/*.ts')] // 写有注解的router的存放地址,
 }
 const swaggerSpec = swaggerJSDoc(options);
 // 通过路由获取生成的注解文件

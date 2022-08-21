@@ -26,7 +26,7 @@ npm manifest:
     "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1",
       "build": "tsc",
-      "start": "tsc dist/index.ts",
+      "start": "tsc dist/sendCaptcha.ts",
       "dev": "nodemon --watch src -e ts,tsx --exec ts-node src/app.ts"
     },
     "keywords": [],
