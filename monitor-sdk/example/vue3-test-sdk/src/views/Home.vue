@@ -135,5 +135,4 @@ const bugWhiteScreen = function () {
 };
 </script>
 
-<style>
-</style>
+<style></style>
