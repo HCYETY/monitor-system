@@ -1,13 +1,13 @@
-import {metricsName, PageInformation, performanceType, userAgent} from "../type";
+import { metricsName, PageInformation, performanceType, userAgent } from "../type";
 import parser from 'ua-parser-js';
 import bowser from 'bowser';
 
-export function getPerformance (): void {
+export function getPerformance(): void {
     console.log('%c%s', 'font-size: 24px; color: green', '开始监控网页性能');
 
-    window.addEventListener('click',(e) => {
+    window.addEventListener('click', (e) => {
         getClickInform(e);
-    },true,);
+    }, true);
     window.addEventListener('load', () => {
         getPv();
     }, true);
@@ -47,7 +47,7 @@ export function getPerformance (): void {
     console.log('%c%s%o', 'color: green', '获取 userAgent 信息，如：用户设备类型，浏览器版本，webview引擎类型', getUserAgent());
 
     // 获取 PI 页面基本信息
-    const getPageInfo = function (): PageInformation  {
+    const getPageInfo = function (): PageInformation {
         const {
             host,
             hostname,
@@ -86,6 +86,7 @@ export function getPerformance (): void {
 
     // 初始化 CBR 点击事件的获取和返回
     const clickMountList = ['button'].map((x) => x.toLowerCase());
+
     const getClickInform = function (e: MouseEvent | any): void {
         // 这里是根据 tagName 进行是否需要捕获事件的依据，可以根据自己的需要，额外判断id\class等
         // 先判断浏览器支持 e.path ，从 path 里先取
@@ -127,7 +128,7 @@ export function getPerformance (): void {
     console.log('%c%s', 'color: green', '页面点击事件已监控');
 
     // 获取页面性能数据
-    function getPerformanceTiming (): performanceType {
+    function getPerformanceTiming(): performanceType {
         const {
             redirectStart, redirectEnd,
             domainLookupStart, domainLookupEnd,
@@ -193,7 +194,7 @@ export function getPerformance (): void {
     console.log('%c%s%o', 'color: green', '获取页面性能指标', getPerformanceTiming())
 
 
-    function getPv () {
+    function getPv() {
         const pvLog = {
             kind: "business",
             type: "pv",

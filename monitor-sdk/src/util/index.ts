@@ -30,9 +30,7 @@ export function getLastEvent() {
         'keydown',
         'touchstart',
     ].forEach(eventType => {
-        console.log(eventType);
-        window.addEventListener('click', (event) => {
-            console.log(event);
+        window.addEventListener(eventType, (event) => {
             lastEvent = event;
         }, {
             capture: true,
