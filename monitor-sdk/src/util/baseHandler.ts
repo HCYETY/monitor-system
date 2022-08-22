@@ -1,4 +1,4 @@
-import { httpMetrics, metricsName } from "../type";
+import { httpMetrics } from "../type";
 import { proxyFetch } from "./injectFetch";
 import { proxyXmlHttp } from "./injectXHR";
 
