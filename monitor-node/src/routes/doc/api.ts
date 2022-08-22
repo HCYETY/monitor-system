@@ -102,7 +102,7 @@
 // promiseError 接口
 /**
  * @swagger
- * /api/promise:
+ * /report/promise:
  *   post:
  *     description: sdk 向服务器上报 promise 异常数据
  *     tags: [promise 异常模块]
@@ -167,47 +167,6 @@
  *     tags: [promise 异常模块]
  *     produces:
  *       - application/json
- *     parameters:
- *       - name: cookie
- *         description: 用户 cookie
- *         required: true
- *         in: formData
- *         type: string
- *       - name: message
- *         description: 报错信息
- *         required: true
- *         in: formData
- *         type: string
- *       - name: type
- *         description: 数据类型
- *         in: formData
- *         required: true
- *         type: string
- *       - name: errorType
- *         description: 错误类型
- *         in: formData
- *         required: true
- *         type: string
- *       - name: fileName
- *         description: 报错文件位置
- *         in: formData
- *         required: true
- *         type: string
- *       - name: position
- *         description: 报错信息在文件中的定位
- *         in: formData
- *         required: true
- *         type: string
- *       - name: selector
- *         description: 错误堆栈
- *         in: formData
- *         required: true
- *         type: string
- *       - name: is_solve
- *         description: 报错是否解决
- *         in: formData
- *         required: false
- *         type: boolean
  *     responses:
  *       '200':
  *          description: promise 异常数据查询成功
@@ -244,7 +203,7 @@
 // console.error 接口
 /**
  * @swagger
- * /api/console-error:
+ * /report/console-error:
  *   post:
  *     description: sdk 向服务器上报 console.error 异常数据
  *     tags: [console.error 异常模块]
@@ -299,37 +258,6 @@
  *     tags: [console.error 异常模块]
  *     produces:
  *       - application/json
- *     parameters:
- *       - name: url
- *         description: 报错 url
- *         required: true
- *         in: formData
- *         type: string
- *       - name: row
- *         description: 报错位置的行号
- *         in: formData
- *         required: true
- *         type: integer
- *       - name: column
- *         description: 报错位置的列号
- *         in: formData
- *         required: true
- *         type: integer
- *       - name: message
- *         description: 报错信息
- *         in: formData
- *         required: true
- *         type: string
- *       - name: stack
- *         description: 错误堆栈
- *         in: formData
- *         required: true
- *         type: string
- *       - name: is_solve
- *         description: 开发者是否解决异常
- *         in: formData
- *         required: false
- *         type: boolean
  *     responses:
  *       '200':
  *          description: console.error 异常数据查询成功
@@ -345,7 +273,7 @@
 /**
  * @swagger
  * /api/send-captcha:
- *   get:
+ *   post:
  *     description: 发送验证码
  *     tags: [用户登入模块]
  *     produces:
@@ -384,6 +312,9 @@
  *                        status:
  *                             type: boolean
  *                             example: true
+ *                        captchaTime:
+ *                             type: integer
+ *                             format: int64
  */
 /**
  * @swagger

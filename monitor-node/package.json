@@ -21,6 +21,7 @@
     "@types/koa-router": "^7.4.4",
     "@types/koa2-cors": "^2.0.2",
     "@types/node": "^18.7.5",
+    "co-body": "^6.1.0",
     "influx": "^5.9.3",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",

@@ -39,7 +39,7 @@ import Router from 'koa-router';
 import bodyParser from 'koa-bodyparser';
 import cors from 'koa2-cors';
 import { createConnections } from "typeorm";
-import {koaSwagger} from "koa2-swagger-ui";
+import { koaSwagger } from "koa2-swagger-ui";
 import swaggerRouter from './config/swagger';
 
 import sendCaptcha from './routes/user/sendCaptcha';
@@ -48,9 +48,18 @@ import register from './routes/user/register';
 import forget from './routes/user/forget';
 import logout from './routes/user/logout';
 
+// js 异常
+import addJs from './routes/error/js/add';
+import findJs from './routes/error/js/find';
 // promise 异常
 import addPromise from './routes/error/promise/add';
 import findPromise from './routes/error/promise/find';
+// resource 异常
+import addResource from './routes/error/resource/add';
+import findResource from './routes/error/resource/find';
+// cors 异常
+import addCors from './routes/error/cors/add';
+import findCors from './routes/error/cors/find';
 // console.error 异常
 import addConsoleError from './routes/error/consoleError/add';
 import findConsoleError from './routes/error/consoleError/find';
@@ -67,6 +76,15 @@ createConnections ()
             optionSuccessStatus: 200
         }
         app.use(cors(corsOptions));
+
+        // 处理 Navigator.sendBeacon 传参
+        app.use(async function(ctx,next) {
+            //判断请求的路由路径
+            if (/^.*\/beacon\/.+$/.test(ctx.path)) {
+                ctx.disableBodyParser = true;
+            }
+            await next();
+        })
         // 处理 post 请求的参数
         app.use(bodyParser());
 
@@ -79,18 +97,30 @@ createConnections ()
         }
         app.use(koaSwagger(swaggerOption))
 
-        router.get('/api/send-captcha', sendCaptcha);
+        router.post('/api/send-captcha', sendCaptcha);
         router.post('/api/login', login);
         router.post('/api/register', register);
         // router.post('/api/forget_password', forget);
         // router.post('/api/logout', logout);
 
+        // js 相关
+        router.post('/report/js', addJs);
+        router.get('/api/js', findJs);
+
         // promise 相关
-        router.post('/api/promise', addPromise);
+        router.post('/report/promise', addPromise);
         router.get('/api/promise', findPromise);
 
+        // resource 相关
+        router.post('/report/resource', addResource);
+        router.get('/api/resource', findResource);
+
+        // cors 相关
+        router.post('/report/cors', addCors);
+        router.get('/api/cors', findCors);
+
         // console.error 相关
-        router.post('/api/console-error', addConsoleError);
+        router.post('/report/console-error', addConsoleError);
         router.get('/api/console-error', findConsoleError);
 
 

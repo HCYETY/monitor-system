@@ -8,6 +8,7 @@ import { ApiResponse } from "../../utils/response";
 export default async (ctx:Context) => {
     try{
         const { email, password } = ctx.request.body;
+        console.log(email)
         const userRepository = getManager().getRepository(User);
         const saveUsers = await userRepository.findOne({where: { email, password }});
         // const nowtime = nowTime();

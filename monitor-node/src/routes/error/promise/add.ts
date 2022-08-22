@@ -2,12 +2,15 @@ import { Context } from 'koa';
 import { Point } from '@influxdata/influxdb-client';
 import { clientDB, INFLUX_ORG } from '../../../utils/env';
 import { ApiResponse } from "../../../utils/response";
+import coBody from 'co-body';
 
 export default async(ctx: Context) => {
     const bucket = 'promiseError';
 
     try {
-        const { cookie, message, type, errorType, fileName, position, selector, isSolve } = ctx.request.body.data;
+        const params = await coBody.json(ctx.req);
+        const { cookie, data } = JSON.parse(params);
+        const { message, type, errorType, fileName, position, selector, isSolve } = data;
         const writeApi = clientDB.getWriteApi(INFLUX_ORG, bucket);
         writeApi.useDefaultTags({host: 'host1'});
 
