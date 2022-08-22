@@ -22,11 +22,11 @@ const postCssLoaderConfig = {
 };
 
 const commonConfig = {
-    entry: './src/add.ts',
+    entry: './src/index.ts',
     mode: 'development',
     context: process.cwd(),
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, './dist'),
         filename: 'monitor.js',
     },
     // devServer: {

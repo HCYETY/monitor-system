@@ -11,11 +11,12 @@ const app = createApp(App);
 
 init({
     // appId,  // 系统id
-    // userId, // 用户id
-    // reportUrl, // 后端url
+    cookie: 'foursheep', // 用户id
+    // userId: window.localStorage.getItem('session_id') || 'foursheep', // 用户id
+    reportUrl: 'http://localhost:8080/report', // 后端url
     // autoTracker, // 自动埋点
-    // delay, // 延迟和合并上报的功能
-    hashPage: true, // 是否hash录有
+    delay: 0, // 延迟和合并上报的功能
+    hashPage: true, // 是否是 hash 路由
     errorReport: true, // 是否开启错误监控
     performanceReport: true // 是否开启性能监控
 })

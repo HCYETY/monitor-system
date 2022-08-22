@@ -8,7 +8,7 @@
     <button class="hi" @click="bugAsset">静态资源加载异常</button>
     <button class="foursheep" @click="bugConsole">console.error 异常</button>
     <button class="good" @click="bugCors">跨域异常</button>
-    <!-- <img src="http://localhost:8888/nottrue.jpg" /> -->
+     <img src="http://localhost:8888/nottrue.jpg" />
 
     <br />
 

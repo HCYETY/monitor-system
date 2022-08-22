@@ -1,38 +1,44 @@
-import { addCache, getCache } from "./cache";
+import { addCache, getCache, clearCache } from "./cache";
 
-export function lazyReport(type, param) {
-  const logParams = {
-    data: param,
-    currentTime: new Date().getTime(),
-    currentPage: window.location.href,
-    ua: window.navigator.userAgent,
-  }
+let timer = null;
 
-  let logParamsString = JSON.stringify(logParams);
-  addCache(logParamsString);
+export function lazyReport(interfaceUrl: string, param): void {
+    const cookie: string = window['_monitor_user_cookie_'];
+    const delay: number = window['_monitor_delay_'];
 
+    const logParams = {
+        cookie, // 用户id
+        interfaceUrl, // error/action/visit/user
+        data: param, // 上报的数据
+        currentTime: new Date().getTime(),
+        currentPage: window.location.href,
+        ua: window.navigator.userAgent,
+    }
 
-  // const data = getCache()
+      let logParamsString = JSON.stringify(logParams);
+      addCache(logParamsString);
 
-  // if (dalay === 0) {
-  //   report(data)
-  //   return
-  // }
+      const data = getCache();
 
-  // if (data.length > 10) {
-  //   report(data)
-  //   clearTimeout(timer)
-  //   return
-  // }
+      if (delay === 0) {
+        return report(interfaceUrl, data);
+      }
 
-  // clearTimeout(timer)
+      if (data.length > 10) {
+        report(interfaceUrl, data);
+        clearTimeout(timer);
+        return;
+      }
 
-  // timer = setTimeout(() => {
-  //   report(data)
-  //  }, dalay)
+      clearTimeout(timer);
+
+    timer = setTimeout(() => {
+        report(interfaceUrl, data);
+    }, delay);
 }
-// export function report(data) {
-//   const url = window['_monitor_report_url_'];
+
+export function report(interfaceUrl: string, data: object): void {
+  const url = window['_monitor_report_url_'];
 
   // ------- fetch方式上报 -------
   // 跨域问题
@@ -50,12 +56,11 @@ export function lazyReport(type, param) {
 
   // ------- navigator/img方式上报 -------
   // 不会有跨域问题
-  // if (navigator.sendBeacon) { // 支持sendBeacon的浏览器
-  //   navigator.sendBeacon(url, JSON.stringify(data));
-  // } else { // 不支持sendBeacon的浏览器
-  //   let oImage = new Image();
-  //   oImage.src = `${url}?logs=${data}`;
-  // }
-  // clearCache();
-// }
-
+  if (navigator.sendBeacon) { // 支持sendBeacon的浏览器
+    navigator.sendBeacon(url + interfaceUrl, JSON.stringify(data));
+  } else { // 不支持sendBeacon的浏览器
+      let oImage = new Image();
+    oImage.src = `${url}${interfaceUrl}?logs=${data}`;
+  }
+  clearCache();
+}

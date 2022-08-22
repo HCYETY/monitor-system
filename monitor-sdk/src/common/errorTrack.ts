@@ -2,6 +2,7 @@ import { initHttpHandler } from "../util/baseHandler";
 import { mechanismType } from "../type";
 import { getErrorKey, getLastEvent, getSelector } from "../util";
 import {AxiosError} from "axios";
+import {lazyReport} from "../common/report";
 
 // // --------  js error / resource error / script error ---------
 // export const handleJs = function (event: any): void {
@@ -76,7 +77,7 @@ export function errorCatch() {
         const lastEvent: Event = getLastEvent();
         let log = null;
 
-        // 判断是否跨域
+        // 判断报错种类
         const type = getErrorKey(event);
         console.log('是否跨域', type)
 
@@ -92,17 +93,19 @@ export function errorCatch() {
                 selector: getSelector(event.path),
             }
             console.log('resourceError log数据', log)
+            lazyReport('/resource', log);
         } else if (type === mechanismType.JS) {
             log = {
                 message: event.message,
                 type: event.type,
-                errorType: mechanismType.JS,
+                errorType: `${mechanismType.JS}: ${(event.error && event.error.name) || 'UnKnowun'}`,
                 fileName: event.filename,
                 position: `${event.lineno}:${event.colno}`,
                 // stack: getLines(event.error.stack), //错误堆栈
                 selector: lastEvent ? getSelector((lastEvent as any).path) : '',
             }
             console.log('jsError log数据', log)
+            lazyReport('/js', log);
         } else if (type === mechanismType.CS) {
             let { url, method, params, data } = event.config;
             let corsErrorData = {
@@ -117,6 +120,7 @@ export function errorCatch() {
                 params: { query: params, body: data },
             }
             console.log('CORSError log数据', corsErrorData)
+            lazyReport('/cors', corsErrorData);
         }
     }
 
@@ -152,6 +156,7 @@ export function errorCatch() {
                 selector: lastEvent ? getSelector((lastEvent as any).path) : '',
             }
             console.log('promise log数据', log)
+            lazyReport('/promise', log);
         } else {
             const error = event.reason;
             console.log(error)
@@ -168,6 +173,7 @@ export function errorCatch() {
                 params: { query: params, body: data },
             }
             console.log('CORSError log数据', corsErrorData)
+            lazyReport('/cors', corsErrorData);
         }
     }
 
@@ -199,6 +205,7 @@ export function errorCatch() {
                 stack // 错误堆栈信息
             }
             console.log('error捕获', opt);
+            lazyReport('/console-error', opt);
             // }, 0);
         }
         // console.log(arguments);

@@ -9,7 +9,10 @@
     "dev": "webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["前端监控系统", "原生 sdk"],
+  "keywords": [
+    "前端监控系统",
+    "原生 sdk"
+  ],
   "private": false,
   "license": "MIT",
   "files": [

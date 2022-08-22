@@ -13,7 +13,7 @@ import { blankScreen } from "../common/blankScreen";
 export function loadConfig(options: initOptions): void {
     const {
         appId,  // 系统id
-        userId, // 用户id
+        cookie, // 用户id
         reportUrl, // 后端url
         autoTracker, // 自动埋点
         delay, // 延迟和合并上报的功能
@@ -27,21 +27,21 @@ export function loadConfig(options: initOptions): void {
     //     window['_monitor_app_id_'] = appId;
     // }
     //
-    // // --------- userId ----------------
-    // if (userId) {
-    //     window['_monitor_user_id_'] = userId;
-    // }
-    //
-    // // --------- 服务端地址 ----------------
-    // if (reportUrl) {
-    //     window['_monitor_report_url_'] = reportUrl;
-    // }
-    //
-    // // -------- 合并上报的间隔 ------------
-    // if (delay) {
-    //     window['_monitor_delay_'] = delay;
-    // }
-    //
+    // --------- userId ----------------
+    if (cookie) {
+        window['_monitor_user_cookie_'] = cookie;
+    }
+
+    // --------- 服务端地址 ----------------
+    if (reportUrl) {
+        window['_monitor_report_url_'] = reportUrl;
+    }
+
+    // -------- 合并上报的间隔 ------------
+    if (delay) {
+        window['_monitor_delay_'] = delay;
+    }
+
     // --------- 是否开启错误监控和白屏监控 ------------
     if (errorReport) {
         errorCatch();
