@@ -25,7 +25,7 @@ export const proxyXmlHttp = (sendHandler: Function | null | undefined, loadHandl
       // 是否超时
       let isTimeout = false;
 
-      xhr.addEventListener('timeout', (event) => {
+      xhr.addEventListener('timeout', () => {
         isTimeout = true
       })
 

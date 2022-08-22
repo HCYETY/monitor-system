@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "前端监控 SDK",
   "author": "foursheep",
-  "main": "src/index.ts",
+  "main": "./dist/monitor.js",
+  "types": "./dist/types/index.d.ts",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --mode=production --node-env=production",
     "dev": "webpack-dev-server",
     "test": "vitest"
   },
