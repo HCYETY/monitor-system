@@ -15,7 +15,7 @@
     <h2>接口异常</h2>
     <button @click="bugNoRespond">未响应/超时响应异常</button>
     <button @click="bugInterface4">4xx 请求异常</button>
-    <button @click="bugInterface5">5xx 服务器异常</button>
+    <button @click="bugInterface5">fetch 请求异常</button>
     <button @click="bugPowerless">权限不足</button>
 
     <h1>白屏异常</h1>
@@ -30,7 +30,7 @@
     <button>
       <RouterLink to="/">路由跳转</RouterLink>
     </button>
-    <button @click="getPv">PV、UV</button>
+    <!-- <button @click="getPv">PV、UV</button> -->
   </div>
 
   <!--  <br />-->
@@ -50,7 +50,7 @@
 <script setup lang="ts">
 import { axiosIntance } from "@/utils/axios";
 import axios from "axios";
-import {login} from "@/api/modules/user";
+import { login } from "@/api/modules/user";
 const bugJs = () => {
   window.someVar.error = "error";
 };
@@ -69,8 +69,8 @@ const bugCors = function () {
   login({
     url: "/test",
     method: "post",
-    data: '你好foursheep',
-  })
+    data: "你好foursheep",
+  });
   //     console.error(e);
   //     // if (ErrorEvent) {
   //     //   window.dispatchEvent(new ErrorEvent('error', { e, message: e.message })) // 这里也会触发window.onerror
@@ -82,29 +82,29 @@ const bugCors = function () {
 const bugNoRespond = function () {
   // timeout
   axiosIntance
-      .get("/api", {
-        timeout: 10,
-      })
-      .then((res) => {
-        console.log("请求成功");
-        console.log(res);
-      })
-      .catch((e) => {
-        console.log("请求失败");
-        console.log(e);
-      });
+    .get("/api", {
+      timeout: 10,
+    })
+    .then((res) => {
+      console.log("请求成功");
+      console.log(res);
+    })
+    .catch((e) => {
+      console.log("请求失败");
+      console.log(e);
+    });
 };
 const bugInterface4 = function () {
   // 404
   axios
-      .get("/api")
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((e) => {
-        console.log("请求失败");
-        console.log(e);
-      });
+    .get("/api")
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((e) => {
+      console.log("请求失败");
+      console.log(e);
+    });
 
   // 200
   // axiosIntance
@@ -116,11 +116,11 @@ const bugInterface4 = function () {
   //   .catch((e) => {
   //     console.log("请求失败");
   //     console.log(e);
-  // });
+  //   });
 };
-const getPv = () => {
-  console.log("getPv");
-};
+// const getPv = () => {
+//   console.log("getPv");
+// };
 const bugInterface5 = function () {
   fetch("/asdasdasdasd", {
     method: "post",

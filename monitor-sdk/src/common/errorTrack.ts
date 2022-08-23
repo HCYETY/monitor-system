@@ -4,58 +4,6 @@ import { getErrorKey, getLastEvent, getSelector } from "../util";
 import {AxiosError} from "axios";
 import {lazyReport} from "../common/report";
 
-// // --------  js error / resource error / script error ---------
-// export const handleJs = function (event: any): void {
-//     event.preventDefault();
-//
-//     // 用户最后一个交互事件
-//     const lastEvent: Event = getLastEvent();
-//     let log = null;
-//
-//     // 判断是否跨域
-//     const type = getErrorKey(event);
-//     console.log('是否跨域', type)
-//
-//     if (type === mechanismType.RS) {
-//         const target = event.target;
-//         log = {
-//             type: event.type,
-//             url: target.src,
-//             message: `GET ${target.src} net::ERR_CONNECTION_REFUSED`, // TODO
-//             html: target.outerHTML,
-//             errorType: mechanismType.RS,
-//             tagName: target.tagName,
-//             selector: getSelector(event.path),
-//         }
-//         console.log('resourceError log数据', log)
-//     } else if (type === mechanismType.JS) {
-//         log = {
-//             message: event.message,
-//             type: event.type,
-//             errorType: mechanismType.JS,
-//             fileName: event.filename,
-//             position: `${event.lineno}:${event.colno}`,
-//             // stack: getLines(event.error.stack), //错误堆栈
-//             selector: lastEvent ? getSelector((lastEvent as any).path) : '',
-//         }
-//         console.log('jsError log数据', log)
-//     } else if (type === mechanismType.CS) {
-//         let { url, method, params, data } = event.config;
-//         let corsErrorData = {
-//             errorType: mechanismType.CS,
-//             type: event.name,
-//             message: event.message,
-//             url,
-//             method,
-//             status: event.response.status,
-//             response: event.response ? JSON.stringify(event.response) : "",
-//             request: event.request ? JSON.stringify(event.request) : "",
-//             params: { query: params, body: data },
-//         }
-//         console.log('CORSError log数据', corsErrorData)
-//     }
-// }
-
 export function errorCatch() {
     console.log('%c%s', 'font-size: 24px; color: red', '开始监控网页报错');
 

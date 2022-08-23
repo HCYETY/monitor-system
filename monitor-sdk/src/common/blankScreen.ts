@@ -1,6 +1,6 @@
 import { isLoad } from "../util";
 
-export function blankScreen (): void {
+export function blankScreen(): void {
     console.log('%c%s', 'font-size: 24px; color: orange', '开始监控网页是否白屏');
 
     const wrapperElements: string[] = ['html', 'body', '#container', '.content.main'];
@@ -30,7 +30,7 @@ export function blankScreen (): void {
         const { innerWidth, innerHeight } = window;
         for (let i = 1; i <= 9; i++) {
             const xElements: Element[] = document.elementsFromPoint(innerWidth * i / 10, innerHeight / 2);
-            const yElements: Element[] = document.elementsFromPoint(innerWidth /2, innerHeight * i / 10);
+            const yElements: Element[] = document.elementsFromPoint(innerWidth / 2, innerHeight * i / 10);
 
             isWrapper(xElements);
             isWrapper(yElements);

@@ -1,5 +1,5 @@
-import axios, {AxiosResponse} from 'axios';
-import { REQUESTIP } from '@/common/const';
+import axios, { AxiosResponse } from "axios";
+import { REQUESTIP } from "@/common/const";
 
 axios.defaults.withCredentials = true;
 
@@ -32,13 +32,16 @@ axios.defaults.withCredentials = true;
 //     }
 // );
 
-export function generateHttpApi(method: 'get' | 'post') {
+export function generateHttpApi(method: "get" | "post") {
   return async (url: string, params?: any) => {
-    const data = method === 'get' ? {
-      params
-    } : {
-      data: params
-    };
+    const data =
+      method === "get"
+        ? {
+            params,
+          }
+        : {
+            data: params,
+          };
     url = REQUESTIP + url;
     try {
       const response = await axios({
@@ -50,8 +53,8 @@ export function generateHttpApi(method: 'get' | 'post') {
     } catch (error) {
       return await Promise.reject(error);
     }
-  }
+  };
 }
 
-export const get = generateHttpApi('get');
-export const post = generateHttpApi('post');
+export const get = generateHttpApi("get");
+export const post = generateHttpApi("post");

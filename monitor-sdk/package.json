@@ -1,13 +1,15 @@
 {
   "name": "monitor-system-sdk",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "前端监控 SDK",
   "author": "foursheep",
-  "main": "src/index.ts",
+  "main": "lib/monitor.cjs.js",
+  "module": "lib/monitor.esm.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --mode=production --node-env=production",
     "dev": "webpack-dev-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest",
+    "build:rollup": "rollup -c rollup.config.js"
   },
   "keywords": [
     "前端监控系统",
@@ -16,7 +18,7 @@
   "private": false,
   "license": "MIT",
   "files": [
-    "dist"
+    "lib"
   ],
   "repository": {
     "type": "git",
@@ -24,6 +26,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",
+    "@rollup/plugin-typescript": "^8.3.4",
     "autoprefixer": "^10.4.8",
     "babel-loader": "^8.2.5",
     "babel-plugin-import": "^1.13.5",
@@ -37,10 +40,13 @@
     "less": "^4.1.3",
     "less-loader": "^11.0.0",
     "mini-css-extract-plugin": "^2.6.1",
+    "rollup": "^2.78.1",
     "ts-loader": "^9.3.1",
+    "tslib": "^2.4.0",
     "typescript": "^4.7.4",
     "url-loader": "^4.1.1",
     "user-agent": "^1.0.4",
+    "vitest": "^0.22.1",
     "webpack": "^5.74.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.10.0",

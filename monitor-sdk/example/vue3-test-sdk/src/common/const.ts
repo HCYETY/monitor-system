@@ -1,1 +1,1 @@
-export const REQUESTIP = 'http://localhost:9000';
+export const REQUESTIP = "http://localhost:9000";

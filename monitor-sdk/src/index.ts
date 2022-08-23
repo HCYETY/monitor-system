@@ -6,6 +6,7 @@ import { initOptions } from "./type";
 import { lazyReport, report } from './common/report';
 import { getCache } from './common/cache';
 
+
 /**
  * 初始化配置
  * @param {*} options
@@ -30,4 +31,4 @@ function init(options: initOptions) {
     // });
 }
 
-export { init, errorCatch, };
+export { init, errorCatch };
