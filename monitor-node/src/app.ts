@@ -63,6 +63,16 @@ import findCors from './routes/error/cors/find';
 // console.error 异常
 import addConsoleError from './routes/error/consoleError/add';
 import findConsoleError from './routes/error/consoleError/find';
+// interface 异常
+import addInterfaceError from './routes/error/interface/add';
+// blankScreen 异常
+import addBlankScreen from './routes/error/blankScreen/add';
+// history 路由
+import addHistory from './routes/behaviour/history/add';
+// hash 路由
+import addHash from './routes/behaviour/hash/add';
+// pv
+import addPv from './routes/performance/pv/add';
 
 createConnections ()
     .then(async () => {
@@ -103,26 +113,40 @@ createConnections ()
         // router.post('/api/forget_password', forget);
         // router.post('/api/logout', logout);
 
-        // js 相关
+        // js 异常
         router.post('/report/js', addJs);
         router.get('/api/js', findJs);
 
-        // promise 相关
+        // promise 异常
         router.post('/report/promise', addPromise);
         router.get('/api/promise', findPromise);
 
-        // resource 相关
+        // resource 异常
         router.post('/report/resource', addResource);
         router.get('/api/resource', findResource);
 
-        // cors 相关
+        // cors 异常
         router.post('/report/cors', addCors);
         router.get('/api/cors', findCors);
 
-        // console.error 相关
+        // console.error 异常
         router.post('/report/console-error', addConsoleError);
         router.get('/api/console-error', findConsoleError);
 
+        // interface 异常
+        router.post('/report/interface', addInterfaceError);
+
+        // 白屏异常
+        router.post('/report/blankScreen', addBlankScreen);
+
+        // hash 路由
+        router.post('/report/hash', addHash);
+
+        // history 路由
+        router.post('/report/history', addHistory);
+
+        // pv
+        router.post('/report/pv', addPv);
 
         // 组装匹配好的路由，返回一个合并好的中间件
         app.use(router.routes());

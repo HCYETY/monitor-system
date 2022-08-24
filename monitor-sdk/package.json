@@ -58,6 +58,7 @@
     "@babel/preset-env": "^7.18.10",
     "@types/ua-parser-js": "^0.7.36",
     "axios": "^0.27.2",
+    "source-map": "^0.7.4",
     "ua-parser-js": "^1.0.2"
   }
 }

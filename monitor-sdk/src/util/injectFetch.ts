@@ -1,4 +1,5 @@
 import { httpMetrics } from "@/type";
+import {lazyReport} from "@/common/report";
 
 // 调用 proxyFetch 即可完成全局监听 fetch
 export const proxyFetch = (sendHandler: Function | null | undefined, loadHandler: Function) => {
@@ -54,6 +55,7 @@ export const proxyFetch = (sendHandler: Function | null | undefined, loadHandler
         if (typeof loadHandler === 'function') loadHandler(metrics);
 
         console.log('fetch then', metrics);
+        lazyReport('/interface', metrics);
 
 
         return metrics;

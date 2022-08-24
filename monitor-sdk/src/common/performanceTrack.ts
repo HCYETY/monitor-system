@@ -1,12 +1,14 @@
 import { metricsName, PageInformation, performanceType, userAgent } from "../type";
 import parser from 'ua-parser-js';
 import bowser from 'bowser';
+import {lazyReport} from "@/common/report";
 
 export function getPerformance(): void {
     console.log('%c%s', 'font-size: 24px; color: green', '开始监控网页性能');
 
     window.addEventListener('click', (e) => {
         getClickInform(e);
+        getPerformanceTiming();
     }, true);
     window.addEventListener('load', () => {
         getPv();
@@ -124,6 +126,7 @@ export function getPerformance(): void {
         // this.breadcrumbs.push(behavior);
 
         console.log('%c%s%o', 'color: green', '点击事件 log数据', behavior)
+        lazyReport('/hash', behavior);
     };
     console.log('%c%s', 'color: green', '页面点击事件已监控');
 
@@ -196,7 +199,6 @@ export function getPerformance(): void {
 
     function getPv() {
         const pvLog = {
-            kind: "business",
             type: "pv",
             startTime: performance.now(),
             pageURL: window.location.href,
@@ -204,5 +206,6 @@ export function getPerformance(): void {
             uuid: 0,
         }
         console.log('%c%s%o', 'color: green', '获取 pv', pvLog)
+        lazyReport('/pv', pvLog);
     }
 }

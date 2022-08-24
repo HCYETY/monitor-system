@@ -1,4 +1,5 @@
 import { httpMetrics } from "@/type";
+import {lazyReport} from "@/common/report";
 
 // 调用 proxyXmlHttp 即可完成全局监听 XMLHttpRequest
 export const proxyXmlHttp = (sendHandler: Function | null | undefined, loadHandler: Function) => {
@@ -49,6 +50,7 @@ export const proxyXmlHttp = (sendHandler: Function | null | undefined, loadHandl
         if (typeof loadHandler === 'function') loadHandler(metrics);
         // xhr.status 状态码
         console.log('xhr', metrics);
+        lazyReport('/interface', metrics);
 
         function setMetrics(status: number, statusText: string, message: string, responseTime: number, response?: Date) {
           metrics = {

@@ -5,6 +5,7 @@ let timer = null;
 export function lazyReport(interfaceUrl: string, param): void {
     const cookie: string = window['_monitor_user_cookie_'];
     const delay: number = window['_monitor_delay_'];
+    console.log('!!!', interfaceUrl, param)
 
     const logParams = {
         cookie, // 用户id
@@ -15,26 +16,27 @@ export function lazyReport(interfaceUrl: string, param): void {
         ua: window.navigator.userAgent,
     }
 
-      let logParamsString = JSON.stringify(logParams);
-      addCache(logParamsString);
+    // let logParamsString = JSON.stringify(logParams);
+    //     addCache(logParamsString);
 
-      const data = getCache();
+    // const data = getCache();
+    // let data = JSON.stringify(param);
 
-      if (delay === 0) {
-        return report(interfaceUrl, data);
-      }
+    // if (delay === 0) {
+        return report(interfaceUrl, logParams);
+    // }
 
-      if (data.length > 10) {
-        report(interfaceUrl, data);
-        clearTimeout(timer);
-        return;
-      }
+      // if (data.length > 10) {
+      //   report(interfaceUrl, data);
+      //   clearTimeout(timer);
+      //   return;
+      // }
 
-      clearTimeout(timer);
-
-    timer = setTimeout(() => {
-        report(interfaceUrl, data);
-    }, delay);
+    // clearTimeout(timer);
+    //
+    // timer = setTimeout(() => {
+    //     report(interfaceUrl, logParams);
+    // }, delay);
 }
 
 export function report(interfaceUrl: string, data: object): void {
@@ -62,5 +64,5 @@ export function report(interfaceUrl: string, data: object): void {
       let oImage = new Image();
     oImage.src = `${url}${interfaceUrl}?logs=${data}`;
   }
-  clearCache();
+  // clearCache();
 }

@@ -1,5 +1,6 @@
 // 监听页面
-import {routeType} from "@/type";
+import {routeType} from "../type";
+import {lazyReport} from "../common/report";
 
 // 重写 pushState 和 replaceState 方法
 const createHistoryEvent = function (name) {
@@ -87,6 +88,7 @@ export function historyPageTrack (): void {
         // }
         // routeList.push(routeTemplate);
         console.log('%c%s%o', 'color: skyblue', 'routeTemplate', routeTemplate);
+        lazyReport('/history', routeTemplate);
         // localStorage.setItem('current_behavior', JSON.stringify(routeList));
     }
 
@@ -158,6 +160,7 @@ export function hashPageTrack (): void {
             endTime: getDuration().curTime,
         }
         beforeUrl = currentUrl;
+        lazyReport('/hash', routeTemplate);
         console.log('%c%s%o', 'color: skyblue', 'routeTemplate', routeTemplate);
     }
 

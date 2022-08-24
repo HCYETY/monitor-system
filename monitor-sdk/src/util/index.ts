@@ -1,5 +1,6 @@
 import { mechanismType } from "../type";
 import { AxiosError } from "axios";
+import sourceMap from 'source-map';
 
 // 判断是 JS异常、静态资源异常、还是跨域异常
 export function getErrorKey(event: ErrorEvent | Event) {
@@ -97,3 +98,44 @@ export function isLoad(callback) {
         window.addEventListener('load', callback);
     }
 }
+
+// // 根据行数获取源文件行数
+// export async function getPosition (map, rolno, colno) {
+//     const consumer = await new sourceMap.SourceMapConsumer(map)
+//
+//     const position = consumer.originalPositionFor({
+//         line: rolno,
+//         column: colno
+//     })
+//
+//     position.content = consumer.sourceContentFor(position.source)
+//
+//     return position
+// }
+
+// export async function parse(error) {
+//     const mapObj = JSON.parse(getMapFileContent(error.url))
+//     const consumer = await new sourceMap.SourceMapConsumer(mapObj)
+//     // 将 webpack://source-map-demo/./src/index.js 文件中的 ./ 去掉
+//     const sources = mapObj.sources.map(item => format(item))
+//     // 根据压缩后的报错信息得出未压缩前的报错行列数和源码文件
+//     const originalInfo = consumer.originalPositionFor({ line: error.line, column: error.column })
+//     // sourcesContent 中包含了各个文件的未压缩前的源码，根据文件名找出对应的源码
+//     const originalFileContent = mapObj.sourcesContent[sources.indexOf(originalInfo.source)]
+//     return {
+//         file: originalInfo.source,
+//         content: originalFileContent,
+//         line: originalInfo.line,
+//         column: originalInfo.column,
+//         msg: error.msg,
+//         error: error.error
+//     }
+// }
+//
+// function format(item) {
+//     return item.replace(/(\.\/)*/g, '')
+// }
+//
+// // function getMapFileContent(url) {
+// //     return fs.readFileSync(path.resolve(__dirname, `./maps/${url.split('/').pop()}.map`), 'utf-8')
+// // }

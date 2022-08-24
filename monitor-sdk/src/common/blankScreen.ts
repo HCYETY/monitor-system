@@ -1,4 +1,5 @@
 import { isLoad } from "../util";
+import {lazyReport} from "../common/report";
 
 export function blankScreen(): void {
     console.log('%c%s', 'font-size: 24px; color: orange', '开始监控网页是否白屏');
@@ -27,7 +28,7 @@ export function blankScreen(): void {
     }
 
     const judge = function (): void {
-        const { innerWidth, innerHeight } = window;
+        const { innerWidth, innerHeight, screen } = window;
         for (let i = 1; i <= 9; i++) {
             const xElements: Element[] = document.elementsFromPoint(innerWidth * i / 10, innerHeight / 2);
             const yElements: Element[] = document.elementsFromPoint(innerWidth / 2, innerHeight * i / 10);
@@ -38,8 +39,17 @@ export function blankScreen(): void {
 
         if (emptyPoints >= 18) {
             const centerElements: Element[] = document.elementsFromPoint(innerWidth / 2, innerHeight / 2);
-            console.log('%c%s', 'color: orange', 'centerElements', centerElements);
+            const log = {
+                type: "error",
+                errorType: "blank",
+                emptyPoints,
+                screen: screen.width + "x" + screen.height,
+                viewPoint: innerWidth + "x" + innerHeight,
+                selector: getSelector(centerElements[0]),
+            }
+            console.log('%c%s', 'color: orange', 'log', log);
             // 上报
+            lazyReport('/blankScreen', log);
         } else {
             console.log('%c%s', 'color: orange', '白屏监控之空白点数量：', emptyPoints);
         }

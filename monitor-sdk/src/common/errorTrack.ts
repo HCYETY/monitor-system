@@ -52,7 +52,7 @@ export function errorCatch() {
                 // stack: getLines(event.error.stack), //错误堆栈
                 selector: lastEvent ? getSelector((lastEvent as any).path) : '',
             }
-            console.log('jsError log数据', log)
+            console.log('jsError log数据@@@', log)
             lazyReport('/js', log);
         } else if (type === mechanismType.CS) {
             let { url, method, params, data } = event.config;
@@ -74,7 +74,8 @@ export function errorCatch() {
 
     // ------  promise error  --------
     const handlePromise = function (event: any): void {
-        const isCors = event.reason instanceof AxiosError;
+        const isCors = event?.reason?.name === 'AxiosError';
+        // const isCors = event.reason instanceof AxiosError;
         if (!isCors) {
             // 用户最后一个交互事件
             const lastEvent: Event = getLastEvent();
@@ -104,7 +105,7 @@ export function errorCatch() {
                 selector: lastEvent ? getSelector((lastEvent as any).path) : '',
             }
             console.log('promise log数据', log)
-            lazyReport('/promise', log);
+            // lazyReport('/promise', log);
         } else {
             const error = event.reason;
             console.log(error)
@@ -139,8 +140,8 @@ export function errorCatch() {
 
                 // 根据:分隔获取行列
                 let info = firstLine.split(':')
-                row = info[info.length - 2] // 行
-                column = info[info.length - 1] // 列
+                row = +info[info.length - 2] // 行
+                column = +info[info.length - 1] // 列
             }
 
             // setTimeout(function () {
