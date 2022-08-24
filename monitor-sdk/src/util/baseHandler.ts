@@ -1,6 +1,6 @@
+import { proxyFetch } from "@/common/injectFetch";
+import { proxyXmlHttp } from "@/common/injectXHR";
 import { httpMetrics } from "../type";
-import { proxyFetch } from "./injectFetch";
-import { proxyXmlHttp } from "./injectXHR";
 
 
 export const initHttpHandler = (): void => {
