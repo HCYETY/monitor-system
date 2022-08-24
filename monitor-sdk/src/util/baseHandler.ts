@@ -1,12 +1,8 @@
 import { proxyFetch } from "@/common/injectFetch";
 import { proxyXmlHttp } from "@/common/injectXHR";
 import { AxiosError } from "axios";
-import { getErrorKey, getLastEvent, getSelector } from ".";
+import { createCorsError, createJsError, createPromiseError, createResourceError, getErrorKey, getLastEvent, getSelector } from ".";
 import { httpMetrics, mechanismType } from "../type";
-import { JsError } from "./JsError";
-import { ResourceError } from "./ResourceError";
-import { CorsError } from "./CorsError";
-import { PromiseError } from "./PromiseError";
 
 // -------- initHttpHandler (XHR And Fetch)----------------
 export const initHttpHandler = (): void => {
@@ -42,15 +38,7 @@ export const handleJs = function (event: any): void {
   if (type === mechanismType.RS) {
     const { src, outerHTML, tagName } = event.target;
 
-    const resourceError = new ResourceError(
-      event.type,
-      src,
-      `GET ${src} net::ERR_CONNECTION_REFUSED`,
-      outerHTML,
-      mechanismType.RS,
-      tagName,
-      getSelector(event.path)
-    )
+    const resourceError = createResourceError(event, src, outerHTML, tagName)
     console.log('resourceError log数据', resourceError)
 
   } else if (type === mechanismType.JS) {
@@ -58,30 +46,13 @@ export const handleJs = function (event: any): void {
     const { message, type, filename, lineno, colno } = event
     const selector = lastEvent ? getSelector((lastEvent as any).path!) : ''
 
-    const jsError = new JsError(
-      message,
-      type,
-      mechanismType.JS,
-      filename,
-      `${lineno}:${colno}`,
-      selector
-    )
+    const jsError = createJsError(message, type, filename, lineno, colno, selector)
     console.log('jsError log数据', jsError)
   } else if (type === mechanismType.CS) {
     let { url, method, params, data } = event.config;
     const { name, message, response, request } = event
 
-    const corsErrorData = new CorsError(
-      mechanismType.CS,
-      name,
-      message,
-      url,
-      method,
-      response.status,
-      response ? JSON.stringify(response) : "",
-      request ? JSON.stringify(request) : "",
-      { query: params, body: data }
-    )
+    const corsErrorData = createCorsError(name, message, url, method, response, request, params, data)
     console.log('CORSError log数据', corsErrorData)
   }
 }
@@ -97,6 +68,7 @@ export const handlePromise = function (event: any): void {
     let line: number = 0;
     let column: number = 0;
     let reason = event.reason;
+
     if (typeof reason === 'string') {
       message = reason;
     } else if (typeof reason === 'object') {
@@ -109,29 +81,12 @@ export const handlePromise = function (event: any): void {
       message = reason.message;
     }
     const selector = lastEvent ? getSelector((lastEvent as any).path) : ''
-    const promiseErrorData = new PromiseError(
-      message,
-      event.type,
-      mechanismType.UJ,
-      filename,
-      `${line}:${column}`,
-      selector
-    )
+    const promiseErrorData = createPromiseError(message, event, filename, line, column, selector)
     console.log('promise log数据', promiseErrorData)
   } else {
     const { config, name, message, response, request } = event.reason
     let { url, method, params, data } = config;
-    const corsErrorData = new CorsError(
-      mechanismType.CS,
-      name,
-      message,
-      url,
-      method,
-      response.status,
-      response || "",
-      request || "",
-      { query: params, body: data }
-    )
+    const corsErrorData = createCorsError(name, message, url, method, response, request, params, data)
     console.log('CORSError log数据', corsErrorData)
   }
 }

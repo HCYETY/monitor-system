@@ -1,4 +1,5 @@
 import { httpMetrics } from "@/type";
+import { calcDuration } from "@/util";
 
 // 调用 proxyFetch 即可完成全局监听 fetch
 export const proxyFetch = (sendHandler: Function | null | undefined, loadHandler: Function) => {
@@ -20,22 +21,12 @@ export const proxyFetch = (sendHandler: Function | null | undefined, loadHandler
         const { status, statusText, url } = response;
         let message: string
 
-        if (status >= 200 && status < 300) {
-          // 正常情况
-          message = 'success'
-        } else if (status === 404) {
-          // Not Found
-          message = 'Request failed with status code 404'
-        } else if (status === 500) {
-          // Internal Server Error
-          message = 'Request failed with status code 500'
-        }
+        setMessageByStatus();
 
         const res = response.clone();
         await setMetrics();
 
-
-        metrics.duration = metrics.responseTime - metrics.requestTime;
+        calcDuration(metrics);
 
         if (typeof loadHandler === 'function') loadHandler(metrics);
 
@@ -43,6 +34,19 @@ export const proxyFetch = (sendHandler: Function | null | undefined, loadHandler
 
 
         return metrics;
+
+        function setMessageByStatus() {
+          if (status >= 200 && status < 300) {
+            // 正常情况
+            message = 'success';
+          } else if (status === 404) {
+            // Not Found
+            message = 'Request failed with status code 404';
+          } else if (status === 500) {
+            // Internal Server Error
+            message = 'Request failed with status code 500';
+          }
+        }
 
         async function setMetrics() {
           metrics = {
@@ -60,15 +64,12 @@ export const proxyFetch = (sendHandler: Function | null | undefined, loadHandler
 
         setErrorMetrics();
 
-        setMetricsDuration();
+        calcDuration(metrics)
 
         console.log('fetch error', metrics);
 
         return metrics
 
-        function setMetricsDuration() {
-          metrics.duration = metrics.responseTime - metrics.requestTime;
-        }
 
         function setErrorMetrics() {
           metrics = {
@@ -104,3 +105,4 @@ export const proxyFetch = (sendHandler: Function | null | undefined, loadHandler
     return 'fetch' in window && typeof window.fetch === 'function';
   }
 };
+

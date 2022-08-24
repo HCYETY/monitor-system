@@ -1,5 +1,9 @@
-import { mechanismType } from "../type";
+import { httpMetrics, mechanismType } from "../type";
 import { AxiosError } from "axios";
+import { ResourceError } from "./ResourceError";
+import { CorsError } from "./CorsError";
+import { JsError } from "./JsError";
+import { PromiseError } from "./PromiseError";
 
 // 判断是 JS异常、静态资源异常、还是跨域异常
 export function getErrorKey(event: ErrorEvent | Event) {
@@ -96,4 +100,56 @@ export function isLoad(callback) {
     } else {
         window.addEventListener('load', callback);
     }
+}
+
+// 计算用时
+export function calcDuration(metrics: httpMetrics) {
+    metrics.duration = metrics.responseTime - metrics.requestTime;
+}
+export function createResourceError(event: any, src: any, outerHTML: any, tagName: any) {
+    return new ResourceError(
+        event.type,
+        src,
+        `GET ${src} net::ERR_CONNECTION_REFUSED`,
+        outerHTML,
+        mechanismType.RS,
+        tagName,
+        getSelector(event.path)
+    );
+}
+
+export function createCorsError(name: any, message: any, url: any, method: any, response: any, request: any, params: any, data: any) {
+    return new CorsError(
+        mechanismType.CS,
+        name,
+        message,
+        url,
+        method,
+        response.status,
+        response ? JSON.stringify(response) : "",
+        request ? JSON.stringify(request) : "",
+        { query: params, body: data }
+    );
+}
+
+export function createJsError(message: any, type: any, filename: any, lineno: any, colno: any, selector: any) {
+    return new JsError(
+        message,
+        type,
+        mechanismType.JS,
+        filename,
+        `${lineno}:${colno}`,
+        selector
+    );
+}
+
+export function createPromiseError(message: string, event: any, filename: string, line: number, column: number, selector: any) {
+    return new PromiseError(
+        message,
+        event.type,
+        mechanismType.UJ,
+        filename,
+        `${line}:${column}`,
+        selector
+    );
 }
