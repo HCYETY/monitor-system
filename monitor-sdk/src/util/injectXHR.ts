@@ -4,7 +4,7 @@ import { httpMetrics } from "@/type";
 export const proxyXmlHttp = (sendHandler: Function | null | undefined, loadHandler: Function) => {
   if (isExistsXMLHttpRequest()) {
 
-    const _XMLHttpRequest = getNewXMLRequest();
+    const _XMLHttpRequest = getNewXMLHttpRequest();
 
     (window as any).XMLHttpRequest = function () {
       const xhr = new _XMLHttpRequest();
@@ -75,7 +75,7 @@ export const proxyXmlHttp = (sendHandler: Function | null | undefined, loadHandl
     };
   }
 
-  function getNewXMLRequest() {
+  function getNewXMLHttpRequest() {
     const _XMLHttpRequest = window.XMLHttpRequest;
     if (!(window as any)._XMLHttpRequest) {
       (window as any)._XMLHttpRequest = _XMLHttpRequest;
