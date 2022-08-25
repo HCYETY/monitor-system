@@ -1,5 +1,9 @@
-import { mechanismType } from "../type";
+import { httpMetrics, mechanismType } from "../type";
 import { AxiosError } from "axios";
+import { ResourceError } from "./ResourceError";
+import { CorsError } from "./CorsError";
+import { JsError } from "./JsError";
+import { PromiseError } from "./PromiseError";
 import sourceMap from 'source-map';
 
 // 判断是 JS异常、静态资源异常、还是跨域异常
@@ -99,43 +103,54 @@ export function isLoad(callback) {
     }
 }
 
-// // 根据行数获取源文件行数
-// export async function getPosition (map, rolno, colno) {
-//     const consumer = await new sourceMap.SourceMapConsumer(map)
-//
-//     const position = consumer.originalPositionFor({
-//         line: rolno,
-//         column: colno
-//     })
-//
-//     position.content = consumer.sourceContentFor(position.source)
-//
-//     return position
-// }
+// 计算用时
+export function calcDuration(metrics: httpMetrics) {
+    metrics.duration = metrics.responseTime - metrics.requestTime;
+}
+export function createResourceError(event: any, src: any, outerHTML: any, tagName: any) {
+    return new ResourceError(
+        event.type,
+        src,
+        `GET ${src} net::ERR_CONNECTION_REFUSED`,
+        outerHTML,
+        mechanismType.RS,
+        tagName,
+        getSelector(event.path)
+    );
+}
 
-// export async function parse(error) {
-//     const mapObj = JSON.parse(getMapFileContent(error.url))
-//     const consumer = await new sourceMap.SourceMapConsumer(mapObj)
-//     // 将 webpack://source-map-demo/./src/index.js 文件中的 ./ 去掉
-//     const sources = mapObj.sources.map(item => format(item))
-//     // 根据压缩后的报错信息得出未压缩前的报错行列数和源码文件
-//     const originalInfo = consumer.originalPositionFor({ line: error.line, column: error.column })
-//     // sourcesContent 中包含了各个文件的未压缩前的源码，根据文件名找出对应的源码
-//     const originalFileContent = mapObj.sourcesContent[sources.indexOf(originalInfo.source)]
-//     return {
-//         file: originalInfo.source,
-//         content: originalFileContent,
-//         line: originalInfo.line,
-//         column: originalInfo.column,
-//         msg: error.msg,
-//         error: error.error
-//     }
-// }
-//
-// function format(item) {
-//     return item.replace(/(\.\/)*/g, '')
-// }
-//
-// // function getMapFileContent(url) {
-// //     return fs.readFileSync(path.resolve(__dirname, `./maps/${url.split('/').pop()}.map`), 'utf-8')
-// // }
+export function createCorsError(name: any, message: any, url: any, method: any, response: any, request: any, params: any, data: any) {
+    return new CorsError(
+        mechanismType.CS,
+        name,
+        message,
+        url,
+        method,
+        response.status,
+        response ? JSON.stringify(response) : "",
+        request ? JSON.stringify(request) : "",
+        { query: params, body: data }
+    );
+}
+
+export function createJsError(message: any, type: any, filename: any, lineno: any, colno: any, selector: any) {
+    return new JsError(
+        message,
+        type,
+        mechanismType.JS,
+        filename,
+        `${lineno}:${colno}`,
+        selector
+    );
+}
+
+export function createPromiseError(message: string, event: any, filename: string, line: number, column: number, selector: any) {
+    return new PromiseError(
+        message,
+        event.type,
+        mechanismType.UJ,
+        filename,
+        `${line}:${column}`,
+        selector
+    );
+}

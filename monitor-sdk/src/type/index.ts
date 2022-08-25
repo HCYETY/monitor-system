@@ -114,3 +114,9 @@ export interface httpMetrics {
     duration?: number
 }
 
+
+// 白屏初始化
+export type BlackScreenDataType = {
+    wrapperElements: string[];
+    emptyPoints: number;
+};

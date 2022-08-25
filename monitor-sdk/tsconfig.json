@@ -34,5 +34,5 @@
   },
   "include": ["./src/**/*.ts"], //被编译的文件目录
   "files": ["src/index.ts"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts", ]  //不希望被编译的文件
+  "exclude": ["node_modules", "dist", "**/*.spec.ts", ]  //不希望被编译的文件
 }

@@ -38,10 +38,10 @@ const commonConfig = {
     //     contentBase: path.resolve(__dirname, 'dist')
     // },
     plugins: [
-        // new HtmlWebpackPlugin({
-        //     template: path.resolve(__dirname, './src/index.html'),
-        //     filename: 'index.html'
-        // }),
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, './src/index.html'),
+            filename: 'index.html'
+        }),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
             filename: "static/css/[name].[hash].css",
