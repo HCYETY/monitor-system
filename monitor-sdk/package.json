@@ -9,7 +9,7 @@
     "build": "webpack --mode=production --node-env=production",
     "dev": "webpack-dev-server",
     "test": "vitest",
-    "build:rollup": "rollup -c rollup.config.js"
+    "build:rollup": "rollup -c rollup.config.js --source"
   },
   "keywords": [
     "前端监控系统",

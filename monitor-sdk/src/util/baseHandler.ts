@@ -38,8 +38,8 @@ export const handleJs = function (event: any): void {
   if (type === mechanismType.RS) {
     const { src, outerHTML, tagName } = event.target;
 
-    const resourceError = createResourceError(event, src, outerHTML, tagName)
-    console.log('resourceError log数据', resourceError)
+    const resourceErrorData = createResourceError(event, src, outerHTML, tagName)
+    console.log('resourceError 数据', resourceErrorData)
 
   } else if (type === mechanismType.JS) {
 
@@ -47,13 +47,13 @@ export const handleJs = function (event: any): void {
     const selector = lastEvent ? getSelector((lastEvent as any).path!) : ''
 
     const jsError = createJsError(message, type, filename, lineno, colno, selector)
-    console.log('jsError log数据', jsError)
+    console.log('jsError 数据', jsError)
   } else if (type === mechanismType.CS) {
     let { url, method, params, data } = event.config;
     const { name, message, response, request } = event
 
     const corsErrorData = createCorsError(name, message, url, method, response, request, params, data)
-    console.log('CORSError log数据', corsErrorData)
+    console.log('CORSError 数据', corsErrorData)
   }
 }
 // ------  promise error  --------

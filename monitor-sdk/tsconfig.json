@@ -12,11 +12,11 @@
     "noImplicitAny": false, //不允许隐式的any类型
     "noImplicitThis": false, //不允许明类型的this
     "alwaysStrict": false, //编译后是否使用严格模式
-    "allowJs": false,  //是否对js文件进行编译 默认是false
+    "allowJs": false, //是否对js文件进行编译 默认是false
     "checkJs": false, //检查js代码是否符合语法规范 默认是false
     "declaration": true,
     "declarationMap": false,
-    "declarationDir": "./dist/types",// 声明文件打包的位置
+    "declarationDir": "./dist/types", // 声明文件打包的位置
     "removeComments": false, //编译成js后是否移除注释
     "noImplicitReturns": true,
     "noEmit": false, //不生成编译后的文件
@@ -28,11 +28,11 @@
     // "rootDir": "./src",
     "paths": {
       "@/*": ["./src/*"]
-    },
+    }
     // "types": ["vitest/global"]
     // "outFile": "./js/main.js" //将代码合并成一个文件,模块化规范需要为amd或者system
   },
   "include": ["./src/**/*.ts"], //被编译的文件目录
   "files": ["src/index.ts"],
-  "exclude": ["node_modules", "dist", "**/*.spec.ts", ]  //不希望被编译的文件
+  "exclude": ["node_modules", "dist", "**/*.spec.ts"] //不希望被编译的文件
 }
