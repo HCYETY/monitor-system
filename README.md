@@ -110,3 +110,26 @@ Project
 
 实现思路
 > 使用 `Navigator.sendBeacon()` 发送请求，后端调用 `co-body` 第三方库解析数据；如果浏览器不支持 `sendBeacon` ，则通过 `new Image()` 设置 `src` 属性发送请求。
+
+
+## 使用
+
+安装：`npm install monitor-system-sdk --save`
+
+```js
+import { init } from 'monitor-system-sdk';
+
+init(initOptions);
+```
+```ts
+interface initOptions {
+    appId?: string;  // 系统id
+    cookie: string; // 用户id
+    reportUrl: string; // 后端url
+    delay?: number; // 延迟和合并上报的功能
+    autoTracker?: boolean; // 自动埋点
+    hashPage: boolean; // 是否为 hash 路由
+    errorReport: boolean;// 是否开启错误监控
+    performanceReport: boolean // 是否开启性能监控
+}
+```
