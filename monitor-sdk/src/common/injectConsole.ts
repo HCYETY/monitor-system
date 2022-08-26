@@ -1,3 +1,4 @@
+import {lazyReport} from "@/common/report";
 
 export default function injectConsole() {
   // ------  console.error  --------
@@ -13,9 +14,9 @@ export default function injectConsole() {
         let firstLine = (mres[0] || "").replace("(", "").replace(")", ""); // 获取到堆栈信息的第一条
 
         // 根据:分隔获取行列
-        let info = firstLine.split(':')
-        row = info[info.length - 2] // 行
-        column = info[info.length - 1] // 列
+        let info = firstLine.split(':');
+        row = +info[info.length - 2]; // 行
+        column = +info[info.length - 1]; // 列
       }
 
       // setTimeout(function () {
@@ -28,6 +29,7 @@ export default function injectConsole() {
         stack // 错误堆栈信息
       }
       console.log('error捕获', opt);
+      lazyReport('/console-error', opt);
       // }, 0);
     }
 

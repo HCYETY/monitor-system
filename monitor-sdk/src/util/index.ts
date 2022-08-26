@@ -4,7 +4,7 @@ import { ResourceError } from "./ResourceError";
 import { CorsError } from "./CorsError";
 import { JsError } from "./JsError";
 import { PromiseError } from "./PromiseError";
-import sourceMap from 'source-map';
+import sourceMap, {SourceMapGenerator} from 'source-map';
 
 // 判断是 JS异常、静态资源异常、还是跨域异常
 export function getErrorKey(event: ErrorEvent | Event) {
@@ -47,9 +47,6 @@ export function getLastEvent() {
 
 // 获取选择器
 export function getSelector(pathsOrTarget: any) {
-    console.log("params", pathsOrTarget);
-
-
     const handleSelector = function (pathArr: any) {
         return pathArr.reverse().filter((element: any) => {
             // 去除 document 和 window
@@ -103,6 +100,20 @@ export function isLoad(callback) {
     }
 }
 
+// 根据行数获取源文件行数
+export async function getPosition (map, lineno, colno) {
+    const consumer = await new sourceMap.SourceMapConsumer(map);
+
+    const position = consumer.originalPositionFor({
+        line: lineno,
+        column: colno
+    })
+
+    // position.content = consumer.sourceContentFor(position.source)
+
+    return position;
+}
+
 // 计算用时
 export function calcDuration(metrics: httpMetrics) {
     metrics.duration = metrics.responseTime - metrics.requestTime;
@@ -132,8 +143,9 @@ export function createCorsError(name: any, message: any, url: any, method: any, 
         { query: params, body: data }
     );
 }
-
 export function createJsError(message: any, type: any, filename: any, lineno: any, colno: any, selector: any) {
+    const obj = getPosition('monitor.cjs.js.map', lineno, colno);
+    console.log('obj', obj);
     return new JsError(
         message,
         type,

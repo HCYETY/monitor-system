@@ -2348,14 +2348,13 @@ minimatch@^3.0.4, minimatch@^3.1.1, minimatch@^3.1.2:
   dependencies:
     brace-expansion "^1.1.7"
 
-monitor-system-sdk@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/monitor-system-sdk/-/monitor-system-sdk-1.0.2.tgz#b0d42aa5c5e3d953652efc23d5872a458fe4491e"
-  integrity sha512-I85eO+YPvTLf/xtSdOThy+M9joUpdEH1TduUZZCFNdhCS8FNUOj3HFOt048j8tzPwV32nmFOdLcA9OuxKineXg==
+"monitor-sdk@file:../..":
+  version "1.0.3"
   dependencies:
     "@babel/preset-env" "^7.18.10"
     "@types/ua-parser-js" "^0.7.36"
     axios "^0.27.2"
+    source-map "^0.7.4"
     ua-parser-js "^1.0.2"
 
 ms@2.1.2:
@@ -2769,6 +2768,11 @@ source-map@^0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
+
+source-map@^0.7.4:
+  version "0.7.4"
+  resolved "https://registry.npmmirror.com/source-map/-/source-map-0.7.4.tgz#a9bbe705c9d8846f4e08ff6765acf0f1b0898656"
+  integrity sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==
 
 sourcemap-codec@^1.4.8:
   version "1.4.8"

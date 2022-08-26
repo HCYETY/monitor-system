@@ -32,7 +32,7 @@
     // "types": ["vitest/global"]
     // "outFile": "./js/main.js" //将代码合并成一个文件,模块化规范需要为amd或者system
   },
-  "include": ["./src/**/*.ts"], //被编译的文件目录
+  "include": ["./src/**/*.ts", "./src/**/*.js"], //被编译的文件目录
   "files": ["src/index.ts"],
   "exclude": ["node_modules", "dist", "**/*.spec.ts", ]  //不希望被编译的文件
 }

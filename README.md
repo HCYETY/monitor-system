@@ -111,7 +111,6 @@ Project
 实现思路
 > 使用 `Navigator.sendBeacon()` 发送请求，后端调用 `co-body` 第三方库解析数据；如果浏览器不支持 `sendBeacon` ，则通过 `new Image()` 设置 `src` 属性发送请求。
 
-
 ## 使用
 
 安装：`npm install monitor-system-sdk --save`
@@ -133,3 +132,22 @@ interface initOptions {
     performanceReport: boolean // 是否开启性能监控
 }
 ```
+
+
+## 测试结果
+
+### 功能测试
+
+1. 异常数据
+- JS 代码执行异常
+- Promise 异常静态
+- 资源加载异常
+- console.error 异常
+- 跨域异常 
+- 接口异常 
+- 白屏异常
+2. 行为数据
+- 用户设备类型，浏览器版本，webview引擎类型
+- 获取页面性能指标
+- 点击事件
+- 路由跳转

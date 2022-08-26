@@ -8,13 +8,16 @@ export default {
     // 2.esm
     {
       format: "cjs",
-      file: pkg.main
+      file: pkg.main,
+      sourcemap: true,
     },
     {
       format: "es",
-      file: pkg.module
-    }
+      file: pkg.module,
+      sourcemap: true,
+    },
   ],
-  sourceMap: true,
-  plugins: [typescript()]
+  plugins: [typescript({
+      sourceMap: true
+  })]
 }

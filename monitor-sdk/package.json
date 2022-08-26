@@ -1,6 +1,6 @@
 {
   "name": "monitor-system-sdk",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "前端监控 SDK",
   "author": "foursheep",
   "main": "lib/monitor.cjs.js",
@@ -9,7 +9,7 @@
     "build": "webpack --mode=production --node-env=production",
     "dev": "webpack-dev-server",
     "test": "vitest",
-    "build:rollup": "rollup -c rollup.config.js"
+    "build:rollup": "rollup -c rollup.config.js --source"
   },
   "keywords": [
     "前端监控系统",

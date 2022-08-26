@@ -3,6 +3,7 @@ import { proxyXmlHttp } from "@/common/injectXHR";
 import { AxiosError } from "axios";
 import { createCorsError, createJsError, createPromiseError, createResourceError, getErrorKey, getLastEvent, getSelector } from ".";
 import { httpMetrics, mechanismType } from "../type";
+import {lazyReport} from "@/common/report";
 
 // -------- initHttpHandler (XHR And Fetch)----------------
 export const initHttpHandler = (): void => {
@@ -38,27 +39,30 @@ export const handleJs = function (event: any): void {
   if (type === mechanismType.RS) {
     const { src, outerHTML, tagName } = event.target;
 
-    const resourceError = createResourceError(event, src, outerHTML, tagName)
-    console.log('resourceError log数据', resourceError)
-
+    const resourceError = createResourceError(event, src, outerHTML, tagName);
+    console.log('resourceError log数据', resourceError);
+    lazyReport('/resource', resourceError);
   } else if (type === mechanismType.JS) {
 
-    const { message, type, filename, lineno, colno } = event
-    const selector = lastEvent ? getSelector((lastEvent as any).path!) : ''
+    const { message, type, filename, lineno, colno } = event;
+    const selector = lastEvent ? getSelector((lastEvent as any).path!) : '';
 
-    const jsError = createJsError(message, type, filename, lineno, colno, selector)
-    console.log('jsError log数据', jsError)
+    const jsError = createJsError(message, type, filename, lineno, colno, selector);
+    console.log('jsError log数据', jsError);
+    lazyReport('/js', jsError);
   } else if (type === mechanismType.CS) {
     let { url, method, params, data } = event.config;
-    const { name, message, response, request } = event
+    const { name, message, response, request } = event;
 
-    const corsErrorData = createCorsError(name, message, url, method, response, request, params, data)
-    console.log('CORSError log数据', corsErrorData)
+    const corsErrorData = createCorsError(name, message, url, method, response, request, params, data);
+    console.log('CORSError log数据', corsErrorData);
+    lazyReport('/cors', corsErrorData);
   }
 }
 // ------  promise error  --------
 export const handlePromise = function (event: any): void {
-  const isCors = event.reason instanceof AxiosError;
+  // const isCors = event.reason instanceof AxiosError;
+  const isCors = event?.reason?.name === 'AxiosError';
   if (!isCors) {
     // 用户最后一个交互事件
     const lastEvent: Event = getLastEvent();
@@ -80,13 +84,15 @@ export const handlePromise = function (event: any): void {
       }
       message = reason.message;
     }
-    const selector = lastEvent ? getSelector((lastEvent as any).path) : ''
-    const promiseErrorData = createPromiseError(message, event, filename, line, column, selector)
-    console.log('promise log数据', promiseErrorData)
+    const selector = lastEvent ? getSelector((lastEvent as any).path) : '';
+    const promiseErrorData = createPromiseError(message, event, filename, line, column, selector);
+    console.log('promise log数据', promiseErrorData);
+    lazyReport('promise', promiseErrorData);
   } else {
-    const { config, name, message, response, request } = event.reason
+    const { config, name, message, response, request } = event.reason;
     let { url, method, params, data } = config;
-    const corsErrorData = createCorsError(name, message, url, method, response, request, params, data)
-    console.log('CORSError log数据', corsErrorData)
+    const corsErrorData = createCorsError(name, message, url, method, response, request, params, data);
+    console.log('CORSError log数据', corsErrorData);
+    lazyReport('/cors', corsErrorData);
   }
 }
