@@ -1,7 +1,7 @@
 import { Context } from 'koa';
-import middleware from '../../../utils/middleware';
+import add from '../../../utils/middleware/add';
 
 export default async(ctx: Context) => {
     const bucket = 'blankScreen';
-    ctx.body = middleware({ bucket, request: ctx.req });
+    ctx.body = add({ bucket, request: ctx.req });
 }
