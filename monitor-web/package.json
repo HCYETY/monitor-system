@@ -20,18 +20,37 @@
     ]
   },
   "dependencies": {
+    "@ant-design/charts": "^1.4.2",
+    "@ant-design/icons": "^4.7.0",
+    "@ant-design/pro-components": "^2.3.4",
     "@ant-design/pro-layout": "^6.38.17",
+    "@craco/craco": "^6.4.5",
+    "@umijs/plugin-qiankun": "^2.40.0",
+    "add": "^2.0.6",
+    "axios": "^0.27.2",
+    "chart.js": "^3.9.1",
+    "qiankun": "^2.8.0",
     "react": "17.x",
     "react-dom": "17.x",
-    "umi": "^3.5.32"
+    "react-tooltip": "^4.2.21",
+    "recharts": "^2.1.14",
+    "tailwind": "^4.0.0",
+    "umi": "^3.5.32",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
+    "@tailwindcss/postcss7-compat": "^2.2.17",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@umijs/preset-react": "1.x",
     "@umijs/test": "^3.5.32",
+    "autoprefixer": "^9",
     "lint-staged": "^10.0.7",
+    "postcss": "^7",
+    "postcss-import": "^15.0.0",
+    "postcss-nested": "^5.0.6",
     "prettier": "^2.2.0",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "typescript": "^4.1.2",
     "yorkie": "^2.0.0"
   }
