@@ -1,9 +1,9 @@
-import { httpMetrics, mechanismType } from "../type";
-import { AxiosError } from "axios";
-import { ResourceError } from "./ResourceError";
-import { CorsError } from "./CorsError";
-import { JsError } from "./JsError";
-import { PromiseError } from "./PromiseError";
+import { httpMetrics, mechanismType } from '../type';
+import { AxiosError } from 'axios';
+import { ResourceError } from './ResourceError';
+import { CorsError } from './CorsError';
+import { JsError } from './JsError';
+import { PromiseError } from './PromiseError';
 import sourceMap, {SourceMapGenerator} from 'source-map';
 
 // 判断是 JS异常、静态资源异常、还是跨域异常
@@ -35,33 +35,43 @@ export function getLastEvent() {
         'keydown',
         'touchstart',
     ].forEach(eventType => {
-        window.addEventListener(eventType, (event) => {
+        window.addEventListener(
+          eventType,
+          (event) => {
             lastEvent = event;
-        }, {
-            capture: true,
-            passive: true // 默认不阻止默认事件
-        });
+          },
+          {
+              capture: true,
+              passive: true // 默认不阻止默认事件
+          }
+      );
     })
     return lastEvent;
 }
 
 // 获取选择器
 export function getSelector(pathsOrTarget: any) {
-    const handleSelector = function (pathArr: any) {
-        return pathArr.reverse().filter((element: any) => {
-            // 去除 document 和 window
-            return element !== document && element !== window;
-        }).map((element: any) => {
-            const { id, className, tagName } = element;
-            if (id) {
-                return `${tagName.toLowerCase()}#${id}`;
-            } else if (className && typeof className === 'string') {
-                return `${tagName.toLowerCase()}.${className}`;
-            } else {
-                return tagName.toLowerCase();
-            }
-        }).join(' ');
-    }
+  console.log('params', pathsOrTarget)
+
+  const handleSelector = function (pathArr: any) {
+    return pathArr
+      .reverse()
+      .filter((element: any) => {
+        // 去除 document 和 window
+        return element !== document && element !== window;
+      })
+      .map((element: any) => {
+        const { id, className, tagName } = element;
+        if (id) {
+          return `${tagName.toLowerCase()}#${id}`;
+        } else if (className && typeof className === 'string') {
+          return `${tagName.toLowerCase()}.${className}`;
+        } else {
+          return tagName.toLowerCase();
+        }
+      })
+      .join(' ');
+  }
 
     if (Array.isArray(pathsOrTarget)) {
         return handleSelector(pathsOrTarget);
@@ -100,7 +110,7 @@ export function isLoad(callback) {
     }
 }
 
-// 根据行数获取源文件行数
+// 根据行数获取源文件行数 todo
 export async function getPosition (map, lineno, colno) {
     const consumer = await new sourceMap.SourceMapConsumer(map);
 
@@ -130,39 +140,65 @@ export function createResourceError(event: any, src: any, outerHTML: any, tagNam
     );
 }
 
-export function createCorsError(name: any, message: any, url: any, method: any, response: any, request: any, params: any, data: any) {
-    return new CorsError(
-        mechanismType.CS,
-        name,
-        message,
-        url,
-        method,
-        response.status,
-        response ? JSON.stringify(response) : "",
-        request ? JSON.stringify(request) : "",
-        { query: params, body: data }
-    );
-}
-export function createJsError(message: any, type: any, filename: any, lineno: any, colno: any, selector: any) {
-    const obj = getPosition('monitor.cjs.js.map', lineno, colno);
-    console.log('obj', obj);
-    return new JsError(
-        message,
-        type,
-        mechanismType.JS,
-        filename,
-        `${lineno}:${colno}`,
-        selector
-    );
+export function createCorsError(
+  name: string,
+  message: string,
+  url: string,
+  method: string,
+  response: any,
+  request: any,
+  params: any,
+  data: any
+) {
+  return new CorsError(
+    mechanismType.CS,
+    name,
+    message,
+    url,
+    method,
+    response.status,
+    response ? JSON.stringify(response) : '',
+    request ? JSON.stringify(request) : '',
+    { query: params, body: data }
+  )
 }
 
-export function createPromiseError(message: string, event: any, filename: string, line: number, column: number, selector: any) {
-    return new PromiseError(
-        message,
-        event.type,
-        mechanismType.UJ,
-        filename,
-        `${line}:${column}`,
-        selector
-    );
+export function createJsError(
+  message: any,
+  type: any,
+  filename: any,
+  lineno: any,
+  colno: any,
+  selector: any
+) {
+  // todo sourceMap
+  const obj = getPosition('monitor.cjs.js.map', lineno, colno);
+  console.log('obj', obj);
+
+  return new JsError(
+    message,
+    type,
+    mechanismType.JS,
+    filename,
+    `${lineno}:${colno}`,
+    selector
+  );
+}
+
+export function createPromiseError(
+  message: string,
+  event: any,
+  filename: string,
+  line: number,
+  column: number,
+  selector: any
+) {
+  return new PromiseError(
+    message,
+    event.type,
+    mechanismType.UJ,
+    filename,
+    `${line}:${column}`,
+    selector
+  )
 }

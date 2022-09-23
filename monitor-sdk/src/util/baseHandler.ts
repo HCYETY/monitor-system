@@ -3,7 +3,7 @@ import { proxyXmlHttp } from "@/common/injectXHR";
 import { AxiosError } from "axios";
 import { createCorsError, createJsError, createPromiseError, createResourceError, getErrorKey, getLastEvent, getSelector } from ".";
 import { httpMetrics, mechanismType } from "../type";
-import {lazyReport} from "@/common/report";
+import { lazyReport } from "@/common/report";
 
 // -------- initHttpHandler (XHR And Fetch)----------------
 export const initHttpHandler = (): void => {
@@ -54,9 +54,8 @@ export const handleJs = function (event: any): void {
     let { url, method, params, data } = event.config;
     const { name, message, response, request } = event;
 
-    const corsErrorData = createCorsError(name, message, url, method, response, request, params, data);
-    console.log('CORSError log数据', corsErrorData);
-    lazyReport('/cors', corsErrorData);
+    const corsErrorData = createCorsError(name, message, url, method, response, request, params, data)
+    console.log('CORSError log数据', corsErrorData)
   }
 }
 // ------  promise error  --------
