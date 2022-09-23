@@ -28,7 +28,7 @@ const commonConfig = {
     context: process.cwd(),
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'monitor.js',
+        filename: 'monitor.Error',
         environment: {
             arrowFunction: false
         },
@@ -111,7 +111,7 @@ const commonConfig = {
         alias: {
             '@': path.resolve(__dirname, './src'),
             // 'api': path.resolve(__dirname, './src/api'),
-            // 'common': path.resolve(__dirname, './src/common'),
+            // 'monitor': path.resolve(__dirname, './src/monitor'),
             // 'pages': path.resolve(__dirname, './src/pages'),
             // 'type': path.resolve(__dirname, './src/type'),
         },

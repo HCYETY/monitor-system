@@ -1,10 +1,10 @@
 // import { autoTrackerReport } from './actionTracker';
 // import { hashPageTrackerReport, historyPageTrackerReport } from './pageTracker';
-import { errorCatch } from './errorTrack';
-import { initOptions } from "../type";
-import { hashPageTrack, historyPageTrack } from "../common/pageTrack";
-import { getPerformance } from "../common/performanceTrack";
-import { blankScreen } from "../common/blankScreen";
+import { errorCatch } from '../handle/errorTrack';
+import { initOptions } from "../../type/index";
+import { hashPageTrack, historyPageTrack } from "../handle/pageTrack";
+import { getPerformance } from "../handle/performanceTrack";
+import { blankScreen } from "../handle/baseHandler";
 
 /**
  * 加载配置

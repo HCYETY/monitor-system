@@ -1,10 +1,10 @@
-import { httpMetrics, mechanismType } from '../type';
 import { AxiosError } from 'axios';
-import { ResourceError } from './ResourceError';
-import { CorsError } from './CorsError';
-import { JsError } from './JsError';
-import { PromiseError } from './PromiseError';
 import sourceMap, {SourceMapGenerator} from 'source-map';
+import { httpMetrics, mechanismType } from '@/type';
+import { ResourceError } from '@/monitor/class/ResourceError';
+import { CorsError } from '@/monitor/class/CorsError';
+import { JsError } from '@/monitor/class/JsError';
+import { PromiseError } from '@/monitor/class/PromiseError';
 
 // 判断是 JS异常、静态资源异常、还是跨域异常
 export function getErrorKey(event: ErrorEvent | Event) {
@@ -110,36 +110,65 @@ export function isLoad(callback) {
     }
 }
 
-// 根据行数获取源文件行数 todo
-export async function getPosition (map, lineno, colno) {
-    const consumer = await new sourceMap.SourceMapConsumer(map);
-
-    const position = consumer.originalPositionFor({
-        line: lineno,
-        column: colno
-    })
-
-    // position.content = consumer.sourceContentFor(position.source)
-
-    return position;
-}
-
 // 计算用时
 export function calcDuration(metrics: httpMetrics) {
     metrics.duration = metrics.responseTime - metrics.requestTime;
 }
-export function createResourceError(event: any, src: any, outerHTML: any, tagName: any) {
-    return new ResourceError(
-        event.type,
-        src,
-        `GET ${src} net::ERR_CONNECTION_REFUSED`,
-        outerHTML,
-        mechanismType.RS,
-        tagName,
-        getSelector(event.path)
-    );
+
+
+
+
+// 根据行数获取源文件行数 todo
+// export async function getPosition (map, lineno, colno) {
+//     const consumer = await new sourceMap.SourceMapConsumer(map);
+//
+//     const position = consumer.originalPositionFor({
+//         line: lineno,
+//         column: colno
+//     })
+//
+//     // position.content = consumer.sourceContentFor(position.source)
+//
+//     return position;
+// }
+
+// 创建 js error 对象
+export function createJsError(
+  message: any,
+  type: any,
+  filename: any,
+  lineno: any,
+  colno: any,
+  selector: any
+) {
+  // todo sourceMap
+  // const obj = getPosition('monitor.cjs.js.map', lineno, colno);
+  // console.log('obj', obj);
+
+  return new JsError(
+    message,
+    type,
+    mechanismType.JS,
+    filename,
+    `${lineno}:${colno}`,
+    selector
+  );
 }
 
+// 创建 resource error 对象
+export function createResourceError(event: any, src: string, outerHTML: any, tagName: any) {
+  return new ResourceError(
+    event.type,
+    src,
+    `GET ${src} net::ERR_CONNECTION_REFUSED`,
+    outerHTML,
+    mechanismType.RS,
+    tagName,
+    getSelector(event.path)
+  );
+}
+
+// 创建 cors error 对象
 export function createCorsError(
   name: string,
   message: string,
@@ -163,28 +192,7 @@ export function createCorsError(
   )
 }
 
-export function createJsError(
-  message: any,
-  type: any,
-  filename: any,
-  lineno: any,
-  colno: any,
-  selector: any
-) {
-  // todo sourceMap
-  const obj = getPosition('monitor.cjs.js.map', lineno, colno);
-  console.log('obj', obj);
-
-  return new JsError(
-    message,
-    type,
-    mechanismType.JS,
-    filename,
-    `${lineno}:${colno}`,
-    selector
-  );
-}
-
+// 创建 promise error 对象
 export function createPromiseError(
   message: string,
   event: any,

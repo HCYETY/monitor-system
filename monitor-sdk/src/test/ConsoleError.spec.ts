@@ -1,4 +1,4 @@
-import { ConsoleError } from './../util/ConsoleError'
+import { ConsoleError } from '../monitor/class/ConsoleError'
 import { describe, expect, it } from 'vitest'
 describe('JsError', () => {
   it('happy path', () => {

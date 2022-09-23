@@ -1,6 +1,6 @@
 // 监听页面
-import {routeType} from "../type";
-import {lazyReport} from "../common/report";
+import {routeType} from "../../type/index";
+import { lazyReport } from "@/monitor/report/index";
 
 // 重写 pushState 和 replaceState 方法
 const createHistoryEvent = function (name) {

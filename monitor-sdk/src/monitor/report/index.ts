@@ -1,4 +1,4 @@
-import { addCache, getCache, clearCache } from "./cache";
+import { addCache, getCache, clearCache } from "../handle/cache";
 
 let timer = null;
 
@@ -23,11 +23,11 @@ export function lazyReport(interfaceUrl: string, param): void {
     // let data = JSON.stringify(param);
 
     // if (delay === 0) {
-        return report(interfaceUrl, logParams);
+        return index(interfaceUrl, logParams);
     // }
 
       // if (data.length > 10) {
-      //   report(interfaceUrl, data);
+      //   index(interfaceUrl, data);
       //   clearTimeout(timer);
       //   return;
       // }
@@ -35,11 +35,11 @@ export function lazyReport(interfaceUrl: string, param): void {
     // clearTimeout(timer);
     //
     // timer = setTimeout(() => {
-    //     report(interfaceUrl, logParams);
+    //     index(interfaceUrl, logParams);
     // }, delay);
 }
 
-export function report(interfaceUrl: string, data: object): void {
+export function index(interfaceUrl: string, data: object): void {
   const url = window['_monitor_report_url_'];
 
   // ------- fetch方式上报 -------

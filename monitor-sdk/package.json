@@ -6,10 +6,10 @@
   "main": "lib/monitor.cjs.js",
   "module": "lib/monitor.esm.js",
   "scripts": {
-    "build": "webpack --mode=production --node-env=production",
     "dev": "webpack-dev-server",
-    "test": "vitest",
-    "build:rollup": "rollup -c rollup.config.js --source"
+    "build": "webpack --mode=production --node-env=production",
+    "build:rollup": "rollup -c rollup.config.js --source",
+    "test": "vitest"
   },
   "keywords": [
     "前端监控系统",

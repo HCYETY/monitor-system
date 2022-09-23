@@ -102,7 +102,7 @@
 // promiseError 接口
 /**
  * @swagger
- * /report/promise:
+ * /index/promise:
  *   post:
  *     description: sdk 向服务器上报 promise 异常数据
  *     tags: [promise 异常模块]
@@ -203,7 +203,7 @@
 // console.error 接口
 /**
  * @swagger
- * /report/console-error:
+ * /index/console-error:
  *   post:
  *     description: sdk 向服务器上报 console.error 异常数据
  *     tags: [console.error 异常模块]

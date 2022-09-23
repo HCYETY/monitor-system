@@ -1,4 +1,4 @@
-import { JsError } from './../util/JsError'
+import { JsError } from '../monitor/class/JsError'
 import { describe, expect, it } from 'vitest'
 describe('JsError', () => {
   it('happy path', () => {

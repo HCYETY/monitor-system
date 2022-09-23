@@ -10,7 +10,7 @@ module.exports = [
         database: database, // 数据库名
         logging: false, // 是否有日志
         synchronize: true, // 是否自动建表
-        entities: [__dirname + '/src/entity/*{.ts,.js}'], // entity/model存放位置
+        entities: [__dirname + '/src/entity/*{.ts,.Error}'], // entity/model存放位置
         timezone: 'z', // 以本地时区时间为主
         dateStrings: 'TIMESTAMP'
     }

@@ -1,7 +1,7 @@
-import { metricsName, PageInformation, performanceType, userAgent } from "../type";
+import { metricsName, PageInformation, performanceType, userAgent } from "../../type/index";
 import parser from 'ua-parser-js';
 import bowser from 'bowser';
-import {lazyReport} from "@/common/report";
+import { lazyReport } from "@/monitor/report/index";
 
 export function getPerformance(): void {
     console.log('%c%s', 'font-size: 24px; color: green', '开始监控网页性能');

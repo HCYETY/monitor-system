@@ -48,7 +48,7 @@ import register from './routes/user/register';
 import forget from './routes/user/forget';
 import logout from './routes/user/logout';
 
-// js 异常
+// Error 异常
 import addJs from './routes/error/js/add';
 import findJs from './routes/error/js/find';
 // promise 异常
@@ -113,7 +113,7 @@ createConnections ()
         // router.post('/api/forget_password', forget);
         // router.post('/api/logout', logout);
 
-        // js 异常
+        // Error 异常
         router.post('/report/js', addJs);
         router.get('/api/js', findJs);
 

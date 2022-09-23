@@ -1,4 +1,4 @@
-import { PromiseError } from './../util/PromiseError'
+import { PromiseError } from '../monitor/class/PromiseError'
 import { describe, expect, it } from 'vitest'
 describe('JsError', () => {
   it('happy path', () => {
