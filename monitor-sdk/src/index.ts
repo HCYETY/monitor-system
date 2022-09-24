@@ -1,10 +1,10 @@
-import { loadConfig } from './monitor/load/loadConfig'
-import { historyPageTrack, hashPageTrack } from './monitor/handle/pageTrack'
-import { errorCatch } from './monitor/handle/errorTrack'
-import { getPerformance } from './monitor/handle/performanceTrack'
-import { initOptions } from './type'
-import { lazyReport, index } from './monitor/report';
-import { getCache } from './monitor/handle/cache';
+import { loadConfig } from '@monitor/load/loadConfig';
+import { historyPageTrack, hashPageTrack } from '@monitor/handle/pageTrack';
+import { errorCatch } from '@monitor/handle/errorTrack';
+import { getPerformance } from '@monitor/handle/performance';
+import { initOptions } from '@type';
+import { lazyReport, index } from '@monitor/report';
+import { getCache } from '@monitor/handle/cache';
 
 /**
  * 初始化配置
@@ -29,6 +29,7 @@ function init(options: initOptions) {
   //     }
   // });
 }
-errorCatch();
+// errorCatch();
+getPerformance();
 
 export { init, errorCatch };

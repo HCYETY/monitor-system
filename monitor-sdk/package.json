@@ -3,10 +3,9 @@
   "version": "1.0.3",
   "description": "前端监控 SDK",
   "author": "foursheep",
-  "main": "lib/monitor.cjs.js",
-  "module": "lib/monitor.esm.js",
+  "main": "./src/index.ts",
   "scripts": {
-    "dev": "webpack-dev-server",
+    "dev": "webpack-dev-server --config webpack.config.js",
     "build": "webpack --mode=production --node-env=production",
     "build:rollup": "rollup -c rollup.config.js --source",
     "test": "vitest"
@@ -35,6 +34,7 @@
     "css-loader": "^6.7.1",
     "cssnano": "^5.1.12",
     "file-loader": "^6.2.0",
+    "fs": "^0.0.1-security",
     "html-webpack-plugin": "^5.5.0",
     "http-proxy-middleware": "^2.0.6",
     "less": "^4.1.3",

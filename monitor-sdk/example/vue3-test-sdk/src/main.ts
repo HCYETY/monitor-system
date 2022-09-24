@@ -1,7 +1,6 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import { init, errorCatch, } from "monitor-sdk";
-// import { init } from "monitor-system-sdk";
+import { init, errorCatch, } from "monitor-system-sdk";
 import router from "./router";
 // import "./assets/main.css";
 

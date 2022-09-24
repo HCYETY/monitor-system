@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {
@@ -28,15 +29,21 @@ const commonConfig = {
     context: process.cwd(),
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'monitor.Error',
+        filename: 'monitor.js',
         environment: {
             arrowFunction: false
         },
     },
-    devtool: "source-map",
-    // devServer: {
-    //     contentBase: path.resolve(__dirname, 'dist')
-    // },
+    devtool: isProduction ? "source-map" : "cheap-module-source-map",
+    devServer: {
+      static: path.join(__dirname, 'dist'),
+      compress: true,
+      port: 3000,
+      hot: true,
+      // open: true,
+      // progress: true,
+      historyApiFallback: true
+    },
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, './src/index.html'),
@@ -46,6 +53,7 @@ const commonConfig = {
         new MiniCssExtractPlugin({
             filename: "static/css/[name].[hash].css",
         }),
+        new webpack.HotModuleReplacementPlugin(),
         // new WebpackDeepScopeAnalysisPlugin(),
     ],
     module: {
@@ -106,15 +114,18 @@ const commonConfig = {
         }]
     },
     resolve: {
-        extensions: ['.ts', '.js'],
+        extensions: ['.ts', '.js', '.tsx', '.jsx', '.json'],
         // mainFiles: ['index.ts', 'index'],
         alias: {
             '@': path.resolve(__dirname, './src'),
-            // 'api': path.resolve(__dirname, './src/api'),
-            // 'monitor': path.resolve(__dirname, './src/monitor'),
-            // 'pages': path.resolve(__dirname, './src/pages'),
-            // 'type': path.resolve(__dirname, './src/type'),
+            '@config': path.resolve(__dirname, './src/config'),
+            '@monitor': path.resolve(__dirname, './src/monitor'),
+            '@type': path.resolve(__dirname, './src/type'),
+            '@util': path.resolve(__dirname, './src/util'),
         },
+    },
+    externals: {
+      fs: require('fs')
     }
 };
 

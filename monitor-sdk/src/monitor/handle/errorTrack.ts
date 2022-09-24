@@ -1,4 +1,4 @@
-import { handleJs, handlePromise, initHttpHandler, injectConsole } from './baseHandler';
+import { handleJs, handlePromise, initHttpHandler, injectConsole } from '@monitor/handle/baseHandler';
 
 export function errorCatch() {
   console.log('%c%s', 'font-size: 24px; color: red', '开始监控网页报错');

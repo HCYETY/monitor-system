@@ -11,10 +11,10 @@ import {
   getLastEvent,
   getSelector,
   isLoad
-} from "../../util/index";
+} from "@util/index";
 import { BlackScreenDataType as initData, httpMetrics, mechanismType } from "../../type/index";
-import { lazyReport } from "@/monitor/report/index";
-import { ConsoleError } from "@/monitor/class/ConsoleError";
+import { lazyReport } from "@monitor/report/index";
+import { ConsoleError } from "@monitor/class/ConsoleError";
 
 // --------  Error error / resource error / script error ---------
 export const handleJs = function (event: any): void {
@@ -31,21 +31,22 @@ export const handleJs = function (event: any): void {
 
     const resourceError = createResourceError(event, src, outerHTML, tagName);
     console.log('resourceError log数据', resourceError);
-    lazyReport('/resource', resourceError);
+    lazyReport('/resource-error', resourceError);
   } else if (type === mechanismType.JS) {
 
     const { message, type, filename, lineno, colno } = event;
     const selector = lastEvent ? getSelector((lastEvent as any).path!) : '';
 
     const jsError = createJsError(message, type, filename, lineno, colno, selector);
-    console.log('jsError log数据', jsError);
-    lazyReport('/Error', jsError);
+    console.log('jsError log数据dddddd', jsError);
+    lazyReport('/js-error', jsError);
   } else if (type === mechanismType.CS) {
     let { url, method, params, data } = event.config;
     const { name, message, response, request } = event;
 
     const corsErrorData = createCorsError(name, message, url, method, response, request, params, data)
     console.log('CORSError log数据', corsErrorData)
+    lazyReport('/cors-error', corsErrorData);
   }
 }
 // ------  promise error  --------
@@ -76,13 +77,13 @@ export const handlePromise = function (event: any): void {
     const selector = lastEvent ? getSelector((lastEvent as any).path) : '';
     const promiseErrorData = createPromiseError(message, event, filename, line, column, selector);
     console.log('promise log数据', promiseErrorData);
-    lazyReport('promise', promiseErrorData);
+    lazyReport('/promise-error', promiseErrorData);
   } else {
     const { config, name, message, response, request } = event.reason;
     let { url, method, params, data } = config;
     const corsErrorData = createCorsError(name, message, url, method, response, request, params, data);
     console.log('CORSError log数据', corsErrorData);
-    lazyReport('/cors', corsErrorData);
+    lazyReport('/cors-error', corsErrorData);
   }
 }
 // ------  console.error  --------
@@ -282,7 +283,7 @@ const proxyXmlHttp = (sendHandler: Function | null | undefined, loadHandler: Fun
         if (typeof loadHandler === 'function') loadHandler(metrics);
         // xhr.status 状态码
         console.log('xhr', metrics);
-        lazyReport('/interface', metrics);
+        lazyReport('/interface-error', metrics);
 
         function setMetrics(status: number, statusText: string, message: string, responseTime: number, response?: Date) {
           metrics = {
@@ -395,7 +396,7 @@ export const blankScreen = (): void => {
       }
       console.log('%c%s', 'color: orange', 'log', log);
       // 上报
-      lazyReport('/blankScreen', log);
+      lazyReport('/blank-screen-error', log);
     } else {
       console.log('%c%s', 'color: orange', '白屏监控之空白点数量：', emptyPoints);
     }

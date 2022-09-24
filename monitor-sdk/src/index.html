@@ -12,7 +12,7 @@
 <body>
     <div class='whole'>
         <div class="left">
-            <strong>异常数据</strong>
+            <h1>异常数据</h1>
 
             <h2>前端异常</h2>
             <button class='hello' onclick="bugJs()">JS 代码执行异常</button>
@@ -30,12 +30,16 @@
             <button onclick="bugInterface5()">5xx 服务器异常</button>
             <button onclick="bugPowerless()">权限不足</button>
 
-            <h1>白屏异常</h1>
+            <h2>白屏异常</h2>
             <button type="info" onclick="bugWhiteScreen()">白屏异常</button>
         </div>
 
+        <br>
+        <hr>
+        <br>
+
         <div class="right">
-            <strong>行为数据</strong><br>
+            <h1>行为数据</h1><br>
             <button type="success" onclick="getPerform()">获取性能数据</button>
             <button type="success" onclick="getClickInform()">点击事件</button>
             <button type="warning">
@@ -44,6 +48,7 @@
             <button onclick="getPv()">PV、UV</button>
             <button type="info" onclick="bugHttp()">HTTP 请求监控</button>
             <button type="success" onclick="getUserAgentInform()">用户设备类型，浏览器版本，webview引擎类型</button>
+            <button id="pian" onclick='pianyi()'>布局偏移</button>
         </div>
 
         <br>
@@ -62,7 +67,11 @@
     <script>
         // ========================制造bug=============================
         // import { getUserAgent } from "@/monitor";
-        console.log(1);
+        const pianyi = () => {
+            console.log(1);
+            document.body.style.margin='100px';
+
+        }
 
         // const getPerform = function () {
         //     getPerformanceTiming();

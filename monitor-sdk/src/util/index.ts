@@ -1,10 +1,12 @@
 import { AxiosError } from 'axios';
-import sourceMap, {SourceMapGenerator} from 'source-map';
-import { httpMetrics, mechanismType } from '@/type';
-import { ResourceError } from '@/monitor/class/ResourceError';
-import { CorsError } from '@/monitor/class/CorsError';
-import { JsError } from '@/monitor/class/JsError';
-import { PromiseError } from '@/monitor/class/PromiseError';
+import sourceMap from 'source-map';
+import { httpMetrics, mechanismType } from '@type';
+import { ResourceError } from '@monitor/class/ResourceError';
+import { CorsError } from '@monitor/class/CorsError';
+import { JsError } from '@monitor/class/JsError';
+import { PromiseError } from '@monitor/class/PromiseError';
+import { sourcemap } from '@/sourcemap.js';
+import axios from 'axios';
 
 // 判断是 JS异常、静态资源异常、还是跨域异常
 export function getErrorKey(event: ErrorEvent | Event) {
@@ -117,20 +119,41 @@ export function calcDuration(metrics: httpMetrics) {
 
 
 
+const LoadSourceMap = (url) => axios.get(url)
 
 // 根据行数获取源文件行数 todo
-// export async function getPosition (map, lineno, colno) {
-//     const consumer = await new sourceMap.SourceMapConsumer(map);
-//
-//     const position = consumer.originalPositionFor({
-//         line: lineno,
-//         column: colno
-//     })
-//
-//     // position.content = consumer.sourceContentFor(position.source)
-//
-//     return position;
-// }
+export async function getPosition (lineno, colno) {
+  // console.log('@@@@@', sourcemap)
+  // var sourceMap = require('source-map');
+  // var rawSourceMap = require(sourcemap);
+  // sourceMap.SourceMapConsumer.with(rawSourceMap, null, consumer => {
+  //   console.log("originalPositionFor: ", "\n", consumer.originalPositionFor({     source: "./",     line: 10,     column: 74647   }));
+  // });
+  //
+  // const sourceData = await LoadSourceMap("monitor.js.map")
+  // const fileContent = sourceData.data;
+  //
+  // const consumer = await new sourceMap.SourceMapConsumer(fileContent);
+  //
+  // const position = consumer.originalPositionFor({
+  //   line: lineno,
+  //   column: colno
+  // })
+  //
+  // console.log('@@源文件及错误行和列', position);
+  //
+  // // if (!position.source) return;
+  //
+  // // position.content = consumer.sourceContentFor(position.source)
+  //
+  // const co = consumer.sourceContentFor(position.source);
+  // // co 包含了源文件所有的源码
+  // const coList = co.split("\n");
+  // // 按需取行即可
+  // console.log('coList', coList)
+  //
+  // return position;
+}
 
 // 创建 js error 对象
 export function createJsError(
@@ -142,8 +165,8 @@ export function createJsError(
   selector: any
 ) {
   // todo sourceMap
-  // const obj = getPosition('monitor.cjs.js.map', lineno, colno);
-  // console.log('obj', obj);
+  const obj = getPosition(lineno, colno);
+  console.log('obj', obj);
 
   return new JsError(
     message,

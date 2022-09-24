@@ -2348,7 +2348,7 @@ minimatch@^3.0.4, minimatch@^3.1.1, minimatch@^3.1.2:
   dependencies:
     brace-expansion "^1.1.7"
 
-"monitor-sdk@file:../..":
+"monitor-system-sdk@file:../..":
   version "1.0.3"
   dependencies:
     "@babel/preset-env" "^7.18.10"

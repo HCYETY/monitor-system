@@ -1,20 +1,14 @@
-# 功能
+## Why
 
-- [x] 监控 JavaScript 异常 
-- [x] 监控 Promise 异常
-- [x] 监控 console.error 异常
-- [x] 监控 resource 异常
-- [x] 监控跨域异常
-- [x] 监控白屏异常
-- [x] 监控接口异常
-- [x] 监控页面路由跳转
-- [x] 监控页面性能
-- [x] 监控网站信息
-- [x] 监控用户行为
+## Install
 
-# 使用
+```shell
+npm i monitor-system-sdk --save
+```
 
-安装：`npm install monitor-system-sdk --save`
+## Usage
+
+in index.js
 
 ```js
 import { init } from 'monitor-system-sdk';
@@ -33,3 +27,17 @@ interface initOptions {
     performanceReport: boolean // 是否开启性能监控
 }
 ```
+
+# Function
+
+- [x] 监控 JavaScript 异常 
+- [x] 监控 Promise 异常
+- [x] 监控 console.error 异常
+- [x] 监控 resource 异常
+- [x] 监控跨域异常
+- [x] 监控白屏异常
+- [x] 监控接口异常
+- [x] 监控页面路由跳转
+- [x] 监控页面性能
+- [x] 监控网站信息
+- [x] 监控用户行为
