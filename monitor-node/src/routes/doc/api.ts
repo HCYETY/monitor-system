@@ -102,7 +102,7 @@
 // promiseError 接口
 /**
  * @swagger
- * /index/promise:
+ * /index/promise-error:
  *   post:
  *     description: sdk 向服务器上报 promise 异常数据
  *     tags: [promise 异常模块]
@@ -161,7 +161,7 @@
  */
 /**
  * @swagger
- * /api/promise:
+ * /api/promise-error?time=-30d:
  *   get:
  *     description: web 管理端向服务器请求 promise 异常数据
  *     tags: [promise 异常模块]

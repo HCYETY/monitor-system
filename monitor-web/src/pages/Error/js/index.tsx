@@ -16,10 +16,12 @@ import { Button, Tooltip, Space, Table , Select, Tag, } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import type { CustomTagProps } from 'rc-select/lib/BaseSelect';
 
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import {createColor} from "@/util";
+import {findJsError} from "@/api/modules/error";
+import {useRequest} from "@@/plugin-request/request";
 
-
+import axios from 'axios';
 
 const valueEnum = {
   0: 'unsolved',
@@ -149,10 +151,10 @@ const columns: ProColumns<TableListItem>[] = [
         {
           options.map((item, index) => {
             return (
-              <Option key={index}>
+              <Select.Option key={index}>
                 <Tag color={createColor()}>{item.substring(0, 1)}</Tag>
                 {item}
-              </Option>
+              </Select.Option>
             )
           })
         }
@@ -233,6 +235,24 @@ const versionAnalysis = (
 )
 
 export default () => {
+  let arr: any[] = [];
+  // const { data, error, loading } = useRequest((services) => {
+  //   return services.getUserList('/error/js');
+  // });
+
+  useEffect(() => {
+
+    findJsError().then(res => {
+
+      console.log('res', res)
+    })
+    // arr = [...res.data.response];
+    axios.get('/error/js').then((res) => {
+      console.log('jserror', res)
+    })
+    console.log('arr', arr)
+  })
+
 
   return (
     <PageHeaderWrapper>

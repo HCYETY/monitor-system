@@ -1,49 +1,29 @@
 // 获取页面基本性能数据
-import { performanceType } from "@type/index";
-import {EntryTypes, getBasicParams, PerformanceInfoType} from "@config/constant";
+import { EntryTypes, getBasicParams, PerformanceInfoType } from "@config/constant";
+import { performanceIndicatorObj } from "@monitor/handle/performance/index";
 
-export interface basicIndicatorObj {
-  FP: object,
-  FCP: object,
-  LCP: object,
-  FID: number,
-  CLS: number,
-};
-
-export interface PerformanceLayoutShift extends PerformanceEntry {
+interface PerformanceLayoutShift extends PerformanceEntry {
   value: number;
   hadRecentInput: boolean;
 }
 
-export function getBasicIndicator() {
-
-  let basicIndicator: basicIndicatorObj = {
-    FP: {},
-    FCP: {},
-    LCP: {},
-    FID: 0,
-    CLS: 0,
-  };
-
+export function getBasicIndicator(performanceIndicator: performanceIndicatorObj) {
   // 获取 FP 、 FCP 、 LCP 、 CLS 的函数
-  const getFpOrFcp = (type: string, entriesByName?: string) => {
+  function getSimpleIndicator (type: string, entriesByName?: string) {
     let isLCPDone = false;
     let clsScore = 0;
 
     const callback = (entryList: PerformanceObserverEntryList) => {
       if (typeof entriesByName === 'string') {
         for (const entry of entryList.getEntriesByName(entriesByName)) {
-          const indicator = {
-            ...getBasicParams,
-            value: entry.startTime
-          };
+          const indicator = entry.startTime;
 
           if (entriesByName === PerformanceInfoType.FP) {
-            basicIndicator.FP = indicator;
+            performanceIndicator.FP = indicator;
           } else if (entriesByName === PerformanceInfoType.FCP) {
-            basicIndicator.FCP = indicator;
+            performanceIndicator.FCP = indicator;
           } else if (entriesByName === '') {
-            basicIndicator.LCP = indicator;
+            performanceIndicator.LCP = indicator;
             isLCPDone = true;
           }
 
@@ -53,14 +33,11 @@ export function getBasicIndicator() {
         for (const entry of entries) {
           if (!entry.hadRecentInput) {
             clsScore += entry.value;
-            basicIndicator.CLS = clsScore;
+            performanceIndicator.CLS = clsScore;
             console.log('cls增加了')
           }
         }
       }
-
-      // 上报数据，注意上报的时机
-      console.log('basicIndicator', basicIndicator);
       observer.disconnect();
     }
 
@@ -69,26 +46,24 @@ export function getBasicIndicator() {
   }
 
   // FP
-  getFpOrFcp(EntryTypes.paint, PerformanceInfoType.FP);
+  getSimpleIndicator(EntryTypes.paint, PerformanceInfoType.FP);
 
   // FCP
-  getFpOrFcp(EntryTypes.paint, PerformanceInfoType.FCP);
+  getSimpleIndicator(EntryTypes.paint, PerformanceInfoType.FCP);
 
   // LCP
-  getFpOrFcp(EntryTypes.LCP, '');
+  getSimpleIndicator(EntryTypes.LCP, '');
 
   // FID TODO
   function FID () {
-    const callback = (entryList: PerformanceObserverEntryList) => {
-      const firstInput = entryList.getEntries()[0];
-
-      if (firstInput) {
-        const fid = firstInput.processingStart - firstInput.startTime;
-        basicIndicator.FID = fid;
-      }
-      // const entries = entryList.getEntries();
-      // const entry = entries[entries.length - 1];
-      // const fid = entry.processingStart - entry.startTime;
+    const callback = (entryList) => {
+      // const firstInput = entryList.getEntries()[0];
+      // const fid = firstInput?.processingStart - firstInput?.startTime;
+      // performanceIndicator.FID = fid;
+      const entries = entryList.getEntries();
+      const entry = entries[entries.length - 1];
+      const fid = entry.processingStart - entry.startTime;
+      performanceIndicator.FID = fid;
     }
     const observer = new PerformanceObserver(callback);
     observer.observe({ type: EntryTypes.FID, buffered: true });
@@ -100,7 +75,7 @@ export function getBasicIndicator() {
     'click',
     () => {
       setTimeout(() => {
-        getFpOrFcp(EntryTypes.CLS);
+        getSimpleIndicator(EntryTypes.CLS);
       }, 1000);
     },
     true

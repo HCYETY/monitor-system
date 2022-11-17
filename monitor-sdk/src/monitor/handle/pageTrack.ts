@@ -42,7 +42,7 @@ export const getUserAgent = function (): userAgent {
 console.log('%c%s%o', 'color: green', '获取 userAgent 信息，如：用户设备类型，浏览器版本，webview引擎类型', getUserAgent());
 
 // 获取 PI 页面基本信息
-export const getPageInfo = function (): PageInformation {
+export const getPageInfo = function (target?: Element): PageInformation {
   const {
     host,
     hostname,
@@ -59,6 +59,7 @@ export const getPageInfo = function (): PageInformation {
   const docHeight = document.documentElement.clientHeight || document.body.clientHeight;
   const { language } = navigator;
   const userAgent = getUserAgent();
+  const { top, left } = target?.getBoundingClientRect();
 
   const pageInfoObj: PageInformation = {
     host,
@@ -71,10 +72,12 @@ export const getPageInfo = function (): PageInformation {
     search,
     hash,
     userAgent,
+    category: metricsName.PI,
     title: document.title,
     language: language.substring(0, 2),
-    winScreen: `${width} x ${height}`,
+    windowScreen: `${width} x ${height}`,
     docScreen: `${docWidth} x ${docHeight}`,
+    nodeScreen: `${top} x ${left}`,
   }
   return pageInfoObj;
 };
@@ -92,13 +95,16 @@ export const getClickInform = function (e: MouseEvent | any): void {
   const metrics = {
     tagInfo: {
       id: target.id,
-      classList: Array.from(target.classList),
-      tagName: target.tagName,
-      text: target.textContent,
+      classList: Array.from(target?.classList),
+      tagName: target?.tagName,
+      text: target?.textContent,
+      html: document.documentElement.outerHTML,
+      inner: target?.outerHTML,
     },
     timestamp: new Date().getTime(), // 点击的时间
-    pageInfo: getPageInfo(), // 页面信息
+    pageInfo: getPageInfo(target), // 页面信息
   };
+
   // 除开商城业务外，一般不会特意上报点击行为的数据，都是作为辅助检查错误的数据存在;
   // this.metrics.add(metricsName.CBR, metrics);
   // 行为记录 不需要携带 完整的pageInfo
@@ -115,10 +121,11 @@ export const getClickInform = function (e: MouseEvent | any): void {
   }
   newBehavior.push(behavior);
   localStorage.setItem('click_behavior', JSON.stringify(newBehavior));
-  // this.breadcrumbs.push(behavior);
 
+  if (newBehavior.length > 50) {
+    // lazyReport('/hash', behavior);
+  }
   console.log('%c%s%o', 'color: green', '点击事件 log数据', behavior)
-  lazyReport('/hash', behavior);
 };
 console.log('%c%s', 'color: green', '页面点击事件已监控');
 

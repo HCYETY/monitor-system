@@ -8,14 +8,13 @@ export default async function add (paramObj: { bucket: string, request: object }
 
     try {
         const params = await coBody.json(request);
-        const { cookie, data } = params;
-        console.log('data', data)
+        const { cookie, data, inquiry } = params;
         const keyArr = Object.keys(data);
         const writeApi = clientDB.getWriteApi(INFLUX_ORG, bucket);
-        writeApi.useDefaultTags({host: 'host1'});
+        // writeApi.useDefaultTags({host: 'host1'});
         // 将前端传来的数据存进时序数据库
-        const point = new Point(cookie)
-            .tag('sensor_id', 'TLM010');
+        const point = new Point(cookie);
+        // const point = new Point(cookie).tag('sensor_id', 'TLM010');
         keyArr.forEach((key: string) => {
             let type = typeof data[key];
             if (type === 'number') {
@@ -35,14 +34,14 @@ export default async function add (paramObj: { bucket: string, request: object }
                 case 'boolean':
                     point.booleanField(key, data[key]);
                     break;
-                // case 'object':
-                //     point.stringField(key, data[key]);
-                //     break;
+                case 'object':
+                    const str = JSON.stringify(data[key]);
+                    point.stringField(key, str);
+                    break;
             }
         })
         writeApi.writePoint(point);
         await writeApi.close();
-        console.log('上报成功', bucket)
 
         return new ApiResponse({
             code: 200,

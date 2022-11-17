@@ -1,5 +1,3 @@
-// import { proxyFetch } from "@/monitor/injectFetch";
-// import { proxyXmlHttp } from "@/monitor/injectXHR";
 import { AxiosError } from "axios";
 import {
   calcDuration,
@@ -36,6 +34,7 @@ export const handleJs = function (event: any): void {
 
     const { message, type, filename, lineno, colno } = event;
     const selector = lastEvent ? getSelector((lastEvent as any).path!) : '';
+    console.log('jsevent@@@', event)
 
     const jsError = createJsError(message, type, filename, lineno, colno, selector);
     console.log('jsError log数据dddddd', jsError);
@@ -246,8 +245,74 @@ const proxyFetch = (sendHandler: Function | null | undefined, loadHandler: Funct
 }
 // 调用 proxyXmlHttp 即可完成全局监听 XMLHttpRequest
 const proxyXmlHttp = (sendHandler: Function | null | undefined, loadHandler: Function) => {
-  if (isExistsXMLHttpRequest()) {
+  // const XMLHttpRequest = window.XMLHttpRequest;
+  // const oldOpen = XMLHttpRequest.prototype.open;
+  // const oldSend = XMLHttpRequest.prototype.send;
+  // XMLHttpRequest.prototype.open = function newOpen (method: string, url: string) {
+  //   this.method = method.toUpperCase();
+  //   this.url = url;
+  //   open.call(this, method, url);
+  // };
+  // XMLHttpRequest.prototype.send = function newSend (body) {
+  //   this.startTime = Date.now();
+  //
+  //   const onLoadend = (type) => {
+  //     this.endTime = Date.now();
+  //     this.duration = this.endTime - this.startTime;
+  //     const { status, duration, startTime, endTime, url, method } = this;
+  //
+  //     const reportData = {
+  //       status,
+  //       message: '接口请求成功',
+  //       duration,
+  //       startTime,
+  //       endTime,
+  //       url,
+  //       method: (method || 'GET').toUpperCase(),
+  //       success: status >= 200 && status < 300,
+  //       subType: 'xhr',
+  //       type: 'performance',
+  //       kind: "interface",
+  //       eventType: type, //load error abort
+  //       response: this.response ? JSON.stringify(this.response) : "",
+  //       params: body || "",
+  //     }
+  //
+  //     // 异常情况
+  //     if (status >= 200 && status < 300) {
+  //       lazyReport('/interface-indicator', reportData);
+  //     } else {
+  //       if (status < 200) {
+  //         reportData.message = '接口正在请求中';
+  //       } else if (status >= 400 && status < 500) {
+  //         reportData.message = '客户端异常，接口请求失败';
+  //       } else if (status >= 500) {
+  //         reportData.message = '服务端异常，接口请求失败';
+  //       }
+  //       lazyReport('/interface-error', reportData);
+  //     }
+  //     // this.removeEventListener('loadend', onLoadend, true)
+  //   };
+  //   this.addEventListener("load", onLoadend("load"), false);
+  //   // this.addEventListener("error", onLoadend("error"), false);
+  //   // this.addEventListener("abort", onLoadend("abort"), false);
+  //   // this.addEventListener('timeout', () => {})
+  //   oldSend.call(this, body);
+  // };
 
+  function isExistsXMLHttpRequest() {
+    return 'XMLHttpRequest' in window && typeof window.XMLHttpRequest === 'function';
+  }
+
+  function getNewXMLHttpRequest() {
+    const _XMLHttpRequest = window.XMLHttpRequest;
+    if (!(window as any)._XMLHttpRequest) {
+      (window as any)._XMLHttpRequest = _XMLHttpRequest;
+    }
+    return _XMLHttpRequest;
+  }
+
+  if (isExistsXMLHttpRequest()) {
     const _XMLHttpRequest = getNewXMLHttpRequest();
 
     (window as any).XMLHttpRequest = function () {
@@ -259,7 +324,7 @@ const proxyXmlHttp = (sendHandler: Function | null | undefined, loadHandler: Fun
       let isTimeout = false;
 
       xhr.addEventListener('timeout', () => {
-        isTimeout = true
+        isTimeout = true;
       })
 
       xhr.addEventListener('loadend', () => {
@@ -319,18 +384,6 @@ const proxyXmlHttp = (sendHandler: Function | null | undefined, loadHandler: Fun
       }
     };
   }
-
-  function getNewXMLHttpRequest() {
-    const _XMLHttpRequest = window.XMLHttpRequest;
-    if (!(window as any)._XMLHttpRequest) {
-      (window as any)._XMLHttpRequest = _XMLHttpRequest;
-    }
-    return _XMLHttpRequest;
-  }
-
-  function isExistsXMLHttpRequest() {
-    return 'XMLHttpRequest' in window && typeof window.XMLHttpRequest === 'function';
-  }
 };
 // -------- initHttpHandler (XHR And Fetch)----------------
 export const initHttpHandler = (): void => {
@@ -353,6 +406,7 @@ export const initHttpHandler = (): void => {
   proxyFetch(null, loadHandler);
 };
 
+// ------  blankScreen error  --------
 export const blankScreen = (): void => {
   console.log('%c%s', 'font-size: 24px; color: orange', '开始监控网页是否白屏');
 

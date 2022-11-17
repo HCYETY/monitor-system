@@ -21,5 +21,14 @@
     "./ormconfig.js",
     "sendEmail.js",
   ],/* 指定需要编译的目录范围 */
-  "exclude": ["node_modules"] /* 忽略类型检查的目录 */
+  "exclude": ["node_modules"], /* 忽略类型检查的目录 */
+  "baseUrl": "./",
+  "paths": {
+    "@*": ["./src/*"],
+    "@config": ["./src/config"],
+    "@entity": ["./src/entity"],
+    "@routes": ["./src/routes"],
+    "@types": ["./src/types"],
+    "@utils": ["./src/utils"],
+  }
 }

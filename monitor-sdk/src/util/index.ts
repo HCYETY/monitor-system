@@ -7,6 +7,8 @@ import { JsError } from '@monitor/class/JsError';
 import { PromiseError } from '@monitor/class/PromiseError';
 import { sourcemap } from '@/sourcemap.js';
 import axios from 'axios';
+import fs from 'fs';
+import path from 'path';
 
 // 判断是 JS异常、静态资源异常、还是跨域异常
 export function getErrorKey(event: ErrorEvent | Event) {
@@ -123,6 +125,62 @@ const LoadSourceMap = (url) => axios.get(url)
 
 // 根据行数获取源文件行数 todo
 export async function getPosition (lineno, colno) {
+  // // Get file content
+  // const sourceMap = require('source-map');
+  // const readFile = function (filePath) {
+  //   return new Promise(function (resolve, reject) {
+  //     fs.readFile(filePath, {encoding:'utf-8'},
+  //       function(error, data) {
+  //       if (error) {
+  //         console.log(error)
+  //         return reject(error);
+  //       }
+  //       resolve(JSON.parse(data));
+  //     });
+  //   });
+  // };
+  // // Find the source location
+  // async function searchSource(filePath, line, column) {
+  //   const rawSourceMap = await readFile(filePath)
+  //   const consumer = await new sourceMap.SourceMapConsumer(rawSourceMap);
+  //   const res = consumer.originalPositionFor({ 'line' : line, 'column' : column });
+  //   consumer.destroy();
+  //   return res;
+  // }
+
+
+
+  // async function parse(url, lineno, colno) {
+  //   const mapObj = JSON.parse(getMapFileContent(url))
+  //   const consumer = await new sourceMap.SourceMapConsumer(mapObj)
+  //   // 将 webpack://source-map-demo/./src/index.js 文件中的 ./ 去掉
+  //   const sources = mapObj.sources.map(item => format(item))
+  //   // 根据压缩后的报错信息得出未压缩前的报错行列数和源码文件
+  //   const originalInfo = consumer.originalPositionFor({ line: lineno, column: colno })
+  //   // sourcesContent 中包含了各个文件的未压缩前的源码，根据文件名找出对应的源码
+  //   const originalFileContent = mapObj.sourcesContent[sources.indexOf(originalInfo.source)]
+  //   return {
+  //     file: originalInfo.source,
+  //     content: originalFileContent,
+  //     line: originalInfo.line,
+  //     column: originalInfo.column,
+  //     // msg: error.msg,
+  //     // error: error.error
+  //   }
+  // }
+  //
+  // function format(item) {
+  //   return item.replace(/(\.\/)*/g, '')
+  // }
+  //
+  // function getMapFileContent(url) {
+  //   return fs.readFileSync(path.resolve(__dirname, `./maps/${url.split('/').pop()}.map`), 'utf-8')
+  // }
+
+
+
+
+
   // console.log('@@@@@', sourcemap)
   // var sourceMap = require('source-map');
   // var rawSourceMap = require(sourcemap);

@@ -1,0 +1,2 @@
+- [首屏渲染时间的计算](https://cloud.tencent.com/developer/article/1650697)
+- [前端监控实践——FMP的智能获取算法](https://www.codercto.com/a/40349.html)

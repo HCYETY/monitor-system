@@ -3,8 +3,6 @@ import find from "../../../utils/middleware/find";
 
 export default async(ctx: Context) => {
     const bucket = 'jsError';
-    const query = `from(bucket: "${bucket}")
-    |> range(start: -122h)`;
-
-    return ctx.body = find(query);
+  console.log(bucket)
+    return ctx.body = await find({ bucket, queryTime: (ctx.query.time) as string });
 }

@@ -1,8 +1,8 @@
-import { post } from '@/api/index';
+import { post, get } from '@/api/index';
 
 // 查找候选人信息接口
-export function findJs(data?: any) {
-  return post('/api/js', data);
+export function findJsError() {
+  return get('/error/js');
 }
 export function findPromise(data?: any) {
   return post('/api/promise', data);

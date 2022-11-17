@@ -6,5 +6,5 @@ export default async(ctx: Context) => {
     const query = `from(bucket: "${bucket}")
     |> range(start: -122h)`;
 
-    return ctx.body = find(query);
+    return ctx.body = find({ bucket, queryTime: (ctx.query.time) as string });
 }

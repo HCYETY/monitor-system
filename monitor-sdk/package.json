@@ -3,7 +3,8 @@
   "version": "1.0.3",
   "description": "前端监控 SDK",
   "author": "foursheep",
-  "main": "./src/index.ts",
+  "main": "lib/monitor.cjs.js",
+  "module": "lib/monitor.esm.js",
   "scripts": {
     "dev": "webpack-dev-server --config webpack.config.js",
     "build": "webpack --mode=production --node-env=production",

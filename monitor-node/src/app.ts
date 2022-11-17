@@ -48,7 +48,7 @@ import register from './routes/user/register';
 import forget from './routes/user/forget';
 import logout from './routes/user/logout';
 
-// Error 异常
+// js 异常
 import addJs from './routes/error/js/add';
 import findJs from './routes/error/js/find';
 // promise 异常
@@ -65,14 +65,30 @@ import addConsoleError from './routes/error/consoleError/add';
 import findConsoleError from './routes/error/consoleError/find';
 // interface 异常
 import addInterfaceError from './routes/error/interface/add';
+import findInterfaceError from './routes/error/interface/find';
 // blankScreen 异常
 import addBlankScreen from './routes/error/blankScreen/add';
+import findBlankScreen from './routes/error/blankScreen/find';
+
+// pv 指标
+import addPv from './routes/performance/pv/add';
+import findPv from './routes/performance/pv/find';
+// interface 指标
+import addInterfaceIndicator from './routes/performance/interface/add';
+import findInterfaceIndicator from './routes/performance/interface/find';
+// resource 指标
+import addResourceIndicator from './routes/performance/resource/add';
+import findResourceIndicator from './routes/performance/resource/find';
+// 性能指标
+import addPerformanceIndicator from './routes/performance/allPerformance/add';
+import findPerformanceIndicator from './routes/performance/allPerformance/find';
+
 // history 路由
 import addHistory from './routes/behaviour/history/add';
+import findHistory from './routes/behaviour/history/find';
 // hash 路由
 import addHash from './routes/behaviour/hash/add';
-// pv
-import addPv from './routes/performance/pv/add';
+import findHash from './routes/behaviour/hash/find';
 
 createConnections ()
     .then(async () => {
@@ -105,7 +121,7 @@ createConnections ()
                 url: '/swagger/swagger.json' // example path to json 其实就是之后swagger-jsdoc生成的文档地址
             }
         }
-        app.use(koaSwagger(swaggerOption))
+        app.use(koaSwagger(swaggerOption));
 
         router.post('/api/send-captcha', sendCaptcha);
         router.post('/api/login', login);
@@ -113,46 +129,64 @@ createConnections ()
         // router.post('/api/forget_password', forget);
         // router.post('/api/logout', logout);
 
-        // Error 异常
-        router.post('/report/js', addJs);
-        router.get('/api/js', findJs);
+        // js 异常
+        router.post('/report/js-error', addJs);
+        router.get('/error/js', findJs);
 
         // promise 异常
-        router.post('/report/promise', addPromise);
-        router.get('/api/promise', findPromise);
+        router.post('/report/promise-error', addPromise);
+        router.get('/error/promise', findPromise);
 
         // resource 异常
-        router.post('/report/resource', addResource);
-        router.get('/api/resource', findResource);
+        router.post('/report/resource-error', addResource);
+        router.get('/error/resource', findResource);
 
         // cors 异常
-        router.post('/report/cors', addCors);
-        router.get('/api/cors', findCors);
+        router.post('/report/cors-error', addCors);
+        router.get('/error/cors', findCors);
 
         // console.error 异常
         router.post('/report/console-error', addConsoleError);
-        router.get('/api/console-error', findConsoleError);
+        router.get('/error/console', findConsoleError);
 
         // interface 异常
-        router.post('/report/interface', addInterfaceError);
+        router.post('/report/interface-error', addInterfaceError);
+        router.get('/error/interface', findInterfaceError);
 
         // 白屏异常
-        router.post('/report/blankScreen', addBlankScreen);
+        router.post('/report/blank-screen-error', addBlankScreen);
+        router.get('/error/blank-screen', findBlankScreen);
+
+        // interface 指标
+        router.post('/report/interface-indicator', addInterfaceIndicator);
+        router.get('/indicator/interface', findInterfaceIndicator);
+
+        // 资源指标
+        router.post('/report/resource-indicator', addResourceIndicator);
+        router.get('/indicator/resource', findResourceIndicator);
+
+        // 性能指标
+        router.post('/report/performance-indicator', addPerformanceIndicator);
+        router.get('/indicator/performance', findPerformanceIndicator);
+
+        // pv 指标
+        router.post('/report/pv-indicator', addPv);
+        router.get('/indicator/pv', findPv);
 
         // hash 路由
         router.post('/report/hash', addHash);
+        router.get('/api/hash', findHistory);
 
         // history 路由
         router.post('/report/history', addHistory);
-
-        // pv
-        router.post('/report/pv', addPv);
+        router.get('/api/history', findHash);
 
         // 组装匹配好的路由，返回一个合并好的中间件
         app.use(router.routes());
 
         app.listen(8080, () => {
             console.log('网站服务器启动成功，请访问 http://localhost:8080');
+            console.log('访问 influxdb ，请访问 http://localhost:8086');
             console.log('swagger api 文档可访问：http://localhost:8080/swagger');
         })
     })

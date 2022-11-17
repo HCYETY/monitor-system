@@ -8,7 +8,7 @@ const app = createApp(App);
 
 init({
     // appId,  // 系统id
-    cookie: 'foursheep', // 用户id
+    cookie: 'syandeg', // 用户id
     // userId: window.localStorage.getItem('session_id') || 'foursheep', // 用户id
     reportUrl: 'http://localhost:8080/report', // 后端url
     // autoTracker, // 自动埋点

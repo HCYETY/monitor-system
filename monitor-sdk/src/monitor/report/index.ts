@@ -5,7 +5,6 @@ let timer = null;
 export function lazyReport(interfaceUrl: string, param): void {
     const cookie: string = window['_monitor_user_cookie_'];
     const delay: number = window['_monitor_delay_'];
-    console.log('!!!', interfaceUrl, param)
 
     const logParams = {
         cookie, // 用户id

@@ -26,25 +26,28 @@ export interface userAgent {
 
 // 网页及浏览器信息
 export interface PageInformation {
-    host: string;
-    hostname: string;
-    href: string;
-    protocol: string;
-    origin: string;
-    port: string;
-    pathname: string;
-    search: string;
-    hash: string;
-    // 网页标题
-    title: string;
-    // 浏览器的语种 (eg:zh) ; 这里截取前两位，有需要也可以不截取
-    language: string;
-    // 用户 userAgent 信息
-    userAgent: userAgent;
-    // 屏幕宽高 (eg:1920x1080)  屏幕宽高意为整个显示屏的宽高
-    winScreen: string;
-    // 文档宽高 (eg:1388x937)   文档宽高意为当前页面显示的实际宽高（有的同学喜欢半屏显示）
-    docScreen: string;
+  category: metricsName,
+  host: string;
+  hostname: string;
+  href: string;
+  protocol: string;
+  origin: string;
+  port: string;
+  pathname: string;
+  search: string;
+  hash: string;
+  // 网页标题
+  title: string;
+  // 浏览器的语种 (eg:zh) ; 这里截取前两位，有需要也可以不截取
+  language: string;
+  // 用户 userAgent 信息
+  userAgent: userAgent;
+  // 屏幕宽高 (eg:1920x1080)  屏幕宽高意为整个显示屏的宽高
+  windowScreen?: string;
+  // 文档宽高 (eg:1388x937)   文档宽高意为当前页面显示的实际宽高（有的同学喜欢半屏显示）
+  docScreen?: string;
+  // 节点宽高
+  nodeScreen: string;
 }
 
 // 页面性能数据
@@ -79,7 +82,7 @@ export interface routeType {
     endTime: number,
 }
 
-// 错误类型
+// 异常错误类型
 export enum mechanismType {
     JS = 'jsError',
     RS = 'resourceError',
@@ -97,6 +100,33 @@ export enum metricsName {
     CBR = 'click-behavior-record',
     CDR = 'custom-define-record',
     HT = 'http-record',
+}
+
+// 接口请求方式
+export enum InterfaceMethod {
+  xhr = 'xhr',
+  fetch = 'fetch'
+}
+// 接口性能的数据结构
+export interface InterfaceType {
+  // 开始发送到请求拿到数据的时长
+  duration: number,
+  // 最终请求的得到的类型 load/error/abort
+  event: string,
+  // 请求方法
+  method: string,
+  // request请求题大小
+  requestSize: number,
+  // response响应体大小
+  responseSize: number,
+  // 状态码
+  status: number,
+  // 是否成功
+  success: boolean,
+  // 请求方式 (xhr/fetch)
+  type: InterfaceMethod.xhr | InterfaceMethod.fetch,
+  // 请求地址
+  url: string,
 }
 
 export interface httpMetrics {

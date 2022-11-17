@@ -1,11 +1,13 @@
 // 获取页面资源指标
 import {getBasicParams} from "@config/constant";
 import {lazyReport} from "@monitor/report/index";
+import {performanceIndicatorObj} from "@monitor/handle/performance/index";
 
-export function getResourceIndicator () {
+export function getResourceIndicator (performanceIndicator: performanceIndicatorObj) {
   const entryHandler = (list: PerformanceObserverEntryList) => {
     for (const entry of list.getEntries() as PerformanceResourceTiming[]) {
       if (entry.initiatorType !== "xmlhttprequest") {
+        console.log('@@@###', entry)
         const resourceIndicator = {
           ...getBasicParams,
           url: entry.name, // 资源url
@@ -22,11 +24,12 @@ export function getResourceIndicator () {
           bodySize: entry.transferSize, // 资源大小
           headerSize: entry.transferSize - entry.encodedBodySize, // 资源头部大小
         };
-        lazyReport("/resource-indicator", resourceIndicator);
         console.log('资源指标', resourceIndicator);
+        lazyReport('/resource-indicator', resourceIndicator);
         observer.disconnect();
       }
     }
+    // lazyReport("/resource-indicator", resourceIndicator);
   };
   const observer = new PerformanceObserver(entryHandler);
   observer.observe({ type: "resource", buffered: true });
